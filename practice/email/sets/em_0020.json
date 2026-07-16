@@ -1,0 +1,27 @@
+{
+  "id": "em_0020",
+  "serial": "20",
+  "theme": "A birthday party",
+  "category": "Share & advise",
+  "convention": "formal",
+  "intro_q": "You are organizing a birthday party for a close friend and want your co-organizer Maya to help plan one key element of the event. Write an email to Maya explaining your idea.",
+  "tips": "",
+  "bullet1_type": "Neutral description",
+  "bullet1_q": "Describe the specific activity or entertainment you have in mind.",
+  "bullet2_type": "Reason",
+  "bullet2_q": "Explain why this choice suits the guest of honor.",
+  "bullet3_type": "Providing Information",
+  "bullet3_q": "Share the relevant timing, location, or logistical details.",
+  "sample": {
+    "opening": "",
+    "bullet1": "",
+    "bullet2": "",
+    "bullet3": "",
+    "closing": "",
+    "opening_variety": "—",
+    "bullet1_variety": "",
+    "bullet2_variety": "",
+    "bullet3_variety": "",
+    "closing_variety": "—"
+  }
+}

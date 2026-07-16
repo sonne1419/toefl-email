@@ -1,0 +1,27 @@
+{
+  "id": "em_0036",
+  "serial": "36",
+  "theme": "A faulty light switch",
+  "category": "Report a problem",
+  "convention": "formal",
+  "intro_q": "The light switch in your office break room has stopped working properly. You have reported it verbally but nothing has been done. Write an email to the facilities manager, Dana, to follow up formally.",
+  "tips": "",
+  "bullet1_type": "Problem",
+  "bullet1_q": "Describe exactly how the light switch is malfunctioning.",
+  "bullet2_type": "Aftermath",
+  "bullet2_q": "Explain how this is affecting your daily routine or work.",
+  "bullet3_type": "Request",
+  "bullet3_q": "Request a repair and specify when you need it resolved.",
+  "sample": {
+    "opening": "",
+    "bullet1": "",
+    "bullet2": "",
+    "bullet3": "",
+    "closing": "",
+    "opening_variety": "—",
+    "bullet1_variety": "",
+    "bullet2_variety": "",
+    "bullet3_variety": "",
+    "closing_variety": "—"
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "id": "em_0035",
+  "serial": "35",
+  "theme": "A leaking faucet",
+  "category": "Report a problem",
+  "convention": "formal",
+  "intro_q": "The kitchen faucet in your apartment has been leaking for several days. You have tried to manage it yourself but the problem is getting worse. Write an email to your landlord, Gary, to report the issue.",
+  "tips": "",
+  "bullet1_type": "Problem",
+  "bullet1_q": "Describe where the leak is and how it appears",
+  "bullet2_type": "Aftermath",
+  "bullet2_q": "Explain how the leak is affecting your daily routine",
+  "bullet3_type": "Request",
+  "bullet3_q": "Request a repair visit and suggest an acceptable timeframe",
+  "sample": {
+    "opening": "",
+    "bullet1": "",
+    "bullet2": "",
+    "bullet3": "",
+    "closing": "",
+    "opening_variety": "—",
+    "bullet1_variety": "",
+    "bullet2_variety": "",
+    "bullet3_variety": "",
+    "closing_variety": "—"
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "id": "em_s0_005",
+  "serial": "5",
+  "theme": "Seminar feedback 2",
+  "category": "Thank & follow up",
+  "convention": "formal",
+  "intro_q": "You are a master's student in business administration. You recently attended a seminar on research methods that was recommended by your professor. You found the seminar very informative and believe it helps you with your graduate studies. You want to thank the organizer, Dr. Lee, and suggest that similar seminars be offered more often. _x000B_Write an email to Dr. Lee. In your email, do the following:",
+  "tips": "",
+  "bullet1_type": "Thanks",
+  "bullet1_q": "Thank the organizer for arranging the seminar and mention what you found most valuable about it.",
+  "bullet2_type": "Reason",
+  "bullet2_q": "Explain how the seminar helps your studies.",
+  "bullet3_type": "Suggestion",
+  "bullet3_q": "Suggest that similar seminars be organized more frequently.",
+  "sample": {
+    "opening": "Dear Dr. Lee,\nThank you for hosting the business research seminar for master's students.",
+    "bullet1": "I especially appreciated the section where you explained how to develop a strong research question. The discussion activity was engaging although I was not familiar with every step in the data example.",
+    "bullet2": "This seminar helps my studies because I now understand better how to plan a research project. It also gave me ideas for my thesis, which made me more confident discussing research in class.",
+    "bullet3": "I think seminars like this should be offered more often, perhaps once each semester. If you need help organizing future seminars or collecting feedback, I would be glad to help.",
+    "closing": "Thank you in advance for your response. \n\nBest regards,\nLi-Yi Chen",
+    "opening_variety": "—",
+    "bullet1_variety": "1: I (sincerely/truly) appreciate that you…\n2: Passive voice (… was impressed by…)",
+    "bullet2_variety": "1: Non-fronted subordinate clause (…beause)\n2: Relative clause (…, which …)",
+    "bullet3_variety": "1: I would like to (suggest/offer)…\n2: Fronted subordinate clause (If…)",
+    "closing_variety": "—"
+  }
+}

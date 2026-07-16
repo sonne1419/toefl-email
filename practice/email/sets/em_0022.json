@@ -1,0 +1,27 @@
+{
+  "id": "em_0022",
+  "serial": "22",
+  "theme": "A photography masterclass",
+  "category": "Thank & follow up",
+  "convention": "formal",
+  "intro_q": "You attended a photography masterclass last weekend and found it genuinely inspiring. You want to follow up with Marcus, the photographer who led the session, to express your thoughts and ask for something more.",
+  "tips": "",
+  "bullet1_type": "Thanks",
+  "bullet1_q": "Thank Marcus for the specific techniques he taught during the masterclass.",
+  "bullet2_type": "Reason",
+  "bullet2_q": "Explain what aspect of the class made the biggest difference to your photography.",
+  "bullet3_type": "Request",
+  "bullet3_q": "Ask Marcus for a resource or next step to continue developing your skills.",
+  "sample": {
+    "opening": "",
+    "bullet1": "",
+    "bullet2": "",
+    "bullet3": "",
+    "closing": "",
+    "opening_variety": "—",
+    "bullet1_variety": "",
+    "bullet2_variety": "",
+    "bullet3_variety": "",
+    "closing_variety": "—"
+  }
+}

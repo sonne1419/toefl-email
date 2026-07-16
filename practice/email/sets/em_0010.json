@@ -1,0 +1,27 @@
+{
+  "id": "em_0010",
+  "serial": "10",
+  "theme": "A research conference abroad",
+  "category": "Make a request",
+  "convention": "formal",
+  "intro_q": "You are travelling to another country next month to present a paper at a major research conference. Your colleague Priya attended the same conference last year. Write an email to Priya asking for her advice.",
+  "tips": "",
+  "bullet1_type": "Reason",
+  "bullet1_q": "Explain why you are attending the conference",
+  "bullet2_type": "initial request",
+  "bullet2_q": "Ask Priya for her recommendations about the trip",
+  "bullet3_type": "Request",
+  "bullet3_q": "Say what you most hope to get out of the experience and what you want to avoid",
+  "sample": {
+    "opening": "",
+    "bullet1": "",
+    "bullet2": "",
+    "bullet3": "",
+    "closing": "",
+    "opening_variety": "—",
+    "bullet1_variety": "",
+    "bullet2_variety": "",
+    "bullet3_variety": "",
+    "closing_variety": "—"
+  }
+}

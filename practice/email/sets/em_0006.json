@@ -1,0 +1,27 @@
+{
+  "id": "em_0006",
+  "serial": "6",
+  "theme": "New Dining Option",
+  "category": "Other",
+  "convention": "informal",
+  "intro_q": "You read about a new dining option in the campus newspaper. Write an email to a friend.",
+  "tips": "Type and speak at the same time to reduce the number of typos!",
+  "bullet1_type": "Neutral description",
+  "bullet1_q": "Describe the new dining place and what it offers.",
+  "bullet2_type": "Reason",
+  "bullet2_q": "Explain why you think your friend would enjoy it.",
+  "bullet3_type": "Suggestion",
+  "bullet3_q": "Suggest a time to try it together.",
+  "sample": {
+    "opening": "",
+    "bullet1": "",
+    "bullet2": "",
+    "bullet3": "",
+    "closing": "",
+    "opening_variety": "—",
+    "bullet1_variety": "",
+    "bullet2_variety": "",
+    "bullet3_variety": "",
+    "closing_variety": "—"
+  }
+}

@@ -1,0 +1,33 @@
+[build]
+  functions = "functions"
+  publish   = "."
+
+[functions."api"]
+  timeout = 30
+
+[functions."email-stage0-check"]
+  timeout = 60
+
+[functions."grammar"]
+  timeout = 60
+
+[functions."email-analyze"]
+  timeout = 60
+
+[functions."upload-to-drive"]
+  timeout = 30
+
+[[headers]]
+  for = "/practice/email/bullet_types.json"
+  [headers.values]
+    Cache-Control = "no-cache, no-store, must-revalidate"
+
+[[headers]]
+  for = "/practice/email/sets/*.json"
+  [headers.values]
+    Cache-Control = "no-cache, no-store, must-revalidate"
+
+[[headers]]
+  for = "/practice/email/stage0/*.json"
+  [headers.values]
+    Cache-Control = "no-cache, no-store, must-revalidate"

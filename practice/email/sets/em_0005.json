@@ -1,0 +1,27 @@
+{
+  "id": "em_0005",
+  "serial": "5",
+  "theme": "Campus Volunteering",
+  "category": "Other",
+  "convention": "formal",
+  "intro_q": "You are interested in volunteering for a campus event but do not know how to sign up. Write an email to the event coordinator.",
+  "tips": "Type and speak at the same time to reduce the number of typos!",
+  "bullet1_type": "initial request",
+  "bullet1_q": "Ask about available volunteer opportunities.",
+  "bullet2_type": "Reason",
+  "bullet2_q": "Explain your availability and interest in helping.",
+  "bullet3_type": "Request",
+  "bullet3_q": "Request information about how to sign up.",
+  "sample": {
+    "opening": "",
+    "bullet1": "",
+    "bullet2": "",
+    "bullet3": "",
+    "closing": "",
+    "opening_variety": "—",
+    "bullet1_variety": "",
+    "bullet2_variety": "",
+    "bullet3_variety": "",
+    "closing_variety": "—"
+  }
+}

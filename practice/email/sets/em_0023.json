@@ -1,0 +1,27 @@
+{
+  "id": "em_0023",
+  "serial": "23",
+  "theme": "A public speaking seminar",
+  "category": "Thank & follow up",
+  "convention": "formal",
+  "intro_q": "You recently attended a public speaking seminar and found it very valuable. You want to follow up with the person who led the session. Write an email to Marcus.",
+  "tips": "",
+  "bullet1_type": "Thanks",
+  "bullet1_q": "Thank Marcus for running the seminar.",
+  "bullet2_type": "Reason",
+  "bullet2_q": "Explain which part of the seminar you enjoyed most.",
+  "bullet3_type": "Suggestion",
+  "bullet3_q": "Suggest one improvement he could make for future sessions.",
+  "sample": {
+    "opening": "",
+    "bullet1": "",
+    "bullet2": "",
+    "bullet3": "",
+    "closing": "",
+    "opening_variety": "—",
+    "bullet1_variety": "",
+    "bullet2_variety": "",
+    "bullet3_variety": "",
+    "closing_variety": "—"
+  }
+}

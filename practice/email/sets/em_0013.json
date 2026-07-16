@@ -1,0 +1,27 @@
+{
+  "id": "em_0013",
+  "serial": "13",
+  "theme": "Missing group meeting again",
+  "category": "Share & advise",
+  "convention": "formal",
+  "intro_q": "Your group is working on a shared coursework presentation due next week. One member, Jordan, has now missed two consecutive meetings without any notice, leaving tasks unfinished. Write an email to your group leader, Sam.",
+  "tips": "",
+  "bullet1_type": "Neutral description",
+  "bullet1_q": "State how many meetings Jordan has missed and what work remains incomplete.",
+  "bullet2_type": "Aftermath",
+  "bullet2_q": "Explain how the absences are affecting the rest of the group's progress.",
+  "bullet3_type": "Suggestion",
+  "bullet3_q": "Suggest a course of action the group could take going forward.",
+  "sample": {
+    "opening": "",
+    "bullet1": "",
+    "bullet2": "",
+    "bullet3": "",
+    "closing": "",
+    "opening_variety": "—",
+    "bullet1_variety": "",
+    "bullet2_variety": "",
+    "bullet3_variety": "",
+    "closing_variety": "—"
+  }
+}

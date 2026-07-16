@@ -1,0 +1,27 @@
+{
+  "id": "em_s0_006",
+  "serial": "6",
+  "theme": "Sharing about art exhibition",
+  "category": "Other",
+  "convention": "informal",
+  "intro_q": "You went to an art exhibition and want your friend Maya to visit the exhbition, too. In your email, do the following.",
+  "tips": "",
+  "bullet1_type": "Neutral description",
+  "bullet1_q": "Describe the art exhibition and the types of artwork that were displayed.",
+  "bullet2_type": "Reason",
+  "bullet2_q": "Explain why you think Maya would enjoy visiting this exhibition.",
+  "bullet3_type": "Suggestion",
+  "bullet3_q": "Recommend a specific artwork or section for Maya to see and explain your choice.",
+  "sample": {
+    "opening": "Dear Maya, \nHow have you been?",
+    "bullet1": "I wanted to tell you about an art exhibition that I visited downtown last week.\nMany local artists displayed different kinds of artwork, including landscape paintings, sculptures, and photography.",
+    "bullet2": "I believe you will be impressed by both the quality of the artwork. You will also like the discussion sessions with the artists because they offer rare insights into their creative process.",
+    "bullet3": "If you decide to go, make sure to check out the popular sculpture section early so that you can take photos there before the lines get too long. I know how much you love taking pictures wherever you go.",
+    "closing": "Let me know what you think!\n\nTalk soon,\nLi-Yi",
+    "opening_variety": "—",
+    "bullet1_variety": "1. I would like to share with you about …&  relative clause (…an art exhibition that…)..\n2: Participle phrase (…., including…)",
+    "bullet2_variety": "1. Passive voice (…will be  impressed by..)\n2. non-fronted subordinate clause (…because…)",
+    "bullet3_variety": "1. Fronted subordinate clause (if…) + purpose clause (…so that…)\n2. Wh-clause",
+    "closing_variety": "—"
+  }
+}

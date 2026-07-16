@@ -1,0 +1,27 @@
+{
+  "id": "em_0030",
+  "serial": "30",
+  "theme": "Living alone for the first time",
+  "category": "Share & advise",
+  "convention": "formal",
+  "intro_q": "Your friend Maya has just moved into her first apartment by herself and is feeling overwhelmed by the experience. You have been through something similar and want to share what helped you. Write an email to Maya.",
+  "tips": "",
+  "bullet1_type": "Neutral description",
+  "bullet1_q": "Describe your own experience of living alone for the first time.",
+  "bullet2_type": "Suggestion",
+  "bullet2_q": "Suggest one or two things Maya could do to help her settle in.",
+  "bullet3_type": "Request",
+  "bullet3_q": "Offer to be available if Maya needs further support or advice.",
+  "sample": {
+    "opening": "",
+    "bullet1": "",
+    "bullet2": "",
+    "bullet3": "",
+    "closing": "",
+    "opening_variety": "—",
+    "bullet1_variety": "",
+    "bullet2_variety": "",
+    "bullet3_variety": "",
+    "closing_variety": "—"
+  }
+}

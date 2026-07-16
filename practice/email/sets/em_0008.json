@@ -1,0 +1,27 @@
+{
+  "id": "em_0008",
+  "serial": "8",
+  "theme": "Housing Application Extension",
+  "category": "Other",
+  "convention": "formal",
+  "intro_q": "You want to request an extension for a campus-housing application deadline. Write an email to the housing office.",
+  "tips": "Type and speak at the same time to reduce the number of typos!",
+  "bullet1_type": "Problem",
+  "bullet1_q": "Describe your situation and why you missed the deadline.",
+  "bullet2_type": "Reason",
+  "bullet2_q": "Explain why you still want to apply for campus housing.",
+  "bullet3_type": "Request",
+  "bullet3_q": "Request an extension and ask about the next steps.",
+  "sample": {
+    "opening": "",
+    "bullet1": "",
+    "bullet2": "",
+    "bullet3": "",
+    "closing": "",
+    "opening_variety": "—",
+    "bullet1_variety": "",
+    "bullet2_variety": "",
+    "bullet3_variety": "",
+    "closing_variety": "—"
+  }
+}

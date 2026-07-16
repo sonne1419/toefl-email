@@ -1,0 +1,2907 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Li-Yi's TOEFL Email Writing Tool</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: system-ui, -apple-system, sans-serif;
+  font-size: 14px; color: #1a1a1a;
+  background: #f5f5f3;
+  height: 100vh; display: flex; flex-direction: column; overflow: hidden;
+}
+:root {
+  --green: #00736b; --green-light: #e6f4f3; --green-dark: #005a54;
+  --red: #c0392b; --red-light: #fdecea;
+  --border: #e0e0e0; --muted: #666; --faint: #999;
+  --card: #fff; --page: #f5f5f3; --shadow: 0 1px 4px rgba(0,0,0,0.08);
+}
+.hidden { display: none !important; }
+
+/* === SCREENS === */
+.screen { display: none; }
+.screen.active { display: flex; flex-direction: column; flex: 1; overflow: hidden; }
+#screen-stage0.active { flex-direction: row; }
+
+/* === BUTTONS === */
+.btn-primary {
+  background: var(--green); color: #fff; border: none; border-radius: 8px;
+  padding: 10px 20px; font-size: 14px; font-family: inherit; font-weight: 600;
+  cursor: pointer; transition: background .15s;
+}
+.btn-primary:hover:not(:disabled) { background: var(--green-dark); }
+.btn-primary:disabled { background: #b0b0b0; cursor: default; }
+.btn-ghost {
+  background: none; color: var(--muted); border: 1px solid var(--border);
+  border-radius: 8px; padding: 10px 20px; font-size: 14px;
+  font-family: inherit; cursor: pointer; transition: border-color .15s, color .15s;
+}
+.btn-ghost:hover { border-color: #aaa; color: #333; }
+.btn-secondary {
+  background: none; color: var(--green); border: 1.5px solid var(--green);
+  border-radius: 8px; padding: 10px 20px; font-size: 14px;
+  font-family: inherit; font-weight: 600; cursor: pointer;
+  transition: background .15s;
+}
+.btn-secondary:hover { background: var(--green-light); }
+.btn-sm { padding: 6px 14px; font-size: 12px; }
+
+/* === CENTER CARD === */
+.center-wrap { flex: 1; display: flex; align-items: center; justify-content: center; padding: 24px; }
+.center-card {
+  background: var(--card); border: 1px solid var(--border); border-radius: 12px;
+  padding: 36px 40px; width: 100%; max-width: 460px;
+  display: flex; flex-direction: column; gap: 18px;
+}
+.card-badge {
+  display: inline-block; background: var(--green-light); color: var(--green);
+  font-size: 11px; font-weight: 600; letter-spacing: .06em;
+  text-transform: uppercase; padding: 4px 10px; border-radius: 20px; width: fit-content;
+}
+.center-card h1 { font-size: 22px; font-weight: 600; }
+.card-desc { font-size: 14px; color: var(--muted); line-height: 1.5; }
+.field-group { display: flex; flex-direction: column; gap: 6px; }
+.field-label { font-size: 12px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: .04em; }
+input[type="password"], input[type="text"], select {
+  width: 100%; padding: 10px 12px; border: 1px solid var(--border);
+  border-radius: 8px; font-size: 14px; font-family: inherit;
+  outline: none; transition: border-color .15s; background: #fff;
+}
+input:focus, select:focus { border-color: var(--green); }
+textarea { font-family: inherit; font-size: 13px; line-height: 1.65; }
+textarea:focus { border-color: var(--green); outline: none; }
+.key-input-wrap { position: relative; display: flex; }
+.key-input-wrap input { padding-right: 40px; }
+.btn-eye { position: absolute; right: 0; top: 0; bottom: 0; background: none; border: none; padding: 0 12px; cursor: pointer; font-size: 16px; color: #888; }
+.status-msg { font-size: 13px; color: var(--red); min-height: 18px; }
+
+/* === SHARED HEADER BAR === */
+.bar {
+  display: flex; align-items: center; gap: 10px; padding: 9px 18px;
+  background: var(--card); border-bottom: 1px solid var(--border); flex-shrink: 0;
+}
+.bar-title { font-size: 13px; font-weight: 600; flex: 1; }
+.badge {
+  background: var(--green-light); color: var(--green);
+  font-size: 11px; font-weight: 600; letter-spacing: .05em;
+  text-transform: uppercase; padding: 3px 10px; border-radius: 20px;
+}
+.toggle-wrap { display: flex; align-items: center; gap: 5px; cursor: pointer; font-size: 12px; color: var(--muted); user-select: none; }
+.toggle-wrap input[type="checkbox"] { width: auto; accent-color: var(--green); cursor: pointer; margin: 0; }
+
+/* === TIMERS === */
+.timer-up {
+  font-size: 13px; font-weight: 700; font-variant-numeric: tabular-nums;
+  letter-spacing: .02em; color: #333;
+}
+.timer-up.over { color: #e67e22; }
+.timer-target { font-size: 11px; color: var(--faint); }
+.timer-down {
+  font-size: 18px; font-weight: 700; font-variant-numeric: tabular-nums;
+  color: var(--green); letter-spacing: .02em;
+}
+.timer-down.danger { color: var(--red); }
+
+/* === SCENARIO === */
+.scenario-box {
+  background: var(--green-light); border-left: 3px solid var(--green);
+  border-radius: 6px; padding: 11px 15px; font-size: 13px; line-height: 1.65;
+  flex-shrink: 0;
+}
+
+/* ═══════════════════════════════
+   STAGE 0
+═══════════════════════════════ */
+.s0-sidebar {
+  width: 210px; min-width: 170px; background: var(--card);
+  border-right: 1px solid var(--border); display: flex; flex-direction: column;
+  overflow: hidden; flex-shrink: 0;
+}
+.s0-sidebar-hd {
+  padding: 10px 14px; font-size: 11px; font-weight: 600; text-transform: uppercase;
+  letter-spacing: .05em; color: var(--muted); border-bottom: 1px solid var(--border); flex-shrink: 0;
+}
+.s0-list { flex: 1; overflow-y: auto; padding: 6px 0; }
+.s0-item {
+  padding: 9px 14px; font-size: 12px; line-height: 1.4; cursor: pointer;
+  border-left: 3px solid transparent; color: #333; transition: background .1s;
+}
+.s0-item:hover { background: #f0f0ee; }
+.s0-item.active { border-left-color: var(--green); background: var(--green-light); color: var(--green-dark); font-weight: 500; }
+
+.s0-main { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+.s0-body { flex: 1; overflow-y: auto; padding: 14px 18px; display: flex; flex-direction: column; gap: 12px; }
+.s0-footer {
+  display: flex; align-items: center; gap: 10px; padding: 10px 18px;
+  border-top: 1px solid var(--border); background: var(--card); flex-shrink: 0;
+}
+.s0-total { font-size: 13px; color: var(--muted); flex: 1; }
+
+/* Stage 0 table */
+.s0-table { width: 100%; border-collapse: collapse; table-layout: fixed; background: var(--card); border-radius: 8px; overflow: hidden; box-shadow: var(--shadow); }
+.s0-table th {
+  background: #f0f0ee; font-size: 11px; font-weight: 600; text-transform: uppercase;
+  letter-spacing: .04em; color: var(--muted); padding: 7px 10px;
+  text-align: left; border-bottom: 1px solid var(--border);
+}
+.s0-table th:nth-child(1) { width: 110px; }
+.s0-table th:nth-child(2) { width: 22%; }
+.s0-table th:nth-child(3) { width: 28%; }
+/* Your Text column: remaining space (auto) */
+.s0-table td { padding: 9px 10px; border-bottom: 1px solid #f0f0ee; vertical-align: top; }
+.s0-table tr:last-child td { border-bottom: none; }
+.s0-part-label { font-size: 12px; font-weight: 600; color: var(--green-dark); }
+.s0-part-type  { font-size: 11px; color: var(--faint); margin-top: 2px; }
+.s0-part-q     { font-size: 11px; color: #888; font-style: italic; margin-top: 3px; line-height: 1.4; }
+.s0-sample-text  { font-size: 13px; line-height: 1.65; color: #2a2a2a; white-space: pre-wrap; }
+.s0-variety-text { font-size: 11px; color: #888; margin-top: 5px; white-space: pre-wrap; line-height: 1.45; }
+.s0-textarea {
+  width: 100%; min-height: 68px; resize: none; padding: 7px 9px;
+  border: 1px solid var(--border); border-radius: 6px; transition: border-color .15s;
+  overflow: hidden; word-wrap: break-word; white-space: pre-wrap; box-sizing: border-box;
+}
+.s0-wc { font-size: 11px; color: var(--faint); text-align: right; margin-top: 3px; }
+
+/* ═══════════════════════════════
+   PRACTICE INSTRUCTIONS (matches reference tool)
+═══════════════════════════════ */
+#prac-instructions {
+  flex-shrink: 0; background: #f0f9f8;
+  border-bottom: 1px solid #b2dbd8; overflow: hidden;
+}
+#prac-instr-bar {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 10px 16px; cursor: pointer; user-select: none;
+}
+#prac-instr-bar:hover { background: #e6f4f3; }
+#prac-instr-body { padding: 0 16px 14px; font-size: 13px; line-height: 1.7; color: #333; }
+.btn-got-it {
+  background: #00736b; color: #fff; border: none; border-radius: 8px;
+  padding: 7px 18px; font-size: 13px; font-weight: 600; cursor: pointer;
+}
+.btn-got-it:hover { background: #005f58; }
+
+/* === PRACTICE (Stages 1–4) === */
+.prac-body { flex: 1; overflow-y: auto; padding: 14px 18px; display: flex; flex-direction: column; gap: 11px; }
+.prac-footer {
+  display: flex; align-items: center; gap: 10px; padding: 10px 18px;
+  border-top: 1px solid var(--border); background: var(--card); flex-shrink: 0;
+}
+.prac-total { flex: 1; font-size: 13px; color: var(--muted); }
+
+/* Section cards */
+.sec-card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; box-shadow: var(--shadow); }
+.sec-card-hd {
+  display: flex; align-items: baseline; gap: 7px; padding: 9px 13px 7px;
+  border-bottom: 1px solid #f0f0ee; background: #fafafa; flex-wrap: wrap;
+}
+.sec-label { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; color: var(--green-dark); }
+.sec-type  { font-size: 11px; color: var(--faint); }
+.sec-instr { font-size: 13px; color: #333; flex: 1; }
+.sec-body  { display: grid; grid-template-columns: 35% 22% 1fr; align-items: start; }
+.sec-left  { padding: 11px 13px; border-right: 1px solid #f0f0ee; background: #fcfcfb; }
+.sec-variety { padding: 11px 13px; border-right: 1px solid #f0f0ee; background: #fafafa; font-size: 11px; color: #888; line-height: 1.55; white-space: pre-wrap; }
+.sec-right { padding: 9px 11px; display: flex; flex-direction: column; gap: 4px; }
+.sec-sample-lbl { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: .05em; color: var(--faint); margin-bottom: 5px; }
+.sec-sample-txt { font-size: 13px; line-height: 1.65; color: #2a2a2a; white-space: pre-wrap; }
+.sec-variety-txt {
+  font-size: 11px; color: #888; margin-top: 7px; white-space: pre-wrap;
+  line-height: 1.45; padding-top: 7px; border-top: 1px dashed #eee;
+}
+.sec-textarea { min-height: 72px; resize: vertical; padding: 8px 10px; border: 1px solid var(--border); border-radius: 6px; width: 100%; word-wrap: break-word; white-space: pre-wrap; box-sizing: border-box; font-family: inherit; font-size: 14px; line-height: 1.6; }
+.sec-textarea.short { min-height: 44px; }
+.sec-wc { font-size: 11px; color: #000; }
+.sec-foot-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-top: 4px; }
+.sec-btn-row { display: flex; gap: 6px; }
+.btn-block-check {
+  font-size: 11px; padding: 4px 10px; font-weight: 600; color: #fff;
+  background: #00736b; border: none; border-radius: 6px; cursor: pointer;
+  font-family: inherit; transition: background .15s;
+}
+.btn-block-check:hover:not(:disabled) { background: #005f58; }
+.btn-block-check.grammar { background: #2980b9; }
+.btn-block-check.grammar:hover:not(:disabled) { background: #21618c; }
+.btn-block-check.total { background: #8e44ad; }
+.btn-block-check.total:hover:not(:disabled) { background: #763a91; }
+.btn-block-check.total { background: #6b4f9e; }
+.btn-block-check.total:hover:not(:disabled) { background: #573f82; }
+.btn-block-check:disabled { background: #9bbfbc; cursor: default; }
+.sec-comment { border-top: 1px solid var(--border); background: #fafafa; padding: 12px 16px; font-size: 13px; line-height: 1.6; color: #333; }
+.sec-comment > div { margin-top: 0 !important; padding: 0 !important; background: none !important; border: none !important; }
+
+/* ═══════════════════════════════
+   EXAM (Stage 5)
+═══════════════════════════════ */
+.exam-body {
+  flex: 1; overflow-y: auto; display: flex; flex-direction: column; align-items: center;
+  padding: 18px 22px;
+}
+.exam-inner { width: 100%; max-width: 760px; display: flex; flex-direction: column; gap: 14px; flex: 1; }
+.exam-bullets { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 13px 16px; }
+.exam-bullets-title { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); margin-bottom: 9px; }
+.exam-bullet { display: flex; gap: 9px; margin-bottom: 7px; font-size: 13px; line-height: 1.5; }
+.exam-bullet:last-child { margin-bottom: 0; }
+.exam-bullet-n { font-weight: 600; color: var(--green); flex-shrink: 0; }
+.exam-bullet-type { color: var(--faint); font-size: 11px; margin-left: 4px; }
+.exam-ta-wrap { flex: 1; display: flex; flex-direction: column; gap: 6px; }
+#exam-textarea {
+  flex: 1; min-height: 260px; resize: vertical; padding: 13px 15px;
+  border: 1px solid var(--border); border-radius: 8px; font-size: 14px; line-height: 1.7; width: 100%;
+}
+#exam-textarea:disabled { background: #fafafa; color: #aaa; }
+.exam-footer { display: flex; align-items: center; gap: 10px; }
+.exam-wc { flex: 1; font-size: 13px; color: var(--muted); }
+
+/* ═══════════════════════════════
+   END SCREEN
+═══════════════════════════════ */
+.end-body { flex: 1; overflow-y: auto; padding: 18px 22px; }
+.end-summary { font-size: 13px; color: var(--muted); margin-bottom: 14px; }
+.status-bar { font-size: 13px; color: var(--muted); padding: 6px 0; margin-bottom: 8px; }
+.result-item { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 14px; margin-bottom: 11px; }
+.result-hd { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); margin-bottom: 6px; }
+.result-scenario { font-size: 12px; color: #888; margin-bottom: 8px; line-height: 1.4; }
+.result-text-lbl { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: .05em; color: var(--faint); margin: 8px 0 4px; }
+.result-text { font-size: 13px; color: #333; line-height: 1.6; white-space: pre-wrap; background: #f8f8f7; padding: 9px 11px; border-radius: 6px; }
+.result-meta { font-size: 11px; color: var(--faint); margin-top: 5px; }
+.result-analysis-block { margin-top: 10px; padding-top: 10px; border-top: 1px dashed #eee; }
+.result-band { display: inline-block; background: var(--green-light); color: var(--green-dark); font-size: 12px; font-weight: 700; padding: 3px 10px; border-radius: 20px; margin-bottom: 6px; }
+.result-analysis { font-size: 13px; color: #333; line-height: 1.6; white-space: pre-wrap; }
+
+/* Scrollbars */
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-thumb { background: #ccc; border-radius: 3px; }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════ REVIEW GATE MODAL (Stage 4/5) ═══════════════════ -->
+<div id="review-gate" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:1000;align-items:center;justify-content:center;">
+  <div style="background:#fff;border-radius:14px;max-width:520px;width:90%;padding:24px 26px;box-shadow:0 12px 40px rgba(0,0,0,.25);">
+    <div style="font-size:17px;font-weight:800;color:#00736b;margin-bottom:10px;">📄 Review your last writing</div>
+    <div id="review-gate-intro" style="font-size:14px;color:#444;line-height:1.6;margin-bottom:14px;"></div>
+    <div id="review-gate-list" style="display:flex;flex-direction:column;gap:8px;margin-bottom:18px;"></div>
+    <div id="review-gate-confirm" style="display:flex;align-items:center;justify-content:flex-end;gap:10px;margin-top:6px;">
+      <label for="review-gate-cb" style="font-size:13px;color:#888;cursor:pointer;">I've reviewed it — take me to the practice</label>
+      <input type="checkbox" id="review-gate-cb" style="width:16px;height:16px;accent-color:#00736b;cursor:pointer;">
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════ GATE ═══════════════════ -->
+<div id="screen-gate" class="screen">
+  <div class="center-wrap">
+    <div class="center-card">
+      <div class="card-badge">TOEFL Email Writing</div>
+      <h1>Li-Yi's TOEFL Email Writing Tool</h1>
+      <p class="card-desc">Enter your access key to begin.</p>
+      <div class="field-group">
+        <label class="field-label">Access Key</label>
+        <div class="key-input-wrap">
+          <input type="password" id="key-input" placeholder="Enter your key…" autocomplete="off">
+          <button class="btn-eye" id="btn-toggle-key">👁</button>
+        </div>
+      </div>
+      <div class="field-group">
+        <label class="field-label">Analysis Language <span style="color:var(--red);">*</span></label>
+        <input type="text" id="lang-input" placeholder="Type your native language…" autocomplete="off">
+        <div style="font-size:11px;color:var(--faint);margin-top:4px;">e.g. English, 繁體中文, 日本語, Telugu, Tagalog, Español, Tiếng Việt, Русский, Türkçe</div>
+      </div>
+      <button class="btn-primary" id="btn-gate-submit">Continue</button>
+      <div class="status-msg" id="gate-status"></div>
+      <div style="border-top:1px solid var(--border);margin-top:4px;padding-top:12px;display:flex;flex-direction:column;gap:8px;">
+        <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:13px;color:var(--muted);">
+          <input type="checkbox" id="chk-remember-key" style="accent-color:var(--green);width:auto;margin:0;" checked>
+          Remember my key
+        </label>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════ START ═══════════════════ -->
+<div id="screen-start" class="screen">
+  <div class="center-wrap">
+    <div class="center-card">
+      <div class="card-badge">Li-Yi's TOEFL Email Writing Tool</div>
+      <h1>New Session</h1>
+      <div class="field-group">
+        <label class="field-label">Stage</label>
+        <select id="stage-selector">
+          <option value="">— Select a stage —</option>
+          <option value="0">Stage 0 — Learn from Samples</option>
+          <option value="4">Full Email</option>
+          <option value="5">Exam Mode (7:00)</option>
+        </select>
+      </div>
+      <button class="btn-primary" id="btn-start" disabled>Start</button>
+      <div class="status-msg" id="start-status"></div>
+      <div style="display:flex;align-items:center;gap:10px;margin:4px 0;">
+        <div style="flex:1;height:1px;background:var(--border);"></div>
+        <span style="font-size:11px;color:var(--faint);text-transform:uppercase;letter-spacing:.06em;">or</span>
+        <div style="flex:1;height:1px;background:var(--border);"></div>
+      </div>
+      <button class="btn-secondary" id="btn-go-evaluate" style="width:100%;padding:12px 20px;">📝 Paste Your Own Answer &amp; Evaluate</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════ PASTE & EVALUATE ═══════════════════ -->
+<div id="screen-evaluate" class="screen">
+  <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 20px;background:var(--card);border-bottom:1px solid var(--border);flex-shrink:0;">
+    <div style="display:flex;align-items:center;gap:12px;">
+      <button id="btn-eval-back" class="btn-ghost btn-sm" style="font-size:13px;">← Back</button>
+      <span style="font-weight:600;font-size:15px;color:#1a1a1a;">Paste &amp; Evaluate</span>
+    </div>
+  </div>
+  <div style="flex:1;overflow-y:auto;padding:24px;">
+    <div style="max-width:760px;margin:0 auto;display:flex;flex-direction:column;gap:16px;">
+      <p style="font-size:13px;color:var(--muted);line-height:1.6;">Paste any email task prompt and your written response below. The same rubric used in practice will be applied.</p>
+
+      <div class="field-group">
+        <label class="field-label">Email Task Prompt</label>
+        <textarea id="eval-question" style="width:100%;min-height:110px;border:1px solid var(--border);border-radius:8px;padding:12px;font-size:14px;font-family:inherit;line-height:1.7;resize:vertical;" placeholder="Paste the full task here — the scenario and what the email should cover…"></textarea>
+      </div>
+
+      <div class="field-group">
+        <label class="field-label">Your Email</label>
+        <textarea id="eval-answer" style="width:100%;min-height:180px;border:1px solid var(--border);border-radius:8px;padding:12px;font-size:14px;font-family:inherit;line-height:1.7;resize:vertical;" placeholder="Paste your written email here…"></textarea>
+        <div style="text-align:right;font-size:12px;color:var(--faint);margin-top:4px;"><span id="eval-word-count">0</span> words</div>
+      </div>
+
+      <div style="display:flex;align-items:center;gap:12px;">
+        <button id="btn-evaluate" class="btn-primary" style="width:auto;padding:10px 24px;">Evaluate →</button>
+        <span id="eval-status" style="font-size:13px;color:var(--muted);"></span>
+      </div>
+
+      <div id="eval-results">
+        <div id="eval-writing-result" style="display:none;"></div>
+        <div id="eval-grammar-result" style="display:none;"></div>
+        <div id="eval-tr-wrap" style="display:none;margin-top:10px;padding:8px 10px;background:#f7f7f7;border-radius:6px;">
+          <div id="eval-tr-label" style="font-size:11px;color:#888;font-weight:600;margin-bottom:3px;">What you wrote, in your language</div>
+          <div id="eval-tr" style="font-size:13px;color:#444;line-height:1.6;"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════ STAGE 0 ═══════════════════ -->
+<div id="screen-stage0" class="screen">
+  <div class="s0-sidebar">
+    <div class="s0-sidebar-hd">Questions</div>
+    <div class="s0-list" id="s0-list"></div>
+  </div>
+  <div class="s0-main">
+    <div class="bar">
+      <span style="font-size:11px;font-weight:700;color:var(--green);letter-spacing:.03em;white-space:nowrap;">Li-Yi's TOEFL</span>
+      <span style="color:var(--border);">|</span>
+      <span class="bar-title" id="s0-current-label">—</span>
+      <div class="timer-up" id="s0-timer">00:00</div>
+      <button class="btn-primary" id="btn-s0-end">End Session</button>
+    </div>
+    <div id="s0-intro-wrap" style="background:#f0f9f8;border:1px solid #b2dbd8;overflow:hidden;flex-shrink:0;">
+      <div id="s0-intro-bar" onclick="toggleS0Intro()" style="display:flex;align-items:center;justify-content:space-between;padding:10px 16px;cursor:pointer;user-select:none;">
+        <span style="font-weight:700;font-size:13px;color:#00736b;">📖 How to use this page</span>
+        <span id="s0-intro-chevron" style="font-size:13px;color:#00736b;transition:transform .25s;">▼</span>
+      </div>
+      <div id="s0-intro-body" style="padding:0 16px 14px 16px;font-size:13px;line-height:1.7;color:#333;">
+        <p id="s0-instr-text" style="margin:0 0 10px;white-space:pre-line;"></p>
+        <button onclick="toggleS0Intro()" class="btn-got-it">Got it →</button>
+      </div>
+    </div>
+    <div class="s0-body">
+      <div class="scenario-box" id="s0-scenario"></div>
+      <table class="s0-table">
+        <thead>
+          <tr>
+            <th style="width:110px;">Part</th>
+            <th class="s0-col-sample"><label style="display:flex;align-items:center;gap:5px;cursor:pointer;"><input type="checkbox" id="toggle-s0-sample-cb" checked onchange="toggleS0Sample()" style="accent-color:var(--green);width:auto;margin:0;"> Hide Sample</label></th>
+            <th class="s0-col-variety">Variety</th>
+            <th><div style="display:flex;align-items:center;justify-content:space-between;gap:8px;">Your Text <button id="btn-s0-clear" style="font-size:12px;padding:5px 14px;text-transform:none;letter-spacing:0;font-weight:600;background:var(--red);color:#fff;border:none;border-radius:6px;cursor:pointer;font-family:inherit;">🗑 Clear All</button></div></th>
+          </tr>
+        </thead>
+        <tbody id="s0-tbody"></tbody>
+      </table>
+      <div id="s0-feedback-box" style="display:none;background:#f8f8f7;border:1px solid var(--border);border-radius:8px;padding:14px 16px;font-size:13px;line-height:1.7;white-space:pre-wrap;color:#333;margin-top:8px;"></div>
+    </div>
+    <div class="s0-footer">
+      <div class="s0-total">Total: <span id="s0-total-words">0</span> words</div>
+      <button class="btn-primary btn-sm" id="btn-s0-save">Save &amp; Check</button>
+      <button class="btn-ghost btn-sm" id="btn-s0-next" style="display:none;">Next Question</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════ PRACTICE (Stages 1–4) ═══════════════════ -->
+<div id="screen-practice" class="screen">
+  <div class="bar">
+    <span style="font-size:11px;font-weight:700;color:var(--green);letter-spacing:.03em;white-space:nowrap;">Li-Yi's TOEFL</span>
+    <span style="color:var(--border);">|</span>
+    <span class="badge" id="prac-badge">Stage 1</span>
+    <select id="prac-cat-selector" style="font-size:12px;padding:4px 8px;border:1px solid var(--border);border-radius:6px;font-family:inherit;max-width:180px;cursor:pointer;">
+      <option value="">— All categories —</option>
+    </select>
+    <select id="prac-q-selector" style="font-size:12px;padding:4px 8px;border:1px solid var(--border);border-radius:6px;font-family:inherit;max-width:280px;cursor:pointer;">
+      <option value="">— Select a question —</option>
+    </select>
+
+
+    <div style="display:flex;flex-direction:column;align-items:flex-end;gap:1px;margin-left:auto;">
+      <div class="timer-up" id="prac-timer">00:00</div>
+      <div class="timer-target" id="prac-target"></div>
+    </div>
+    <button id="btn-prac-exit" style="margin-left:10px;font-size:13px;font-weight:700;color:#c0392b;background:#fff;border:1.5px solid #c0392b;border-radius:6px;padding:6px 12px;cursor:pointer;white-space:nowrap;font-family:inherit;">Exit Without Saving</button>
+  </div>
+  <div id="prac-instructions">
+    <div id="prac-instr-bar" onclick="togglePracIntro()">
+      <span style="font-weight:700;font-size:13px;color:#00736b;">📖 How to use this page</span>
+      <span id="prac-instr-chevron" style="font-size:13px;color:#00736b;transition:transform .25s;">▼</span>
+    </div>
+    <div id="prac-instr-body">
+      <p id="prac-instr-text" style="margin:0 0 10px;white-space:pre-line;"></p>
+      <button onclick="togglePracIntro()" class="btn-got-it">Got it, hide the reminder</button>
+    </div>
+  </div>
+  <div class="prac-body">
+    <div id="prac-no-question" style="display:flex;align-items:center;justify-content:center;padding:40px;color:var(--muted);font-size:14px;">
+      ← Select a question from the dropdown above to begin.
+    </div>
+    <div id="prac-question-content" style="display:none;flex-direction:column;gap:11px;">
+      <div class="scenario-box" id="prac-scenario"></div>
+      <div style="display:flex;gap:14px;align-items:flex-start;">
+        <!-- Tips panel: collapses horizontally -->
+        <div id="prac-tips-wrap" style="width:200px;min-width:200px;flex-shrink:0;background:#fff;border:1px solid var(--border);border-radius:8px;overflow:hidden;transition:width .2s,min-width .2s;">
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 12px;background:#fafafa;border-bottom:1px solid var(--border);">
+            <span style="font-size:12px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;">Tips</span>
+            <button id="btn-hide-tips" onclick="togglePracTips()" style="font-size:11px;background:none;border:1px solid var(--border);border-radius:4px;padding:2px 7px;cursor:pointer;font-family:inherit;color:var(--muted);">Hide</button>
+          </div>
+          <div id="prac-tips-body" style="padding:10px 12px;font-size:12px;line-height:1.7;color:#333;"></div>
+        </div>
+        <!-- Show Tips button — only visible when tips hidden -->
+        <button id="btn-show-tips" onclick="togglePracTips()" style="display:none;writing-mode:vertical-rl;font-size:11px;font-weight:600;color:var(--muted);background:#fff;border:1px solid var(--border);border-radius:8px;padding:10px 6px;cursor:pointer;font-family:inherit;flex-shrink:0;">Tips ▶</button>
+        <div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:0;">
+          <!-- Column header row above sections -->
+          <div style="display:grid;grid-template-columns:35% 22% 1fr;margin-bottom:6px;">
+            <div style="padding:5px 13px;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);display:flex;align-items:center;gap:8px;">
+              SAMPLE
+              <label style="display:flex;align-items:center;gap:4px;cursor:pointer;font-weight:normal;text-transform:none;letter-spacing:0;color:var(--green);font-size:11px;">
+                <input type="checkbox" id="toggle-prac-sample" onchange="applyPracToggles(STAGE_META[STATE.selectedStage]?.sections||[])" style="accent-color:var(--green);width:auto;margin:0;">
+                Hide
+              </label>
+            </div>
+            <div style="padding:5px 13px;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);">SYNTACTIC VARIETY</div>
+            <div style="padding:5px 13px;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);display:flex;align-items:center;justify-content:space-between;gap:8px;">YOUR TEXT <button id="btn-prac-clear" style="font-size:12px;padding:5px 14px;text-transform:none;letter-spacing:0;font-weight:600;background:var(--red);color:#fff;border:none;border-radius:6px;cursor:pointer;font-family:inherit;">🗑 Clear All</button></div>
+          </div>
+          <div id="prac-sections" style="display:flex;flex-direction:column;gap:11px;"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="prac-footer">
+    <div class="prac-total">Total: <span id="prac-total-words">0</span> words &nbsp;·&nbsp; <span style="font-size:11px;color:#555;">100 words or above is recommended</span></div>
+    <button class="btn-primary" id="btn-prac-save">Save &amp; Next</button>
+    <button class="btn-primary" id="btn-prac-end" style="background:#00736b;margin-left:auto;">End Practice &amp; Check Analysis</button>
+  </div>
+</div>
+
+<!-- ═══════════════════ EXAM (Stage 5) ═══════════════════ -->
+<div id="screen-exam" class="screen">
+  <div class="bar">
+    <span style="font-size:11px;font-weight:700;color:var(--green);letter-spacing:.03em;white-space:nowrap;">Li-Yi's TOEFL</span>
+    <span style="color:var(--border);">|</span>
+    <span class="badge">Exam Mode</span>
+    <select id="exam-q-selector" style="font-size:12px;padding:4px 8px;border:1px solid var(--border);border-radius:6px;font-family:inherit;max-width:280px;cursor:pointer;">
+      <option value="">— Select a question —</option>
+    </select>
+    <div class="timer-down" id="exam-timer">07:00</div>
+    <button class="btn-primary" id="btn-exam-end" style="margin-left:auto;">End Session</button>
+  </div>
+  <div class="exam-body">
+    <div class="exam-inner">
+      <div id="exam-no-question" style="color:var(--muted);font-size:14px;padding:20px 0;">
+        Select a question from the dropdown above to begin.
+      </div>
+      <div id="exam-question-content" style="display:none;flex-direction:column;gap:12px;flex:1;">
+        <div class="scenario-box" id="exam-scenario"></div>
+        <div style="font-size:12px;color:#555;padding:2px 0 6px 0;">Write as much as you can and in complete sentences.</div>
+        <div class="exam-ta-wrap">
+          <textarea id="exam-textarea" placeholder="Write your email here…" disabled></textarea>
+          <div class="exam-footer">
+            <div class="exam-wc"><span id="exam-wc">0</span> words &nbsp;·&nbsp; <span style="color:#555;">100 words or above is recommended</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════ END ═══════════════════ -->
+<div id="screen-end" class="screen">
+  <div class="bar">
+    <span style="font-size:11px;font-weight:700;color:var(--green);letter-spacing:.03em;white-space:nowrap;">Li-Yi's TOEFL</span>
+    <span style="color:var(--border);">|</span>
+    <span class="bar-title">Session Complete</span>
+    <button class="btn-ghost btn-sm hidden" id="btn-grammar">Grammar Check</button>
+    <button class="btn-ghost btn-sm hidden" id="btn-analyze">Analyze Writing</button>
+    <button class="btn-primary btn-sm" id="btn-new-session">New Session</button>
+  </div>
+  <div class="end-body">
+    <div class="status-bar hidden" id="end-status"></div>
+    <div class="end-summary" id="end-summary"></div>
+    <div id="results-list"></div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script>
+// ═══════════════════════════════════════════════════
+// CONSTANTS
+// ═══════════════════════════════════════════════════
+const STAGE_META = {
+  0: { title: "Learn from Samples",   badge: "Stage 0",
+       sections: ["opening","bullet1","bullet2","bullet3","closing"] },
+  1: { title: "Opening + Bullet 1",   badge: "Stage 1",
+       sections: ["opening","bullet1"], targetSec: 150, targetLabel: "Target: 2:30" },
+  2: { title: "Bullet 2",             badge: "Stage 2",
+       sections: ["bullet2"],          targetSec: 120, targetLabel: "Target: 2:00" },
+  3: { title: "Bullet 3 + Closing",   badge: "Stage 3",
+       sections: ["bullet3","closing"], targetSec: 150, targetLabel: "Target: 2:30" },
+  4: { title: "Full Email",           badge: "Full Email",
+       sections: ["opening","bullet1","bullet2","bullet3","closing"], targetLabel: "" },
+  5: { title: "Exam Mode",            badge: "Exam Mode" }
+};
+
+const SECTION_META = {
+  opening: { label: "Opening",  typeKey: null,         qKey: null         },
+  bullet1: { label: "Bullet 1", typeKey: "bullet1_type", qKey: "bullet1_q" },
+  bullet2: { label: "Bullet 2", typeKey: "bullet2_type", qKey: "bullet2_q" },
+  bullet3: { label: "Bullet 3", typeKey: "bullet3_type", qKey: "bullet3_q" },
+  closing: { label: "Closing",  typeKey: null,         qKey: null         }
+};
+
+// ═══════════════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════════════
+const STATE = {
+  attempts:      [],
+  emailIndex:    [],
+  bulletTypes:   null,
+  selectedStage: null,
+  currentQ:      null,
+  timerInterval: null,
+  timerSeconds:  0,
+  _timerRunning: false,
+  analysisLang:  localStorage.getItem("analysis_lang") || "",
+  // Stage 4 before/after + gating (AD model). Per-section flags.
+  s4State:       {}    // { bullet1: { firstAttempt, discourseChecked, grammarChecked }, ... }
+};
+
+const S4_SECTIONS = ["opening", "bullet1", "bullet2", "bullet3", "closing"];
+const S4_BULLETS   = ["bullet1", "bullet2", "bullet3"];
+
+// Stage 0 "how to use" text — modeled on the AD tool, adapted for the email task.
+const STAGE0_INTRO = "Goal: Learn the email structures and sentence patterns by copying the sample — you're not writing your own ideas yet (you'll do that in the Full Email practice).\n\n1. Read the scenario and study each part of the sample email. Notice how it is built and the kinds of sentences it uses.\n2. When you think you can rebuild most of those sentences from memory, hide the sample and type it out yourself.\n3. Then check the time you spent and your word count.\n\nWhy you copy a sample here: the point of this stage is to absorb the structure and sentence variety so you can reuse them later in your own words.";
+
+// What "fully checked" means for a section:
+//  - bullets need BOTH discourse + grammar (like AD)
+//  - opening/closing have no discourse check, so grammar alone suffices
+function s4SectionDone(key) {
+  const st = STATE.s4State[key] || {};
+  if (S4_BULLETS.includes(key)) return !!(st.discourseChecked && st.grammarChecked);
+  return !!st.grammarChecked; // opening / closing
+}
+
+// Capture the first version once. Bullets capture on discourse press; opening/closing on grammar press.
+function s4Capture(key, text) {
+  if (STATE.selectedStage !== 4) return;
+  if (!STATE.s4State[key]) STATE.s4State[key] = {};
+  if (STATE.s4State[key].firstAttempt === undefined) {
+    STATE.s4State[key].firstAttempt = text;
+    // Record when this section was first saved (wall-clock + elapsed since the timer started)
+    STATE.s4State[key].firstSavedAt   = localDateTimeStamp();
+    STATE.s4State[key].firstSavedSecs = STATE.timerSeconds || 0;
+  }
+}
+
+function s4MarkDiscourse(key) {
+  if (STATE.selectedStage !== 4) return;
+  if (!STATE.s4State[key]) STATE.s4State[key] = {};
+  STATE.s4State[key].discourseChecked = true;
+  updateS4Gating();
+}
+
+function s4MarkGrammar(key) {
+  if (STATE.selectedStage !== 4) return;
+  if (!STATE.s4State[key]) STATE.s4State[key] = {};
+  STATE.s4State[key].grammarChecked = true;
+  updateS4Gating();
+}
+
+// Sequential locking (AD model): each section's textarea + buttons are disabled until
+// the previous section is fully checked. First section always open.
+function updateS4Gating() {
+  if (STATE.selectedStage !== 4) return;
+  let prevDone = true; // first section always unlocked
+  S4_SECTIONS.forEach(key => {
+    const ta   = $(`prac-ta-${key}`);
+    const hint = $(`prac-hint-${key}`);
+    if (!ta) return;
+    const unlocked = prevDone;
+    ta.disabled = !unlocked;
+    ta.style.background = unlocked ? "" : "#f0f0f0";
+    ta.placeholder = unlocked ? `Write your ${(SECTION_META[key]?.label || key).toLowerCase()}…`
+                              : "Finish the section above first (run its checks).";
+    // Lock/unlock this section's check buttons too
+    document.querySelectorAll(`[data-key="${key}"]`).forEach(btn => {
+      if (btn.hasAttribute("data-check")) btn.disabled = !unlocked;
+    });
+    // Hint shows on an unlocked section that isn't fully checked yet
+    if (hint) hint.style.display = (unlocked && !s4SectionDone(key)) ? "" : "none";
+    // Next section unlocks only if THIS one is fully checked
+    prevDone = prevDone && s4SectionDone(key);
+  });
+}
+
+// ═══════════════════════════════════════════════════
+// UTILITIES
+// ═══════════════════════════════════════════════════
+const $ = id => document.getElementById(id);
+
+function toggleIntro(prefix) {
+  const body  = $(`${prefix}-intro-body`);
+  const arrow = $(`${prefix}-intro-arrow`);
+  const open  = body.style.display !== "none";
+  body.style.display  = open ? "none" : "";
+  arrow.textContent   = open ? "▶" : "▼";
+}
+
+function togglePracTips() {
+  const wrap    = $("prac-tips-wrap");
+  const showBtn = $("btn-show-tips");
+  const visible = wrap.style.display !== "none";
+  if (visible) {
+    wrap.style.display    = "none";
+    showBtn.style.display = "";
+  } else {
+    wrap.style.display    = "";
+    showBtn.style.display = "none";
+  }
+}
+
+function toggleS0Intro() {
+  const body    = $("s0-intro-body");
+  const chevron = $("s0-intro-chevron");
+  const open    = body.style.display !== "none";
+  body.style.display      = open ? "none" : "";
+  chevron.style.transform = open ? "rotate(-90deg)" : "rotate(0deg)";
+}
+
+function togglePracIntro() {
+  const body    = $("prac-instr-body");
+  const chevron = $("prac-instr-chevron");
+  const open    = body.style.display !== "none";
+  body.style.display      = open ? "none" : "";
+  chevron.style.transform = open ? "rotate(-90deg)" : "rotate(0deg)";
+}
+
+function toggleS0Sample() {
+  const cb   = $("toggle-s0-sample-cb");
+  const hide = cb && cb.checked;
+  // The sample text lives in .s0-sample-text inside td.s0-col-sample
+  document.querySelectorAll(".s0-sample-text").forEach(
+    el => el.style.visibility = hide ? "hidden" : "visible"
+  );
+}
+
+function showScreen(id) {
+  document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
+  $(id).classList.add("active");
+}
+
+function esc(str) {
+  return String(str || "")
+    .replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;").replace(/'/g,"&#039;");
+}
+
+// Escapes text, then bolds known analysis labels at the start of a line.
+// Safe: escaping happens first, so only our own <strong> tags are added.
+// ── Per-block check label legend ("What each check means"), localized ──
+const CHECKS_LEGEND_ITEMS = [
+  ["On-topic",          "Checks that this section is relevant to the task and covers what it should."],
+  ["Discourse Moves",   "Compares how many steps you use to develop this section with the sample."],
+  ["Syntactic Variety", "Compares the range of your sentence structures with the sample."]
+];
+const TOTAL_LEGEND_ITEMS = [
+  ["Total Discourse Moves",   "Compares how many distinct steps your whole email uses with the Band 5 sample."],
+  ["Total Syntactic Variety", "Compares the range of sentence structures across your whole email with the Band 5 sample."]
+];
+
+function legendHTML(items, title) {
+  let h = '<div style="border:1px solid #e0e0e0;border-radius:8px;padding:8px 12px;margin-bottom:8px;background:#fafafa;font-size:11px;color:#555;line-height:1.6;">';
+  if (title) h += '<div style="font-weight:700;color:#333;margin-bottom:4px;">' + esc(trCached(title)) + '</div>';
+  items.forEach(([term, desc]) => {
+    h += '<div style="margin:2px 0;"><b style="color:#00736b;">' + esc(trCached(term)) + ':</b> ' + esc(trCached(desc)) + '</div>';
+  });
+  h += '</div>';
+  return h;
+}
+
+function escWithLabels(str) {
+  const safe = esc(str);
+  const labels = [
+    "Content & Task Completion",
+    "Register & Tone",
+    "Syntactic/Lexical Variety",
+    "Syntactic & Lexical Variety",
+    "Accuracy/Errors",
+    "Accuracy",
+    "Suggestion 1",
+    "Suggestion 2",
+    "ON-TOPIC",
+    "MOVES",
+    "SYNTAX",
+    "Original",
+    "Error",
+    "Revised"
+  ];
+  let out = safe;
+  labels.forEach(lbl => {
+    // Escape the label the same way the text was escaped, then build the regex
+    const escLbl = esc(lbl).replace(/[.*+?^${}()|[\]\\/]/g, "\\$&");
+    // Match label at line start, optionally preceded by "- " or "• ", followed by ":"
+    const re = new RegExp("(^|\\n)([\\-•]\\s*)?(" + escLbl + ")(:)", "g");
+    out = out.replace(re, (_, br, bullet, name, colon) => `${br}${bullet || ""}<strong>${name}${colon}</strong>`);
+  });
+  // Convert grammar change sentinels ⟦…⟧ into bold red (escaping left them intact)
+  out = out.replace(/⟦([\s\S]*?)⟧/g, '<strong style="color:#c0392b;">$1</strong>');
+  return out;
+}
+
+// ── UI localization (ported from AD) ──
+// trCached: synchronous lookup of a cached translation; returns English if not cached.
+function trCached(text) {
+  const lang = (STATE.analysisLang || "").trim();
+  if (!lang || lang.toLowerCase() === "english") return text;
+  try {
+    const c = localStorage.getItem("ui_tr::" + lang.toLowerCase() + "::" + text.trim());
+    if (c !== null) return c;
+  } catch(e) {}
+  return text;
+}
+
+// translateUI: translate a single UI string, cache it, and write into an element (optional).
+async function translateUI(text, el, asHTML) {
+  const raw = (text || "").trim();
+  const render = (t) => { if (!el) return; if (asHTML) el.innerHTML = esc(t).replace(/\n/g,"<br>"); else el.textContent = t; };
+  if (!raw) { render(""); return ""; }
+  const lang = (STATE.analysisLang || "").trim();
+  if (!lang || lang.toLowerCase() === "english") { render(raw); return raw; }
+  const cacheKey = "ui_tr::" + lang.toLowerCase() + "::" + raw;
+  try { const cached = localStorage.getItem(cacheKey); if (cached !== null) { render(cached); return cached; } } catch(e) {}
+  render(raw);
+  try {
+    const res = await fetch("/.netlify/functions/translate", {
+      method: "POST", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ text: raw, language: lang })
+    });
+    const data = await res.json();
+    const tr = (data.translation || "").trim();
+    if (tr) { render(tr); try { localStorage.setItem(cacheKey, tr); } catch(e) {} return tr; }
+  } catch(e) { console.warn("UI translation failed:", e.message); }
+  return raw;
+}
+
+// Warm the cache for ALL translatable UI strings, fire-and-forget after login,
+// so trCached() returns translations instantly when pages render (ported from AD).
+async function warmUpTranslations() {
+  const lang = (STATE.analysisLang || "").trim();
+  if (!lang || lang.toLowerCase() === "english") return;
+
+  const strings = [
+    // Before/after comparison
+    "Reviewing your first vs. final email…",
+    "Your Progress: First → Final",
+    "First", "Final", "First version", "Final version",
+    "Grammar issues in your first version:",
+    "Could not load the comparison. Please try again.",
+    // Analysis page
+    "Writing Analysis", "Grammar Check",
+    "Running analysis and grammar check…",
+    "Analysis and grammar check complete.",
+    "One or more checks encountered an error.",
+    // Per-section check labels
+    "On-topic", "Discourse Moves", "Syntactic Variety", "Good",
+    "Discourse & Syntax", "Grammar",
+    "Total Discourse Moves & Syntax (whole email)",
+    "Please write this section first.", "Checking…",
+    "Check failed. Please try again.",
+    // Gating / exit
+    "Finish the section above first (run its checks).",
+    "Leave practice? Your current answers won't be saved.",
+    "Exit Without Saving", "End Practice & Check Analysis", "Save & Next",
+    // Stage 5 redo
+    "Redo this email ✍",
+    "Look again at the analysis above and what each check means, then rewrite your email to fix those issues. There is no timer. You will get a fresh score.",
+    "Rewrite your email here…", "Score my rewrite →",
+    "Please write your rewrite first.", "Scoring…",
+    "First", "Rewrite", "Scoring failed. Please try again.",
+    // Review gate
+    "Click the link below to open your last email. Read through it, then tick the box when you're done.",
+    "I've reviewed it — take me to the practice",
+    // How-to-use intro text (Stage 4 + 5)
+    "Goal: Write a complete email, one section at a time, using the samples as a guide.\n\n1. Write the first section (Opening).\n2. When a section is done, run its check(s): bullet sections need Discourse & Syntax and Grammar; Opening and Closing need Grammar. Only then does the next section unlock.\n3. Fix anything flagged. The explanation of each check appears above its feedback.\n4. When every section is checked, press End Practice & Check Analysis to see your email scored in Band 0–5, with a First → Final comparison.",
+    "This is exam mode. Use it once you are comfortable managing your time in the Full Email practice.\n\nRead the scenario and write your full email in one go. No samples or cues are shown.\n\n⏱ A countdown timer starts when you begin writing, just like the real exam. If your band is below 5, you can redo your email afterward.",
+    STAGE0_INTRO,
+    // Per-block check legend
+    "What each check means",
+    "On-topic", "Discourse Moves", "Syntactic Variety",
+    "Total Discourse Moves", "Total Syntactic Variety",
+    "Checks that this section is relevant to the task and covers what it should.",
+    "Compares how many steps you use to develop this section with the sample.",
+    "Compares the range of your sentence structures with the sample.",
+    "Compares how many distinct steps your whole email uses with the Band 5 sample.",
+    "Compares the range of sentence structures across your whole email with the Band 5 sample.",
+    // Timing summary
+    "Timing", "first saved at", "Total time spent",
+    "Opening", "Bullet 1", "Bullet 2", "Bullet 3", "Closing",
+    // Answer back-translation
+    "What you wrote, in your language",
+    // Grammar summary
+    "Most common mistakes",
+    // Loading states
+    "Checking grammar…", "Scoring your email…"
+  ];
+
+  const ck = raw => "ui_tr::" + lang.toLowerCase() + "::" + raw.trim();
+
+  // 1) Collect only the strings not already cached (deduplicated)
+  const seen = new Set();
+  const uncached = [];
+  for (const raw of strings) {
+    const s = raw.trim();
+    if (seen.has(s)) continue;
+    seen.add(s);
+    try { if (localStorage.getItem(ck(s)) !== null) continue; } catch(e) {}
+    uncached.push(s);
+  }
+  if (!uncached.length) return; // everything already cached — no calls
+
+  // 2) One batch call for all uncached strings
+  try {
+    const res = await fetch("/.netlify/functions/translate", {
+      method: "POST", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ texts: uncached, language: lang })
+    });
+    const data = await res.json();
+    if (data && Array.isArray(data.translations) && data.translations.length === uncached.length) {
+      uncached.forEach((src, i) => {
+        const tr = (data.translations[i] || "").trim();
+        if (tr) { try { localStorage.setItem(ck(src), tr); } catch(e) {} }
+      });
+      return; // done in a single call
+    }
+    // else fall through to per-string fallback (batch failed / length mismatch / null)
+  } catch(e) { /* fall through to per-string fallback */ }
+
+  // 3) Fallback: per-string calls (guarantees a bad batch never leaves UI untranslated)
+  for (const src of uncached) {
+    try {
+      const res = await fetch("/.netlify/functions/translate", {
+        method: "POST", headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ text: src, language: lang })
+      });
+      const data = await res.json();
+      const tr = (data.translation || "").trim();
+      if (tr) localStorage.setItem(ck(src), tr);
+    } catch(e) { /* silently skip; trCached falls back to English, live calls retry */ }
+  }
+}
+
+
+// Wraps the words that changed between Original: and Revised: in ⟦…⟧ sentinels,
+// which escWithLabels then renders as bold red.
+function highlightGrammarChanges(text) {
+  if (!text) return text;
+  text = text.replace(/===\s*Q\d+\s*===/gi, "").replace(/^\s*\n/gm, "").trim();
+  const lines = text.split(/\n/);
+  for (let i = 0; i < lines.length; i++) {
+    const om = lines[i].match(/^(\s*Original:\s*)([\s\S]*)$/i);
+    if (!om) continue;
+    let j = i + 1;
+    while (j < lines.length && !/^\s*Revised:/i.test(lines[j]) && !/^\s*Error:/i.test(lines[j])) j++;
+    let k = j;
+    while (k < lines.length && !/^\s*Revised:/i.test(lines[k])) k++;
+    if (k >= lines.length) continue;
+    const rm = lines[k].match(/^(\s*Revised:\s*)([\s\S]*)$/i);
+    if (!rm) continue;
+    const oWords = om[2].split(/(\s+)/);
+    const rWords = rm[2].split(/(\s+)/);
+    const diff = wordDiff(oWords.filter(w => w.trim()), rWords.filter(w => w.trim()));
+    lines[i] = om[1] + markWords(om[2], diff.removed);
+    lines[k] = rm[1] + markWords(rm[2], diff.added);
+  }
+  return lines.join("\n");
+}
+
+// LCS-based word diff → which words are removed (original) / added (revised)
+function wordDiff(a, b) {
+  const n = a.length, m = b.length;
+  const dp = Array.from({ length: n + 1 }, () => new Array(m + 1).fill(0));
+  for (let i = n - 1; i >= 0; i--) for (let j = m - 1; j >= 0; j--)
+    dp[i][j] = a[i] === b[j] ? dp[i + 1][j + 1] + 1 : Math.max(dp[i + 1][j], dp[i][j + 1]);
+  const removed = new Set(), added = new Set();
+  let i = 0, j = 0;
+  while (i < n && j < m) {
+    if (a[i] === b[j]) { i++; j++; }
+    else if (dp[i + 1][j] >= dp[i][j + 1]) { removed.add(i); i++; }
+    else { added.add(j); j++; }
+  }
+  while (i < n) { removed.add(i); i++; }
+  while (j < m) { added.add(j); j++; }
+  return { removed, added };
+}
+
+// Wrap flagged non-space words in ⟦…⟧ sentinels
+function markWords(sentence, idxSet) {
+  if (!idxSet || !idxSet.size) return sentence;
+  let wi = -1;
+  return sentence.replace(/\S+/g, (w) => {
+    wi++;
+    return idxSet.has(wi) ? "⟦" + w + "⟧" : w;
+  });
+}
+
+function countWords(text) {
+  if (!text || !text.trim()) return 0;
+  return text.trim().split(/\s+/).length;
+}
+
+function fmt(s) {
+  return `${Math.floor(s/60).toString().padStart(2,"0")}:${(s%60).toString().padStart(2,"0")}`;
+}
+
+function pad2(n) {
+  return String(n).padStart(2, "0");
+}
+
+// Use the student's browser local time, not UTC.
+// Example: 2026-06-06 19:45:03
+function localDateTimeStamp(d = new Date()) {
+  return `${d.getFullYear()}-${pad2(d.getMonth() + 1)}-${pad2(d.getDate())} ${pad2(d.getHours())}:${pad2(d.getMinutes())}:${pad2(d.getSeconds())}`;
+}
+
+// Filename-safe timestamp.
+// Example: 20260606_194503
+function fileDateTimeStamp(d = new Date()) {
+  return `${d.getFullYear()}${pad2(d.getMonth() + 1)}${pad2(d.getDate())}_${pad2(d.getHours())}${pad2(d.getMinutes())}${pad2(d.getSeconds())}`;
+}
+
+async function apiFetch(params) {
+  const key = sessionStorage.getItem("access_key") || "";
+  const qs  = new URLSearchParams({ ...params, key }).toString();
+  const res = await fetch(`/.netlify/functions/api?${qs}`);
+  if (!res.ok) throw new Error("API " + res.status);
+  return res.json();
+}
+
+// ═══════════════════════════════════════════════════
+// TIMER
+// ═══════════════════════════════════════════════════
+function startTimerUp(displayId, targetSec, targetId) {
+  stopTimer();
+  STATE.timerSeconds  = 0;
+  STATE._timerRunning = true;
+  if (targetId && targetSec) $(targetId).textContent = STAGE_META[STATE.selectedStage]?.targetLabel || "";
+  STATE.timerInterval = setInterval(() => {
+    STATE.timerSeconds++;
+    const el = $(displayId);
+    if (!el) return;
+    el.textContent = fmt(STATE.timerSeconds);
+    if (targetSec && STATE.timerSeconds > targetSec) el.classList.add("over");
+  }, 1000);
+}
+
+function stopTimer() {
+  clearInterval(STATE.timerInterval);
+  STATE.timerInterval = null;
+  STATE._timerRunning = false;
+}
+
+// ═══════════════════════════════════════════════════
+// GATE
+// ═══════════════════════════════════════════════════
+function initGate() {
+  if (sessionStorage.getItem("access_granted") === "true") {
+    showScreen("screen-start");
+    loadEmailIndex();
+    loadBulletTypes();
+    return;
+  }
+  showScreen("screen-gate");
+}
+
+async function validateKey(key) {
+  const res = await fetch("/.netlify/functions/api", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ key })
+  });
+  return res.json();
+}
+
+// Pre-fill language and key from localStorage
+(function() {
+  const savedLang = localStorage.getItem("analysis_lang") || "";
+  if (savedLang) $("lang-input").value = savedLang;
+  const savedKey = localStorage.getItem("access_key_saved") || "";
+  if (savedKey) $("key-input").value = savedKey;
+})();
+
+$("btn-gate-submit").onclick = async () => {
+  const key  = $("key-input").value.trim();
+  const lang = $("lang-input").value.trim();
+  if (!key)  { $("gate-status").textContent = "Please enter your access key."; return; }
+  if (!lang) { $("gate-status").textContent = "Please type your native language."; return; }
+  $("btn-gate-submit").disabled = true;
+  $("gate-status").textContent  = "Checking…";
+  try {
+    const r = await validateKey(key);
+    if (r.valid) {
+      sessionStorage.setItem("access_granted","true");
+      sessionStorage.setItem("access_key", key);
+      localStorage.setItem("analysis_lang", lang);
+      if ($("chk-remember-key").checked) localStorage.setItem("access_key_saved", key);
+      else localStorage.removeItem("access_key_saved");
+      STATE.analysisLang = lang;
+      warmUpTranslations(); // fire-and-forget background cache warmup
+      showScreen("screen-start");
+      loadEmailIndex();
+      loadBulletTypes();
+    } else {
+      $("gate-status").textContent  = r.error || "Invalid key.";
+      $("btn-gate-submit").disabled = false;
+    }
+  } catch(e) {
+    $("gate-status").textContent  = "Connection error. Please try again.";
+    $("btn-gate-submit").disabled = false;
+  }
+};
+$("key-input").onkeydown  = e => { if (e.key === "Enter") $("btn-gate-submit").click(); };
+$("lang-input").onkeydown = e => { if (e.key === "Enter") $("btn-gate-submit").click(); };
+$("btn-toggle-key").onclick = () => {
+  const i = $("key-input");
+  i.type = i.type === "password" ? "text" : "password";
+  $("btn-toggle-key").textContent = i.type === "password" ? "👁" : "🙈";
+};
+
+// ═══════════════════════════════════════════════════
+// START SCREEN
+// ═══════════════════════════════════════════════════
+async function loadBulletTypes() {
+  try {
+    STATE.bulletTypes = await apiFetch({ op: "get_bullet_types" });
+  } catch(e) {
+    STATE.bulletTypes = null;
+  }
+}
+
+async function loadEmailIndex() {
+  try {
+    STATE.emailIndex = await apiFetch({ op: "list_email_sets" });
+  } catch(e) {
+    $("start-status").textContent = "⚠ Could not load question list.";
+  }
+  // Question selectors inside practice/exam screens are populated when those screens open
+}
+
+function checkStartReady() {
+  $("btn-start").disabled = !$("stage-selector").value;
+}
+$("stage-selector").onchange = checkStartReady;
+checkStartReady();
+
+$("btn-start").onclick = async () => {
+  const stage = parseInt($("stage-selector").value);
+  STATE.selectedStage = stage;
+  STATE.currentQ = null;
+  $("btn-start").disabled = true;
+  // Stage 4/5: show the "review your last writing" gate first (if any records exist)
+  await showReviewGate(stage);
+  $("btn-start").disabled = false;
+  if      (stage === 0) startStage0();
+  else if (stage === 5) startExamScreen();
+  else                  startPracticeScreen(stage);
+};
+
+// Review gate — reads the email writing bank filtered by stage (4/5 only).
+// Resolves immediately if no relevant records exist or on error/timeout.
+function showReviewGate(selectedStage) {
+  return new Promise(async (resolve) => {
+    if (selectedStage !== 4 && selectedStage !== 5) { resolve(); return; }
+    const keyPrefix = (sessionStorage.getItem("access_key") || "").slice(0, 3).toLowerCase();
+    if (!keyPrefix) { resolve(); return; }
+
+    const gate  = $("review-gate");
+    const list  = $("review-gate-list");
+    const intro = $("review-gate-intro");
+    const cb    = $("review-gate-cb");
+
+    let items = [];
+    try {
+      const ctrl = new AbortController();
+      const timer = setTimeout(() => ctrl.abort(), 4000); // cap the wait on cold start
+      const res = await fetch("/.netlify/functions/email-writing-bank", {
+        method: "POST", headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ action: "read", studentKey: keyPrefix, limit: 1, stage: selectedStage }),
+        signal: ctrl.signal
+      });
+      clearTimeout(timer);
+      const data = await res.json();
+      items = data.items || [];
+    } catch(e) {
+      console.warn("Bank read skipped:", e.message);
+    }
+
+    if (!items.length) { resolve(); return; } // nothing to review — proceed silently
+
+    const introText = "Click the link below to open your last email. Read through it, then tick the box when you're done.";
+    intro.textContent = introText;
+    translateUI(introText, intro, false);
+
+    const cbLabel = document.querySelector("label[for='review-gate-cb']");
+    if (cbLabel) {
+      cbLabel.textContent = "I've reviewed it — take me to the practice";
+      translateUI("I've reviewed it — take me to the practice", cbLabel, false);
+    }
+
+    list.innerHTML = "";
+    cb.checked = false;
+    items.forEach((it, i) => {
+      const when = it.timestamp ? new Date(it.timestamp).toLocaleString() : "";
+      const a = document.createElement("a");
+      a.href = it.link; a.target = "_blank"; a.rel = "noopener";
+      a.style.cssText = "display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border:2px solid #00736b;border-radius:10px;background:#f0f9f8;color:#00736b;font-size:14px;font-weight:700;text-decoration:none;";
+      a.onmouseover = () => a.style.background = "#d6f0ed";
+      a.onmouseout  = () => a.style.background = "#f0f9f8";
+      a.innerHTML = "<span>📄 Email " + (i + 1) + (when ? ' <span style="color:#888;font-weight:400;font-size:11px;">— ' + esc(when) + '</span>' : '') + "</span><span style='font-size:18px;'>→</span>";
+      list.appendChild(a);
+    });
+
+    gate.style.display = "flex";
+    cb.onchange = () => { if (cb.checked) { gate.style.display = "none"; resolve(); } };
+  });
+}
+
+// ═══════════════════════════════════════════════════
+// STAGE 0
+// ═══════════════════════════════════════════════════
+let S0_LIST    = [];
+let S0_CURRENT = null;
+let S0_TIMER_IV = null;
+let S0_SECS     = 0;
+let S0_STARTED  = false;
+
+async function startStage0() {
+  showScreen("screen-stage0");
+  // Stage 0 "how to use" text (modeled on AD), localized
+  const s0Instr = $("s0-instr-text");
+  if (s0Instr) {
+    const t = STAGE0_INTRO;
+    s0Instr.textContent = t;
+    translateUI(t, s0Instr, false);
+  }
+  try { S0_LIST = await apiFetch({ op: "list_email_stage0" }); } catch(e) { S0_LIST = []; }
+
+  const listEl = $("s0-list");
+  listEl.innerHTML = "";
+  if (!S0_LIST.length) {
+    listEl.innerHTML = "<p style='padding:12px;color:#aaa;font-size:13px;'>No questions found.</p>";
+    return;
+  }
+  S0_LIST.forEach((q, i) => {
+    const item = document.createElement("div");
+    item.className = "s0-item";
+    const serial = q.serial || (i + 1);
+    item.textContent = `${serial}. ${q.label}`;
+    item.onclick = () => loadS0Question(q, item);
+    listEl.appendChild(item);
+  });
+  loadS0Question(S0_LIST[0], listEl.children[0]);
+}
+
+async function loadS0Question(q, itemEl) {
+  document.querySelectorAll(".s0-item").forEach(el => el.classList.remove("active"));
+  if (itemEl) itemEl.classList.add("active");
+  stopS0Timer();
+  S0_STARTED = false; S0_SECS = 0;
+  $("s0-timer").textContent = "00:00";
+
+  let data;
+  try { data = await apiFetch({ op: "get_email_stage0", file: q.file }); } catch(e) { return; }
+  S0_CURRENT = data;
+
+  $("s0-current-label").textContent = q.label;
+
+  // Render scenario + bullet instructions (TOEFL-style)
+  const bullets = [
+    data.bullet1_q ? "\u2022 " + data.bullet1_q : null,
+    data.bullet2_q ? "\u2022 " + data.bullet2_q : null,
+    data.bullet3_q ? "\u2022 " + data.bullet3_q : null
+  ].filter(Boolean);
+
+  const scenarioEl = $("s0-scenario");
+  scenarioEl.innerHTML =
+    '<div style="margin-bottom:' + (bullets.length ? '10px' : '0') + '">' + esc(data.intro_q || "") + '</div>' +
+    (bullets.length
+      ? '<div style="font-weight:600;font-size:12px;margin-bottom:6px;">In your email, you should do the following:</div>' +
+        '<div style="display:flex;flex-direction:column;gap:4px;">' +
+        bullets.map(function(b){ return '<div style="font-size:13px;">' + esc(b) + '</div>'; }).join("") +
+        '</div>'
+      : "");
+
+  renderS0Table(data);
+  updateS0Words();
+}
+
+function autoExpand(ta) {
+  ta.style.height = "auto";
+  ta.style.height = ta.scrollHeight + "px";
+}
+
+function renderS0Table(data) {
+  const s = data.sample || {};
+  const rows = [
+    { key:"opening", label:"Opening",  type:null,              sample:s.opening,  variety:s.opening_variety, q:null },
+    { key:"bullet1", label:"Bullet 1", type:data.bullet1_type, sample:s.bullet1,  variety:s.bullet1_variety, q:data.bullet1_q },
+    { key:"bullet2", label:"Bullet 2", type:data.bullet2_type, sample:s.bullet2,  variety:s.bullet2_variety, q:data.bullet2_q },
+    { key:"bullet3", label:"Bullet 3", type:data.bullet3_type, sample:s.bullet3,  variety:s.bullet3_variety, q:data.bullet3_q },
+    { key:"closing", label:"Closing",  type:null,              sample:s.closing,  variety:s.closing_variety, q:null }
+  ];
+
+  const tbody = $("s0-tbody");
+  tbody.innerHTML = "";
+
+  rows.forEach(row => {
+    const tr = document.createElement("tr");
+    tr.innerHTML = `
+      <td>
+        <div class="s0-part-label">${esc(row.label)}</div>
+        ${row.type ? `<div class="s0-part-type">${esc(row.type)}</div>` : ""}
+      </td>
+      <td class="s0-col-sample">
+        <div class="s0-sample-text">${esc(row.sample || "—")}</div>
+      </td>
+      <td class="s0-col-variety">
+        <div class="s0-variety-text">${esc(row.variety || "—")}</div>
+      </td>
+      <td>
+        <textarea class="s0-textarea" id="s0-ta-${row.key}" placeholder="${esc(row.label)}…"></textarea>
+        <div class="s0-wc"><span id="s0-wc-${row.key}">0</span> words</div>
+      </td>`;
+    tbody.appendChild(tr);
+
+    const ta = $(`s0-ta-${row.key}`);
+    ta.oninput = () => {
+      autoExpand(ta);
+      $(`s0-wc-${row.key}`).textContent = countWords(ta.value);
+      updateS0Words();
+      if (!S0_STARTED) { S0_STARTED = true; startS0Timer(); }
+    };
+  });
+
+  // Apply the current Hide Sample state to the freshly rendered rows
+  toggleS0Sample();
+}
+
+function updateS0Words() {
+  const total = ["opening","bullet1","bullet2","bullet3","closing"].reduce((sum,k) => {
+    const el = $(`s0-ta-${k}`); return sum + (el ? countWords(el.value) : 0);
+  }, 0);
+  $("s0-total-words").textContent = total;
+}
+
+function startS0Timer() {
+  stopS0Timer();
+  S0_SECS = 0;
+  S0_TIMER_IV = setInterval(() => { S0_SECS++; $("s0-timer").textContent = fmt(S0_SECS); }, 1000);
+}
+function stopS0Timer() { clearInterval(S0_TIMER_IV); S0_TIMER_IV = null; }
+
+// s0 sample toggle handled by toggleS0Sample() via column header button
+
+$("btn-s0-clear").onclick = () => {
+  if (!confirm("Clear all text in this stage? This cannot be undone.")) return;
+  ["opening","bullet1","bullet2","bullet3","closing"].forEach(k => {
+    const el = $(`s0-ta-${k}`);
+    if (el) el.value = "";
+  });
+  updateS0Words();
+};
+
+$("btn-s0-save").onclick = async () => {
+  if (!S0_CURRENT) return;
+  stopS0Timer();
+
+  const keys = ["opening","bullet1","bullet2","bullet3","closing"];
+  const sample = S0_CURRENT.sample || {};
+  const texts  = {};
+  keys.forEach(k => { const el = $(`s0-ta-${k}`); texts[k] = el ? el.value.trim() : ""; });
+  const combined = keys.map(k => texts[k]).filter(Boolean).join("\n\n");
+
+  // Save attempt
+  STATE.attempts.push({
+    date: localDateTimeStamp(),
+    stage: 0, stage_name: "Stage 0 — Learn from Samples",
+    theme: S0_CURRENT.theme || "", scenario: S0_CURRENT.intro_q || "",
+    text: combined, words: countWords(combined), time_fmt: fmt(S0_SECS)
+  });
+
+  // Build parts payload for check
+  const parts = {};
+  keys.forEach(k => {
+    parts[k] = { model: sample[k] || "", student: texts[k] };
+  });
+
+  // Show checking state
+  const btn = $("btn-s0-save");
+  btn.disabled = true; btn.textContent = "Checking…";
+  const fb = $("s0-feedback-box");
+  fb.style.display = "none";
+
+  try {
+    const res  = await fetch("/.netlify/functions/email-stage0-check", {
+      method: "POST", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ parts })
+    });
+    const data = await res.json();
+    if (data.feedback) {
+      fb.textContent  = data.feedback;
+      fb.style.display = "";
+      // Scroll feedback into view
+      fb.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    }
+  } catch(e) {
+    fb.textContent   = "Check failed. Your attempt has been saved.";
+    fb.style.display = "";
+  }
+
+  btn.disabled = false; btn.textContent = "Save & Check";
+  $("btn-s0-next").style.display = "";  // reveal Next Question button
+};
+$("btn-s0-next").onclick = () => {
+  if (!S0_CURRENT) return;
+  const idx  = S0_LIST.findIndex(q => q.set_id === S0_CURRENT.id);
+  const next = S0_LIST[idx + 1];
+  if (next) {
+    const items = document.querySelectorAll(".s0-item");
+    loadS0Question(next, items[idx + 1] || null);
+  }
+  $("btn-s0-next").style.display = "none";
+  $("s0-feedback-box").style.display = "none";
+};
+$("btn-s0-end").onclick = () => {
+  stopS0Timer();
+  // Auto-save current question if anything was typed
+  if (S0_CURRENT) {
+    const keys = ["opening","bullet1","bullet2","bullet3","closing"];
+    const texts = {};
+    keys.forEach(k => { const el = $(`s0-ta-${k}`); texts[k] = el ? el.value.trim() : ""; });
+    const combined = keys.map(k => texts[k]).filter(Boolean).join("\n\n");
+    if (combined) {
+      STATE.attempts.push({
+        date: localDateTimeStamp(),
+        stage: 0, stage_name: "Stage 0 — Learn from Samples",
+        theme: S0_CURRENT.theme || "", scenario: S0_CURRENT.intro_q || "",
+        text: combined, words: countWords(combined), time_fmt: fmt(S0_SECS)
+      });
+    }
+  }
+  showEndScreen();
+};
+
+// ═══════════════════════════════════════════════════
+// PRACTICE (Stages 1–4)
+// ═══════════════════════════════════════════════════
+// ── Practice screen entry (no question yet) ─────────────────────
+async function startPracticeScreen(stage) {
+  const meta = STAGE_META[stage];
+  showScreen("screen-practice");
+  // Stage 4: one question per session — hide "Save & Next" (matches AD).
+  const saveBtn = $("btn-prac-save");
+  if (saveBtn) saveBtn.style.display = stage === 4 ? "none" : "";
+  $("prac-badge").textContent = meta.badge;
+  $("prac-timer").textContent = "00:00";
+  $("prac-timer").classList.remove("over");
+  $("prac-target").textContent = meta.targetLabel || "";
+
+  // Set intro text and reset to expanded state
+  const instrText = $("prac-instr-text");
+  const INTRO_TEXT = {
+    1: 'Focus on writing the opening and your first bullet point. Read the scenario and the sample, then hide it and write your own version. Timer counts up — target: 2 min 30 sec.',
+    2: 'Focus on writing the second bullet point. Read the sample, hide it, then write. Timer counts up — target: 2 min.',
+    3: 'Focus on writing the third bullet point and closing. Once done, check your grammar before saving. Timer counts up — target: 2 min 30 sec.',
+    4: 'Goal: Write a complete email, one section at a time, using the samples as a guide.\n\n1. Write the first section (Opening).\n2. When a section is done, run its check(s): bullet sections need Discourse & Syntax and Grammar; Opening and Closing need Grammar. Only then does the next section unlock.\n3. Fix anything flagged. The explanation of each check appears above its feedback.\n4. When every section is checked, press End Practice & Check Analysis to see your email scored in Band 0–5, with a First → Final comparison.',
+    5: 'This is exam mode. Use it once you are comfortable managing your time in the Full Email practice.\n\nRead the scenario and write your full email in one go. No samples or cues are shown.\n\n⏱ A countdown timer starts when you begin writing, just like the real exam. If your band is below 5, you can redo your email afterward.'
+  };
+  if (instrText) {
+    const t = INTRO_TEXT[stage] || "";
+    instrText.textContent = t;
+    translateUI(t, instrText, false);
+  }
+  const instrBody = $("prac-instr-body");
+  if (instrBody) instrBody.style.display = "";
+  const instrChevron = $("prac-instr-chevron");
+  if (instrChevron) instrChevron.style.transform = "rotate(0deg)";
+
+  // Populate category + question dropdowns (cascading)
+  populatePracCategories();
+  fillPracQuestions("");
+
+  $("prac-no-question").style.display = "";
+  $("prac-question-content").style.display = "none";
+  $("prac-sections").innerHTML = "";
+  $("prac-scenario").textContent = "";
+  $("prac-total-words").textContent = "0";
+  stopTimer();
+}
+
+// ── Exam screen entry (no question yet) ──────────────────────
+async function startExamScreen() {
+  showScreen("screen-exam");
+  $("exam-timer").textContent = "07:00";
+  $("exam-timer").className   = "timer-down";
+  $("exam-textarea").value    = "";
+  $("exam-textarea").disabled = true;
+  $("exam-wc").textContent    = "0";
+
+  // Populate question dropdown
+  const sel = $("exam-q-selector");
+  sel.innerHTML = '<option value="">— Select a question —</option>';
+  STATE.emailIndex.forEach(q => {
+    const opt = document.createElement("option");
+    opt.value = q.file;
+    const serial = q.serial || "";
+    opt.textContent = serial ? `${serial}. ${q.label}` : q.label;
+    sel.appendChild(opt);
+  });
+
+  $("exam-no-question").style.display = "";
+  $("exam-question-content").style.display = "none";
+  $("exam-scenario").textContent = "";
+  stopTimer();
+}
+
+// ── Sample/variety lookup: type-based first, per-question fallback ──────────
+function getSampleAndVariety(key, typeVal, questionSample, convention) {
+  const bt = STATE.bulletTypes;
+  const conv = (convention || "formal").toLowerCase();
+  let sampleCue = "", variety = "";
+
+  if (key === "opening" || key === "closing") {
+    // Convention-based lookup
+    const entry = bt && bt[key] && (bt[key][conv] || bt[key]["formal"]);
+    sampleCue = (entry && entry.sample_cue) || (questionSample && questionSample[key]) || "";
+    variety   = (entry && entry.variety)    || (questionSample && questionSample[key + "_variety"]) || "—";
+  } else {
+    // Bullet-type-based lookup
+    const entry = bt && bt.bullet_types && typeVal && bt.bullet_types[typeVal];
+    sampleCue = (entry && entry.sample_cue) || (questionSample && questionSample[key]) || "";
+    variety   = (entry && entry.variety)    || (questionSample && questionSample[key + "_variety"]) || "—";
+  }
+  return { sampleCue, variety };
+}
+
+function startPractice(stage, data) {
+  const meta = STAGE_META[stage];
+  // Reset Stage 4 before/after capture + gate for this question
+  STATE.s4State = {};
+  $("prac-badge").textContent  = meta.badge;
+  $("prac-target").textContent = meta.targetLabel || "";
+  // Scenario + bullet instructions (TOEFL-style)
+  (function(){
+    var bullets = [
+      data.bullet1_q ? "\u2022 " + data.bullet1_q : null,
+      data.bullet2_q ? "\u2022 " + data.bullet2_q : null,
+      data.bullet3_q ? "\u2022 " + data.bullet3_q : null
+    ].filter(Boolean);
+    $("prac-scenario").innerHTML =
+      '<div style="margin-bottom:' + (bullets.length ? '10px' : '0') + '">' + esc(data.intro_q || "") + '</div>' +
+      (bullets.length
+        ? '<div style="font-weight:600;font-size:12px;margin-bottom:6px;">In your email, you should do the following:</div>' +
+          '<div style="display:flex;flex-direction:column;gap:4px;">' +
+          bullets.map(function(b){ return '<div style="font-size:13px;">' + esc(b) + '</div>'; }).join("") +
+          '</div>'
+        : "") +
+      (stage === 4
+        ? '<div style="font-size:12px;color:#555;margin-top:8px;">Write as much as you can and in complete sentences.</div>'
+        : "");
+  })();
+
+  const container = $("prac-sections");
+  container.innerHTML = "";
+  const sample = data.sample || {};
+
+  meta.sections.forEach(key => {
+    const sm      = SECTION_META[key];
+    const typeVal = sm.typeKey ? (data[sm.typeKey] || "") : "";
+    const qVal    = sm.qKey   ? (data[sm.qKey]    || "") : "";
+    // Type-based lookup first, per-question sample as fallback
+    const { sampleCue: stxt, variety: vtxt } = getSampleAndVariety(
+      key, typeVal, sample, data.convention
+    );
+
+    const card = document.createElement("div");
+    card.className = "sec-card";
+    card.innerHTML = `
+      <div class="sec-card-hd">
+        <span class="sec-label">${esc(sm.label)}</span>
+        ${typeVal ? `<span class="sec-type">— ${esc(typeVal)}</span>` : ""}
+        ${qVal    ? `<span class="sec-instr">${esc(qVal)}</span>` : ""}
+      </div>
+      <div class="sec-body">
+        <div class="sec-left" id="prac-left-${key}" style="visibility:visible;">
+          <div class="sec-sample-txt" id="prac-sample-${key}">${esc(stxt)}</div>
+        </div>
+        <div class="sec-variety" id="prac-variety-${key}">${esc(vtxt)}</div>
+        <div class="sec-right">
+          <textarea class="sec-textarea ${(key === "opening" || key === "closing") ? "short" : ""}" id="prac-ta-${key}" placeholder="Write your ${sm.label.toLowerCase()}…"></textarea>
+          <div class="sec-foot-row">
+            <div class="sec-wc"><span id="prac-wc-${key}">0</span> words</div>
+            ${stage === 4 ? `
+            <div class="sec-btn-row">
+              ${(key === "bullet1" || key === "bullet2" || key === "bullet3")
+                ? `<button class="btn-block-check" data-check="block" data-key="${key}">Discourse &amp; Syntax</button>` : ""}
+              ${key === "closing"
+                ? `<button class="btn-block-check total" data-check="total" data-key="${key}">Total Discourse Moves &amp; Syntax Check</button>` : ""}
+              <button class="btn-block-check grammar" data-check="grammar" data-key="${key}">Grammar</button>
+            </div>` : ""}
+          </div>
+          ${stage === 4 ? `<div class="sec-gate-hint" id="prac-hint-${key}" style="font-size:11px;color:#b9770a;margin-top:4px;text-align:right;">→ ${(key === "bullet1" || key === "bullet2" || key === "bullet3") ? "Run Discourse &amp; Syntax and Grammar" : "Run Grammar"} to unlock the next section</div>` : ""}
+        </div>
+      </div>
+      ${stage === 4 ? `<div class="sec-comment" id="prac-check-${key}" style="display:none;"></div>` : ""}`;
+    container.appendChild(card);
+
+    const pracTa = $(`prac-ta-${key}`);
+    pracTa.oninput = () => {
+      autoExpand(pracTa);
+      $(`prac-wc-${key}`).textContent = countWords(pracTa.value);
+      updatePracWords(meta.sections);
+      if (!STATE._timerRunning)
+        startTimerUp("prac-timer", meta.targetSec || null, "prac-target");
+    };
+
+    // Stage 4 per-section check buttons
+    if (stage === 4) {
+      card.querySelectorAll("[data-check]").forEach(btn => {
+        btn.onclick = () => {
+          const kind = btn.getAttribute("data-check");
+          const k    = btn.getAttribute("data-key");
+          if (kind === "block")   runBlockCheck(k, btn);
+          if (kind === "grammar") runSectionGrammar(k, btn);
+          if (kind === "total")   runTotalCheck(btn);
+        };
+      });
+    }
+  });
+
+  updatePracWords(meta.sections);
+  applyPracToggles(meta.sections);
+  updateS4Gating();
+  stopTimer();
+  $("prac-timer").textContent = "00:00";
+  $("prac-timer").classList.remove("over");
+
+  // Render tips panel
+  renderPracTips(data);
+}
+
+function renderPracTips(data) {
+  const body = $("prac-tips-body");
+  if (!body) return;
+  const tips = (data && data.tips || "").trim();
+  if (tips) {
+    body.style.whiteSpace = "pre-wrap";
+    body.textContent = tips;
+  } else {
+    body.style.color = "var(--faint)";
+    body.textContent = "(No tips for this question)";
+  }
+}
+
+function updatePracWords(sections) {
+  const total = sections.reduce((sum, k) => {
+    const el = $(`prac-ta-${k}`); return sum + (el ? countWords(el.value) : 0);
+  }, 0);
+  $("prac-total-words").textContent = total;
+}
+
+// Format the four-line discourse output into clean labeled lines (ported from AD)
+function beautifyEmailDiscourse(raw) {
+  if (!raw) return "";
+  const LABELS = {
+    "ON-TOPIC":    "On-topic",
+    "MOVES":       "Discourse Moves",
+    "SYNTAX":      "Syntactic Variety"
+  };
+  // Split on the known labels even when they run together on one line
+  const re = /(ON-TOPIC|MOVES|SYNTAX)\s*:\s*/gi;
+  const parts = [];
+  let m, lastKey = null, lastIdx = 0;
+  while ((m = re.exec(raw)) !== null) {
+    if (lastKey !== null) parts.push([lastKey, raw.slice(lastIdx, m.index).trim()]);
+    lastKey = m[1].toUpperCase();
+    lastIdx = re.lastIndex;
+  }
+  if (lastKey !== null) parts.push([lastKey, raw.slice(lastIdx).trim()]);
+  if (!parts.length) return escWithLabels(raw);
+
+  return parts.map(([key, body]) => {
+    const friendly = LABELS[key] || key;
+    const isPass = /^OK\b/i.test(body) || /ROUGHLY THE SAME/i.test(body) || /^MORE\b/i.test(body);
+    const color  = isPass ? "#00736b" : "#c0392b";
+    const mark   = isPass ? "✓ " : "⚠ ";
+    const shown  = /^OK\.?$/i.test(body) ? "Good" : body;
+    return "<div style='margin:4px 0;'>" +
+             "<b style='color:" + color + ";'>" + mark + esc(friendly) + ":</b> " +
+             "<span style='color:#333;'>" + esc(shown) + "</span>" +
+           "</div>";
+  }).join("");
+}
+
+
+function buildScenarioText(d) {
+  const bullets = [
+    d.bullet1_q ? "• " + d.bullet1_q : null,
+    d.bullet2_q ? "• " + d.bullet2_q : null,
+    d.bullet3_q ? "• " + d.bullet3_q : null
+  ].filter(Boolean);
+  return (d.intro_q || "") + (bullets.length ? "\n\n" + bullets.join("\n") : "");
+}
+
+// Discourse & Syntax check for one bullet (bullet1/2/3)
+async function runBlockCheck(key, btn) {
+  const ta   = $(`prac-ta-${key}`);
+  const text = ta ? ta.value.trim() : "";
+  const box  = $(`prac-check-${key}`);
+  if (!text) {
+    box.style.display = "";
+    box.innerHTML = "<div style='color:#666;'>Please write this section first.</div>";
+    return;
+  }
+  s4Capture(key, text);
+  s4MarkDiscourse(key);
+  const d        = STATE.currentQ || {};
+  const sm       = SECTION_META[key] || {};
+  const typeVal  = sm.typeKey ? (d[sm.typeKey] || "") : "";
+  const qVal     = sm.qKey   ? (d[sm.qKey]    || "") : "";
+  const sampleEl = $(`prac-sample-${key}`);
+  const sample   = sampleEl ? sampleEl.textContent : "";
+
+  btn.disabled = true; const orig = btn.textContent; btn.textContent = "Checking…";
+  box.style.display = "";
+  box.innerHTML = "<div style='color:#666;'>Checking…</div>";
+  try {
+    const res = await fetch("/.netlify/functions/email-block-check", {
+      method: "POST", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        bullet_label:  sm.label || key,
+        bullet_type:   typeVal,
+        bullet_q:      qVal,
+        scenario:      buildScenarioText(d),
+        sample_block:  sample,
+        student_block: /[.!?]$/.test(text) ? text : text + ".",
+        language:      STATE.analysisLang || ""
+      })
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || "Check failed");
+    const fb = (data.feedback || "No feedback returned.").trim();
+    // Freeze the first discourse result for this section (for repeating-pattern analysis)
+    if (STATE.s4State[key] && STATE.s4State[key].firstDiscourse === undefined) {
+      STATE.s4State[key].firstDiscourse = fb;
+    }
+    box.innerHTML =
+      "<div style='font-weight:700;color:#00736b;margin-bottom:6px;'>Discourse &amp; Syntax</div>" +
+      legendHTML(CHECKS_LEGEND_ITEMS, "What each check means") +
+      beautifyEmailDiscourse(fb);
+  } catch(e) {
+    box.innerHTML = "<span style='color:#c0392b;'>Check failed. Please try again.</span>";
+  }
+  btn.disabled = false; btn.textContent = orig;
+}
+
+// Grammar check for one section (any of opening/bullet1-3/closing)
+async function runSectionGrammar(key, btn) {
+  const ta   = $(`prac-ta-${key}`);
+  const text = ta ? ta.value.trim() : "";
+  const box  = $(`prac-check-${key}`);
+  if (!text) {
+    box.style.display = "";
+    box.innerHTML = "<div style='color:#666;'>Please write this section first.</div>";
+    return;
+  }
+  // Opening/Closing have no discourse check — they capture their first version on grammar press.
+  if (key === "opening" || key === "closing") s4Capture(key, text);
+  s4MarkGrammar(key);
+  const d = STATE.currentQ || {};
+  btn.disabled = true; const orig = btn.textContent; btn.textContent = "Checking…";
+  box.style.display = "";
+  box.innerHTML = "<div style='color:#666;'>Checking…</div>";
+  try {
+    const res = await fetch("/.netlify/functions/grammar", {
+      method: "POST", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        questions: [{ question: buildScenarioText(d), transcript: text }],
+        language:  STATE.analysisLang || ""
+      })
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || "Check failed");
+    const raw  = data.grammar || "No feedback returned.";
+    // Strip the === Q1 === / === PATTERNS === scaffolding for single-section display
+    const parts = raw.split(/={2,}\s*(Q\d+|PATTERNS)\s*={2,}/);
+    let shown = raw;
+    if (parts.length >= 3) shown = (parts[2] || "").trim() || raw;
+    box.innerHTML =
+      "<div style='font-weight:700;color:#2980b9;margin-bottom:6px;'>Grammar Check</div>" +
+      grammarSummaryHTML(shown) +
+      "<div>" + escWithLabels(highlightGrammarChanges(shown)).replace(/\n/g, "<br>") + "</div>";
+  } catch(e) {
+    box.innerHTML = "<span style='color:#c0392b;'>Check failed. Please try again.</span>";
+  }
+  btn.disabled = false; btn.textContent = orig;
+}
+
+// Whole-email MOVES + SYNTAX check (button on Closing). Results render in Closing's strip.
+async function runTotalCheck(btn) {
+  const sections = ["opening", "bullet1", "bullet2", "bullet3", "closing"];
+  // Student's full email = all sections concatenated in order
+  const studentEmail = sections
+    .map(k => { const ta = $(`prac-ta-${k}`); return ta ? ta.value.trim() : ""; })
+    .filter(Boolean).join("\n\n");
+
+  const box = $(`prac-check-closing`);
+  if (!studentEmail) {
+    box.style.display = "";
+    box.innerHTML = "<div style='color:#666;'>Please write your email first.</div>";
+    return;
+  }
+  btn.disabled = true; const orig = btn.textContent; btn.textContent = "Checking…";
+  box.style.display = "";
+  box.innerHTML = "<div style='color:#666;'>Checking the whole email…</div>";
+  try {
+    const res = await fetch("/.netlify/functions/email-total-check", {
+      method: "POST", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        student_email: studentEmail,
+        language:      STATE.analysisLang || ""
+      })
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || "Check failed");
+    const fb = (data.feedback || "No feedback returned.").trim();
+    box.innerHTML =
+      "<div style='font-weight:700;color:#00736b;margin-bottom:6px;'>Total Discourse Moves &amp; Syntax (whole email)</div>" +
+      legendHTML(TOTAL_LEGEND_ITEMS, "What each check means") +
+      beautifyEmailDiscourse(fb);
+  } catch(e) {
+    box.innerHTML = "<span style='color:#c0392b;'>Check failed. Please try again.</span>";
+  }
+  btn.disabled = false; btn.textContent = orig;
+}
+
+
+// ── Cascading category → question dropdowns ──────────────────
+function populatePracCategories() {
+  const sel = $("prac-cat-selector");
+  if (!sel) return;
+  const cats = [];
+  (STATE.emailIndex || []).forEach(q => {
+    const c = q.category || "Other";
+    if (!cats.includes(c)) cats.push(c);
+  });
+  sel.innerHTML = '<option value="">— All categories —</option>';
+  cats.forEach(c => {
+    const opt = document.createElement("option");
+    opt.value = c; opt.textContent = c;
+    sel.appendChild(opt);
+  });
+}
+
+function fillPracQuestions(category) {
+  const sel = $("prac-q-selector");
+  if (!sel) return;
+  sel.innerHTML = '<option value="">— Select a question —</option>';
+  (STATE.emailIndex || [])
+    .filter(q => !category || (q.category || "Other") === category)
+    .forEach(q => {
+      const opt = document.createElement("option");
+      opt.value = q.file;
+      const serial = q.serial || "";
+      opt.textContent = serial ? `${serial}. ${q.label}` : q.label;
+      sel.appendChild(opt);
+    });
+}
+
+$("prac-cat-selector").onchange = () => {
+  fillPracQuestions($("prac-cat-selector").value);
+  // reset question view until a question is picked
+  $("prac-no-question").style.display = "";
+  $("prac-question-content").style.display = "none";
+};
+
+$("prac-q-selector").onchange = async () => {
+  const file = $("prac-q-selector").value;
+  if (!file) {
+    $("prac-no-question").style.display = "";
+    $("prac-question-content").style.display = "none";
+    return;
+  }
+  try {
+    const data = await apiFetch({ op: "get_email_sets", file });
+    STATE.currentQ = data;
+    $("prac-no-question").style.display = "none";
+    $("prac-question-content").style.display = "flex";
+    startPractice(STATE.selectedStage, data);
+  } catch(e) { alert("Could not load question."); }
+};
+
+// Exam question selector
+$("exam-q-selector").onchange = async () => {
+  const file = $("exam-q-selector").value;
+  if (!file) {
+    $("exam-no-question").style.display = "";
+    $("exam-question-content").style.display = "none";
+    return;
+  }
+  try {
+    const data = await apiFetch({ op: "get_email_sets", file });
+    STATE.currentQ = data;
+    $("exam-no-question").style.display = "none";
+    $("exam-question-content").style.display = "flex";
+    startExam(data);
+  } catch(e) { console.error("Exam error:", e); alert("Exam error: " + e.message); }
+};
+
+$("toggle-prac-sample").onchange  = () => applyPracToggles(STAGE_META[STATE.selectedStage]?.sections || []);
+// variety always visible — no toggle
+
+function applyPracToggles(sections) {
+  const cb   = $("toggle-prac-sample");
+  const hide = cb && cb.checked;
+  sections.forEach(k => {
+    const left = $(`prac-left-${k}`);
+    if (left) left.style.visibility = hide ? "hidden" : "visible";
+    // textarea stays in place — visibility:hidden keeps column width
+  });
+}
+
+$("btn-prac-clear").onclick = () => {
+  if (!confirm("Clear all text in this stage? This cannot be undone.")) return;
+  const stage    = STATE.selectedStage;
+  const sections = (STAGE_META[stage] && STAGE_META[stage].sections) || [];
+  sections.forEach(k => {
+    const el = $(`prac-ta-${k}`);
+    if (el) el.value = "";
+  });
+  updatePracWords(sections);
+};
+
+$("btn-prac-save").onclick = async () => {
+  stopTimer();
+  const stage    = STATE.selectedStage;
+  const sections = STAGE_META[stage].sections;
+  const data     = STATE.currentQ;
+  const texts    = {};
+  sections.forEach(k => { const el = $(`prac-ta-${k}`); texts[k] = el ? el.value.trim() : ""; });
+  const combined = sections.map(k => texts[k]).filter(Boolean).join("\n\n");
+  STATE.attempts.push({
+    date: localDateTimeStamp(),
+    stage, stage_name: (STAGE_META[stage].badge === STAGE_META[stage].title ? STAGE_META[stage].title : `${STAGE_META[stage].badge} — ${STAGE_META[stage].title}`),
+    theme: data.theme || "", scenario: data.intro_q || "",
+    sections: texts, text: combined, words: countWords(combined),
+    time_fmt: fmt(STATE.timerSeconds),
+    question_data: {
+      bullet1_type: data.bullet1_type, bullet1_q: data.bullet1_q,
+      bullet2_type: data.bullet2_type, bullet2_q: data.bullet2_q,
+      bullet3_type: data.bullet3_type, bullet3_q: data.bullet3_q
+    }
+  });
+
+  // Advance to next question in dropdown
+  const sel  = $("prac-q-selector");
+  const idx  = sel.selectedIndex;
+  const next = sel.options[idx + 1];
+  if (next) {
+    sel.selectedIndex = idx + 1;
+    sel.dispatchEvent(new Event("change"));
+  } else {
+    // No more questions — reset to selector (user clicks End Session to finish)
+    sel.selectedIndex = 0;
+    $("prac-no-question").style.display = "";
+    $("prac-question-content").style.display = "none";
+    $("prac-sections").innerHTML = "";
+    $("prac-timer").textContent = "00:00";
+    $("prac-timer").classList.remove("over");
+    $("prac-total-words").textContent = "0";
+    STATE.currentQ = null;
+  }
+};
+$("btn-prac-end").onclick = () => {
+  // Stage 4: require every section's check to have been run — but via an alert,
+  // never by disabling the button, so the student is never trapped (Exit is always available).
+  if (STATE.selectedStage === 4) {
+    const missing = S4_SECTIONS.filter(k => !s4SectionDone(k));
+    if (missing.length) {
+      const names = { opening: "Opening", bullet1: "Bullet 1", bullet2: "Bullet 2", bullet3: "Bullet 3", closing: "Closing" };
+      const list = missing.map(k => {
+        if (S4_BULLETS.includes(k)) return "• " + names[k] + " — run Discourse & Syntax AND Grammar";
+        return "• " + names[k] + " — run Grammar";
+      }).join("\n");
+      alert("These sections still need their check(s):\n" + list);
+      return;
+    }
+  }
+  stopTimer();
+  // Auto-save current question if anything was typed
+  if (STATE.currentQ) {
+    const stage    = STATE.selectedStage;
+    const sections = STAGE_META[stage].sections;
+    const data     = STATE.currentQ;
+    const texts    = {};
+    sections.forEach(k => { const el = $(`prac-ta-${k}`); texts[k] = el ? el.value.trim() : ""; });
+    const combined = sections.map(k => texts[k]).filter(Boolean).join("\n\n");
+    if (combined) {
+      const attempt = {
+        date: localDateTimeStamp(),
+        stage, stage_name: (STAGE_META[stage].badge === STAGE_META[stage].title ? STAGE_META[stage].title : `${STAGE_META[stage].badge} — ${STAGE_META[stage].title}`),
+        theme: data.theme || "", scenario: data.intro_q || "",
+        sections: texts, text: combined, words: countWords(combined),
+        time_fmt: fmt(STATE.timerSeconds),
+        question_data: {
+          bullet1_type: data.bullet1_type, bullet1_q: data.bullet1_q,
+          bullet2_type: data.bullet2_type, bullet2_q: data.bullet2_q,
+          bullet3_type: data.bullet3_type, bullet3_q: data.bullet3_q
+        }
+      };
+      // Stage 4: capture per-section first (frozen) vs final for the before/after page
+      if (stage === 4) {
+        const blocks = {};
+        sections.forEach(k => {
+          const st    = STATE.s4State[k] || {};
+          const first = st.firstAttempt;
+          blocks[k] = {
+            before:        (first !== undefined && first !== null ? first : "").trim(),
+            after:         texts[k] || "",
+            firstSavedAt:  st.firstSavedAt   || "",
+            firstSavedSecs: st.firstSavedSecs != null ? st.firstSavedSecs : null,
+            firstDiscourse: st.firstDiscourse || ""
+          };
+        });
+        attempt.blocks = blocks;
+      }
+      // Total time spent on this attempt (final)
+      attempt.totalSecs = STATE.timerSeconds || 0;
+      STATE.attempts.push(attempt);
+    }
+  }
+  showEndScreen();
+};
+
+// Ungated escape hatch — leave practice without saving or analysis.
+$("btn-prac-exit").onclick = () => {
+  const sections = (STAGE_META[STATE.selectedStage] && STAGE_META[STATE.selectedStage].sections) || [];
+  const hasText = sections.some(k => { const ta = $(`prac-ta-${k}`); return ta && ta.value.trim(); });
+  if (hasText && !confirm("Leave practice? Your current answers won't be saved.")) return;
+  stopTimer();
+  resetToStart();
+};
+
+
+// ═══════════════════════════════════════════════════
+// EXAM (Stage 5)
+// ═══════════════════════════════════════════════════
+function startExam(data) {
+  // Render scenario + bullet instructions
+  const bullets = [
+    data.bullet1_q ? "\u2022 " + data.bullet1_q : null,
+    data.bullet2_q ? "\u2022 " + data.bullet2_q : null,
+    data.bullet3_q ? "\u2022 " + data.bullet3_q : null
+  ].filter(Boolean);
+  $("exam-scenario").innerHTML =
+    '<div style="margin-bottom:' + (bullets.length ? '10px' : '0') + '">' + esc(data.intro_q || "") + '</div>' +
+    (bullets.length
+      ? '<div style="font-weight:600;font-size:12px;margin-bottom:6px;">In your email, you should do the following:</div>' +
+        '<div style="display:flex;flex-direction:column;gap:4px;">' +
+        bullets.map(b => '<div style="font-size:13px;">' + esc(b) + '</div>').join("") +
+        '</div>'
+      : "");
+
+  // Reset textarea and timer, start countdown immediately
+  $("exam-textarea").value    = "";
+  $("exam-textarea").disabled = false;
+  $("exam-textarea").focus();
+  $("exam-wc").textContent    = "0";
+  $("exam-timer").textContent = "07:00";
+  $("exam-timer").className   = "timer-down";
+  stopTimer();
+  startExamCountdown();
+}
+
+
+$("exam-textarea").oninput = () => { $("exam-wc").textContent = countWords($("exam-textarea").value); };
+
+
+function startExamCountdown() {
+  let remaining = 7 * 60;
+  STATE.examElapsed = 0;
+  const el = $("exam-timer");
+  stopTimer();
+  STATE.timerInterval = setInterval(() => {
+    remaining--;
+    STATE.examElapsed++;
+    el.textContent = fmt(remaining);
+    if (remaining <= 60) el.classList.add("danger");
+    if (remaining <= 0) {
+      clearInterval(STATE.timerInterval);
+      $("exam-textarea").disabled = true;
+      saveExamAttempt();
+      showEndScreen();
+    }
+  }, 1000);
+}
+
+function saveExamAttempt() {
+  const data = STATE.currentQ;
+  if (!data) return;   // no question selected — nothing to save
+  const text = $("exam-textarea").value.trim();
+  STATE.attempts.push({
+    date: localDateTimeStamp(),
+    stage: 5, stage_name: "Exam Mode",
+    theme: data.theme || "", scenario: data.intro_q || "",
+    text, words: countWords(text),
+    time_fmt: fmt(STATE.examElapsed || 0),
+    totalSecs: STATE.examElapsed || 0,
+    question_data: {
+      bullet1_type: data.bullet1_type, bullet1_q: data.bullet1_q,
+      bullet2_type: data.bullet2_type, bullet2_q: data.bullet2_q,
+      bullet3_type: data.bullet3_type, bullet3_q: data.bullet3_q
+    }
+  });
+}
+
+$("btn-exam-end").onclick    = () => { stopTimer(); saveExamAttempt(); showEndScreen(); };
+
+// ═══════════════════════════════════════════════════
+// END SCREEN
+// ═══════════════════════════════════════════════════
+// ── Save confirmation modal ─────────────────────────────
+function keyPrefix() {
+  const key = sessionStorage.getItem("access_key") || "";
+  return key.slice(0, 3).toUpperCase();
+}
+
+function slugify(s) {
+  return (s || "").toLowerCase().replace(/[^a-z0-9]+/g, "_").replace(/^_+|_+$/g, "");
+}
+
+async function uploadToDrive(filename, content, mimeType, studentKey, isBase64 = false, convertToDoc = false) {
+  try {
+    const res = await fetch("/.netlify/functions/upload-to-drive", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ filename, content, mimeType, studentKey, isBase64, convertToDoc })
+    });
+    const data = await res.json();
+    if (!res.ok || !data.success) {
+      console.error("Drive upload failed:", data.error || res.status);
+      return null;
+    }
+    console.log("Drive upload OK:", data.name);
+    return data; // { success, fileId, name, link }
+  } catch(e) {
+    console.warn("Drive upload error:", e.message);
+    return null;
+  }
+}
+
+// Build a standalone HTML snapshot of the analysis page, upload it to Drive as a
+// converted Google Doc, and record the link in the student's writing bank (ported from AD).
+async function uploadAnalysisHTML(isRedo) {
+  const keyPrefix = (sessionStorage.getItem("access_key") || "").slice(0, 3).toLowerCase();
+  const stage     = STATE.selectedStage || "";
+  const _dt       = new Date();
+  const date      = _dt.toISOString().slice(0,10).replace(/-/g,"") + "_" + _dt.toTimeString().slice(0,8).replace(/:/g,"");
+  const fname     = [keyPrefix, "email_writing", "stage"+stage, isRedo ? "redo" : null, date].filter(Boolean).join("_");
+
+  const list = $("results-list");
+  const wrap = document.createElement("div");
+  if (list) wrap.appendChild(list.cloneNode(true));
+  // Strip interactive elements from the snapshot
+  wrap.querySelectorAll("button, textarea, input").forEach(el => el.remove());
+
+  const stageTitle = (STAGE_META[STATE.selectedStage] || {}).title || "Practice";
+  const headerHtml =
+    '<div style="border-bottom:2px solid #00736b;padding-bottom:12px;margin-bottom:16px;">' +
+      '<div style="font-size:20px;font-weight:800;color:#00736b;">TOEFL Email Writing — Analysis' + (isRedo ? " (Redo)" : "") + '</div>' +
+      '<div style="font-size:13px;color:#666;margin-top:4px;">Stage: ' + esc(stageTitle) +
+        ' &nbsp;·&nbsp; ' + esc(_dt.toLocaleString()) + '</div>' +
+    '</div>';
+
+  const doc =
+    '<!DOCTYPE html><html><head><meta charset="utf-8">' +
+    '<meta name="viewport" content="width=device-width, initial-scale=1">' +
+    '<title>Email Writing Analysis — ' + esc(date) + '</title>' +
+    '<style>body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;' +
+    'max-width:820px;margin:0 auto;padding:24px;color:#222;line-height:1.5;background:#fff;}' +
+    '*{box-sizing:border-box;}</style></head><body>' +
+    headerHtml + wrap.innerHTML +
+    '</body></html>';
+
+  const up = await uploadToDrive(fname, doc, "text/html;charset=utf-8", keyPrefix, false, true);
+  // Bank stages 4 and 5 (full email + exam) — the original-writing stages
+  if (up && up.link && (STATE.selectedStage === 4 || STATE.selectedStage === 5)) {
+    await recordToBank(up.link, STATE.selectedStage);
+  }
+}
+
+// Snapshot the Paste & Evaluate results (question, answer, analysis, grammar, redo) to Drive.
+async function uploadPasteHTML(question, answer, isRedo) {
+  const keyPrefix = (sessionStorage.getItem("access_key") || "").slice(0, 3).toLowerCase();
+  const _dt   = new Date();
+  const date  = _dt.toISOString().slice(0,10).replace(/-/g,"") + "_" + _dt.toTimeString().slice(0,8).replace(/:/g,"");
+  const fname = [keyPrefix, "email_writing", "paste", isRedo ? "redo" : null, date].filter(Boolean).join("_");
+
+  const results = $("eval-results");
+  const resultsClone = document.createElement("div");
+  if (results) resultsClone.appendChild(results.cloneNode(true));
+  resultsClone.querySelectorAll("button, textarea, input").forEach(el => el.remove());
+
+  const qaHtml =
+    '<div style="margin-bottom:14px;">' +
+      '<div style="font-size:11px;font-weight:700;text-transform:uppercase;color:#888;margin-bottom:4px;">Task</div>' +
+      '<div style="font-size:13px;color:#444;white-space:pre-wrap;margin-bottom:10px;">' + esc(question || "") + '</div>' +
+      '<div style="font-size:11px;font-weight:700;text-transform:uppercase;color:#888;margin-bottom:4px;">Your Email</div>' +
+      '<div style="font-size:14px;color:#222;white-space:pre-wrap;">' + esc(answer || "") + '</div>' +
+    '</div>';
+
+  const headerHtml =
+    '<div style="border-bottom:2px solid #00736b;padding-bottom:12px;margin-bottom:16px;">' +
+      '<div style="font-size:20px;font-weight:800;color:#00736b;">TOEFL Email Writing — Analysis (Paste & Evaluate)' + (isRedo ? " — Redo" : "") + '</div>' +
+      '<div style="font-size:13px;color:#666;margin-top:4px;">' + esc(_dt.toLocaleString()) + '</div>' +
+    '</div>';
+
+  const doc =
+    '<!DOCTYPE html><html><head><meta charset="utf-8">' +
+    '<meta name="viewport" content="width=device-width, initial-scale=1">' +
+    '<title>Email Writing Analysis — ' + esc(date) + '</title>' +
+    '<style>body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;' +
+    'max-width:820px;margin:0 auto;padding:24px;color:#222;line-height:1.5;background:#fff;}' +
+    '*{box-sizing:border-box;}</style></head><body>' +
+    headerHtml + qaHtml + resultsClone.innerHTML +
+    '</body></html>';
+
+  const up = await uploadToDrive(fname, doc, "text/html;charset=utf-8", keyPrefix, false, true);
+  if (up && up.link) await recordToBank(up.link, "paste");
+}
+
+// Record an analysis Doc link into the per-student email writing bank.
+async function recordToBank(link, stage) {
+  if (!link) return;
+  const keyPrefix = (sessionStorage.getItem("access_key") || "").slice(0, 3).toLowerCase();
+  if (!keyPrefix) return;
+  try {
+    await fetch("/.netlify/functions/email-writing-bank", {
+      method: "POST", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        action: "write", studentKey: keyPrefix,
+        serial: Date.now(), timestamp: new Date().toISOString(),
+        link, stage: stage || ""
+      })
+    });
+  } catch(e) { console.warn("Bank write failed:", e.message); }
+}
+
+
+
+function renderTimingSummary(list) {
+  const timed = STATE.attempts
+    .map((a, i) => ({ a, i }))
+    .filter(({ a }) => a.stage === 4 || a.stage === 5);
+  if (!timed.length) return;
+
+  const sectionLabels = { opening: "Opening", bullet1: "Bullet 1", bullet2: "Bullet 2", bullet3: "Bullet 3", closing: "Closing" };
+
+  let html = '<div style="margin-top:20px;border:1px solid #e0e0e0;border-radius:10px;padding:14px 16px;background:#fafafa;">' +
+    '<div style="font-weight:700;color:#00736b;font-size:14px;margin-bottom:8px;">' + esc(trCached("Timing")) + '</div>';
+
+  timed.forEach(({ a }) => {
+    html += '<div style="margin-top:8px;font-size:12px;color:#444;">';
+    html += '<div style="font-weight:600;color:#333;margin-bottom:3px;">' + esc(a.stage_name) + '</div>';
+    if (a.blocks) {
+      // Stage 4: per-section first-saved time
+      S4_SECTIONS.forEach(k => {
+        const b = a.blocks[k];
+        if (!b) return;
+        const secs = (b.firstSavedSecs != null) ? fmt(b.firstSavedSecs) : "—";
+        html += '<div style="display:flex;justify-content:space-between;max-width:340px;padding:1px 0;">' +
+                  '<span>' + esc(trCached(sectionLabels[k] || k)) + '</span>' +
+                  '<span style="color:#666;">' + esc(trCached("first saved at")) + ' ' + secs + '</span>' +
+                '</div>';
+      });
+    }
+    const total = (a.totalSecs != null) ? fmt(a.totalSecs) : (a.time_fmt || "—");
+    html += '<div style="display:flex;justify-content:space-between;max-width:340px;padding:3px 0 0;border-top:1px solid #eee;margin-top:3px;font-weight:600;">' +
+              '<span>' + esc(trCached("Total time spent")) + '</span>' +
+              '<span style="color:#00736b;">' + total + '</span>' +
+            '</div>';
+    html += '</div>';
+  });
+  html += '</div>';
+
+  const div = document.createElement("div");
+  div.innerHTML = html;
+  list.appendChild(div);
+}
+
+// Render the full question on the analysis page: scenario line + the three bullet points.
+function fullQuestionHTML(a) {
+  const qd = a.question_data || {};
+  let html = '<div>' + esc(a.scenario || "") + '</div>';
+  const bullets = [
+    [qd.bullet1_q, qd.bullet1_type],
+    [qd.bullet2_q, qd.bullet2_type],
+    [qd.bullet3_q, qd.bullet3_type]
+  ].filter(b => b[0]);
+  if (bullets.length) {
+    html += '<ul style="margin:4px 0 0;padding-left:18px;">' +
+      bullets.map(([q, t]) =>
+        '<li style="margin:1px 0;">' + esc(q) +
+        (t ? ' <span style="color:#aaa;">(' + esc(t) + ')</span>' : '') + '</li>'
+      ).join("") +
+      '</ul>';
+  }
+  return html;
+}
+
+// ═══════════════════════════════════════════════════
+// GRAMMAR SUMMARY — count the Error: labels we already have (no AI)
+// ═══════════════════════════════════════════════════
+// Produces "Most common mistakes: label ×N" chips by counting the Error: lines
+// in a grammar-feedback block. Pure parsing — never re-judges or re-categorizes.
+function grammarSummaryHTML(text) {
+  if (!text) return "";
+  const counts = {};
+  let total = 0;
+  // Each "Error: ..." up to the next Revised:/Original:/Error:/=== or end.
+  const re = /Error:\s*([\s\S]*?)(?=\s*(?:Revised:|Original:|Error:|===|$))/gi;
+  let m;
+  while ((m = re.exec(text)) !== null) {
+    // One Error line can list several types separated by ";" or full-width "；".
+    m[1].split(/[;；]/).forEach(part => {
+      const label = part.trim();
+      if (!label) return;
+      counts[label] = (counts[label] || 0) + 1;
+      total++;
+    });
+  }
+  if (total === 0) return "";
+  const sorted = Object.keys(counts).sort((a, b) => counts[b] - counts[a]);
+  const top = sorted.slice(0, 6)
+    .map(l => '<span style="display:inline-block;background:#eef4f3;color:#00736b;border-radius:10px;padding:2px 9px;margin:2px 4px 2px 0;font-size:12px;">' + esc(l) + ' ×' + counts[l] + '</span>')
+    .join("");
+  return '<div style="margin:4px 0 8px;"><div style="font-size:11px;color:#888;font-weight:600;margin-bottom:3px;">' +
+    esc(trCached("Most common mistakes")) + '</div>' + top + '</div>';
+}
+
+function showEndScreen() {
+  showScreen("screen-end");
+  stopTimer();
+  const list = $("results-list");
+  list.innerHTML = "";
+  $("end-summary").textContent = `${STATE.attempts.length} attempt${STATE.attempts.length !== 1 ? "s" : ""} saved.`;
+  $("end-status").classList.add("hidden");
+
+  const hasWriting   = STATE.attempts.some(a => a.stage >= 1);
+  const hasFullEmail = STATE.attempts.some(a => a.stage === 4 || a.stage === 5);
+
+  // Build the result cards FIRST so the analysis/grammar/beforeafter containers exist
+  // before the async tasks try to fill them.
+  STATE.attempts.forEach((a, i) => {
+    const card = document.createElement("div");
+    card.className = "result-item";
+    card.id = `result-${i}`;
+    card.innerHTML = `
+      <div class="result-hd">${esc(a.stage_name)} — ${esc(a.theme)}</div>
+      <div class="result-scenario">${fullQuestionHTML(a)}</div>
+      <div class="result-text-lbl">Your Writing</div>
+      <div class="result-text">${esc(a.text || "(empty)")}</div>
+      <div id="attempt-tr-wrap-${i}" style="display:none;margin-top:6px;padding:8px 10px;background:#f7f7f7;border-radius:6px;">
+        <div id="attempt-tr-label-${i}" style="font-size:11px;color:#888;font-weight:600;margin-bottom:3px;">What you wrote, in your language</div>
+        <div id="attempt-tr-${i}" style="font-size:13px;color:#444;line-height:1.6;"></div>
+      </div>
+      <div class="result-meta">${a.words} words &nbsp;·&nbsp; <span style="color:#555;">100 words or above is recommended</span> · ${a.time_fmt} · ${a.date}</div>
+      <div class="result-analysis-block hidden" id="analysis-${i}"></div>
+      <div class="result-analysis-block hidden" id="grammar-${i}"></div>
+      ${a.blocks ? `<div id="beforeafter-${i}" style="margin-top:10px;"></div>` : ""}
+      ${(a.stage === 4 || a.stage === 5) ? `<div id="exam-redo-${i}" style="margin-top:10px;"></div>` : ""}`;
+    list.appendChild(card);
+  });
+
+  // Back-translate each answer into the student's language (Stage 4 + 5 only; skip English)
+  const _lang = (STATE.analysisLang || "").trim();
+  if (_lang && _lang.toLowerCase() !== "english") {
+    STATE.attempts.forEach((a, i) => {
+      if (!a.text || (a.stage !== 4 && a.stage !== 5)) return;
+      const wrap  = $(`attempt-tr-wrap-${i}`);
+      const trEl  = $(`attempt-tr-${i}`);
+      const lblEl = $(`attempt-tr-label-${i}`);
+      if (!wrap || !trEl) return;
+      wrap.style.display = "";
+      if (lblEl) translateUI("What you wrote, in your language", lblEl, false);
+      translateUI(a.text, trEl, true); // whole-answer translation, <br> for line breaks
+    });
+  }
+
+  // Timing summary at the very bottom of the page (Stage 4: per-section first-saved + total)
+  renderTimingSummary(list);
+
+  if (hasWriting || hasFullEmail) {
+    $("end-status").classList.remove("hidden");
+    $("end-status").textContent = trCached("Running analysis and grammar check…");
+
+    (async () => {
+      try {
+        // Main analysis + grammar (each loops over its own targets internally)
+        if (hasFullEmail) await runEmailAnalysis();
+        if (hasWriting)   await runGrammarCheck();
+        // Then the Stage 4 before/after comparisons, one at a time (AD-style, avoids
+        // firing many LLM calls in parallel).
+        for (let i = 0; i < STATE.attempts.length; i++) {
+          if (STATE.attempts[i].blocks) await renderBeforeAfter(i);
+        }
+        $("end-status").textContent = trCached("Analysis and grammar check complete.");
+        // Save a single HTML→Google-Doc snapshot of the analysis and record it in the bank
+        await uploadAnalysisHTML();
+      } catch(e) {
+        $("end-status").textContent = trCached("One or more checks encountered an error.");
+      }
+    })();
+  }
+}
+
+// ═══════════════════════════════════════════════════
+// STAGE 4 BEFORE → AFTER COMPARISON (dual scoring)
+// ═══════════════════════════════════════════════════
+function extractBand(fb) {
+  if (!fb) return "–";
+  const m = String(fb).match(/BAND\s*[:：]?\s*(\d+)/i);
+  return m ? m[1] : "–";
+}
+
+function buildEmailPrompt(a, emailText, wordCount) {
+  const qd = a.question_data || {};
+  return `Email Writing Task:\n${a.scenario}\n\nRequired content:\n1. ${qd.bullet1_q} (${qd.bullet1_type})\n2. ${qd.bullet2_q} (${qd.bullet2_type})\n3. ${qd.bullet3_q} (${qd.bullet3_type})\n\nStudent's email (${wordCount} words):\n${emailText}`;
+}
+
+
+
+async function renderBeforeAfter(idx) {
+  const a   = STATE.attempts[idx];
+  const box = $(`beforeafter-${idx}`);
+  if (!a || !a.blocks || !box) return;
+  const lang = STATE.analysisLang || "";
+
+  const beforeText = S4_SECTIONS.map(k => a.blocks[k]?.before || "").filter(Boolean).join("\n\n");
+  const afterText  = S4_SECTIONS.map(k => a.blocks[k]?.after  || "").filter(Boolean).join("\n\n");
+  if (!beforeText && !afterText) return;
+
+  box.innerHTML = '<div style="padding:8px;color:#888;font-size:12px;">' + esc(trCached("Reviewing your first vs. final email…")) + '</div>';
+
+  const beforeWords = countWords(beforeText);
+  const afterWords  = countWords(afterText);
+
+  // Grammar: send each before-section as a separate item so results come back
+  // labeled per section (=== Q1/Q2/Q3 ===). Scoring stays whole-email; grammar is per section.
+  const presentBlocks = S4_SECTIONS.filter(k => (a.blocks[k]?.before || "").trim());
+  const grammarItems  = presentBlocks.map(k => ({
+    question: (SECTION_META[k] && SECTION_META[k].label) || k,
+    transcript: a.blocks[k].before
+  }));
+
+  try {
+    const callAnalyze = (txt, wc) => txt
+      ? fetch("/.netlify/functions/email-analyze", {
+          method: "POST", headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ user_prompt: buildEmailPrompt(a, txt, wc), language: lang })
+        }).then(r => r.json())
+      : Promise.resolve({});
+
+    const [beforeRes, afterRes, beforeGrammarRes] = await Promise.all([
+      callAnalyze(beforeText, beforeWords),
+      callAnalyze(afterText,  afterWords),
+      grammarItems.length
+        ? fetch("/.netlify/functions/grammar", {
+            method: "POST", headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ questions: grammarItems, language: lang })
+          }).then(r => r.json())
+        : Promise.resolve({})
+    ]);
+
+    const beforeBand    = extractBand(beforeRes.feedback);
+    const afterBand     = extractBand(afterRes.feedback);
+    const beforeGrammar = (beforeGrammarRes.grammar || "").trim();
+
+    // Parse grammar output into per-section by === Qn === markers.
+    const grammarByBlock = {};
+    if (beforeGrammar) {
+      const sections = beforeGrammar.split(/===\s*Q(\d+)\s*===/i);
+      for (let s = 1; s < sections.length; s += 2) {
+        const qn   = parseInt(sections[s], 10);
+        const body = (sections[s + 1] || "")
+          .split(/===\s*PATTERNS\s*===/i)[0]
+          .replace(/===\s*Q\d+\s*===/gi, "")
+          .trim();
+        const blockKey = presentBlocks[qn - 1];
+        if (blockKey) grammarByBlock[blockKey] = body;
+      }
+    }
+
+    let html =
+      '<div style="border:1px solid #b2dbd8;border-radius:8px;overflow:hidden;">' +
+      '<div style="background:#00736b;color:#fff;padding:8px 12px;font-weight:700;font-size:13px;">' + esc(trCached("Your Progress: First → Final")) + '</div>' +
+      '<div style="display:flex;padding:12px;align-items:center;justify-content:center;font-size:14px;">' +
+        '<div style="text-align:center;flex:1;"><div style="font-size:11px;color:#888;text-transform:uppercase;letter-spacing:.05em;">' + esc(trCached("First")) + '</div><div style="font-size:28px;font-weight:800;color:#c0392b;">' + beforeBand + '</div></div>' +
+        '<div style="font-size:24px;color:#888;padding:0 16px;">→</div>' +
+        '<div style="text-align:center;flex:1;"><div style="font-size:11px;color:#888;text-transform:uppercase;letter-spacing:.05em;">' + esc(trCached("Final")) + '</div><div style="font-size:28px;font-weight:800;color:#00736b;">' + afterBand + '</div></div>' +
+      '</div>';
+
+    html += '<div style="padding:0 12px 12px;">';
+    for (const k of S4_SECTIONS) {
+      const b = a.blocks[k];
+      if (!b || (!b.before && !b.after)) continue;
+      const label = (SECTION_META[k] && SECTION_META[k].label) || k;
+      html += '<div style="margin-top:10px;border-top:1px solid #eee;padding-top:10px;">' +
+        '<div style="font-weight:700;color:#00736b;font-size:12px;margin-bottom:6px;">' + esc(label) + '</div>' +
+        '<div style="display:flex;gap:10px;flex-wrap:wrap;">' +
+          '<div style="flex:1;min-width:200px;"><div style="font-size:11px;color:#c0392b;font-weight:600;margin-bottom:3px;">' + esc(trCached("First version")) + '</div>' +
+            '<div style="font-size:12px;line-height:1.5;color:#444;background:#fdf3f2;border-radius:6px;padding:8px;">' + (b.before ? esc(b.before).replace(/\n/g,"<br>") : '<i>(not recorded)</i>') + '</div></div>' +
+          '<div style="flex:1;min-width:200px;"><div style="font-size:11px;color:#00736b;font-weight:600;margin-bottom:3px;">' + esc(trCached("Final version")) + '</div>' +
+            '<div style="font-size:12px;line-height:1.5;color:#444;background:#f0f9f8;border-radius:6px;padding:8px;">' + (b.after ? esc(b.after).replace(/\n/g,"<br>") : '<i>(empty)</i>') + '</div></div>' +
+        '</div>';
+      const g = grammarByBlock[k];
+      if (g && /revised:/i.test(g)) {
+        html += '<div style="margin-top:6px;font-size:12px;color:#555;"><b style="color:#2980b9;">' + esc(trCached("Grammar issues in your first version:")) + '</b><br>' + escWithLabels(highlightGrammarChanges(g)).replace(/\n/g,"<br>") + '</div>';
+      }
+      html += '</div>';
+    }
+    html += '</div></div>';
+
+    box.innerHTML = html;
+    STATE.attempts[idx].beforeBand    = beforeBand;
+    STATE.attempts[idx].afterBand     = afterBand;
+    STATE.attempts[idx].beforeGrammar = beforeGrammar;
+  } catch(e) {
+    box.innerHTML = '<div style="padding:8px;color:#c0392b;font-size:12px;">' + esc(trCached("Could not load the comparison. Please try again.")) + '</div>';
+  }
+}
+
+// ═══════════════════════════════════════════════════
+// STAGE 5 (EXAM) REDO — untimed rewrite when band < 5 (ported from AD)
+// ═══════════════════════════════════════════════════
+function renderExamRedo(idx) {
+  const a   = STATE.attempts[idx];
+  const box = $(`exam-redo-${idx}`);
+  if (!a || !box) return;
+
+  box.innerHTML =
+    '<div style="border:1px dashed #b2dbd8;border-radius:8px;padding:12px;background:#fafffe;">' +
+      '<div style="font-weight:700;color:#00736b;font-size:13px;margin-bottom:6px;">' + esc(trCached("Redo this email ✍")) + '</div>' +
+      '<div style="font-size:12px;color:#666;margin-bottom:8px;">' + esc(trCached("Look again at the analysis above and what each check means, then rewrite your email to fix those issues. There is no timer. You will get a fresh score.")) + '</div>' +
+      '<textarea id="exam-redo-ta-' + idx + '" placeholder="' + esc(trCached("Rewrite your email here…")) + '" style="width:100%;min-height:160px;border:1px solid #ddd;border-radius:8px;padding:10px;font-size:14px;font-family:inherit;line-height:1.7;resize:vertical;">' + esc(a.redoText || a.text || "") + '</textarea>' +
+      '<div style="display:flex;align-items:center;gap:10px;margin-top:8px;">' +
+        '<button id="exam-redo-btn-' + idx + '" class="btn-primary" style="width:auto;padding:8px 18px;">' + esc(trCached("Score my rewrite →")) + '</button>' +
+        '<span id="exam-redo-status-' + idx + '" style="font-size:12px;color:#888;"></span>' +
+      '</div>' +
+      '<div id="exam-redo-result-' + idx + '" style="margin-top:10px;"></div>' +
+    '</div>';
+
+  $(`exam-redo-btn-${idx}`).onclick = () => runExamRedo(idx);
+}
+
+async function runExamRedo(idx) {
+  const a    = STATE.attempts[idx];
+  const ta   = $(`exam-redo-ta-${idx}`);
+  if (!a || !ta) return;
+  const text = ta.value.trim();
+  const statusEl = $(`exam-redo-status-${idx}`);
+  const resultEl = $(`exam-redo-result-${idx}`);
+  const btn = $(`exam-redo-btn-${idx}`);
+  if (!text) { statusEl.textContent = trCached("Please write your rewrite first."); return; }
+
+  const lang = STATE.analysisLang || "";
+  btn.disabled = true;
+  statusEl.textContent = trCached("Scoring…");
+  resultEl.innerHTML = "";
+
+  try {
+    const wc = countWords(text);
+    const [writingRes, grammarRes] = await Promise.all([
+      fetch("/.netlify/functions/email-analyze", {
+        method: "POST", headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ user_prompt: buildEmailPrompt(a, text, wc), language: lang })
+      }).then(r => r.json()),
+      fetch("/.netlify/functions/grammar", {
+        method: "POST", headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ questions: [{ question: a.scenario || a.theme || "", transcript: text }], language: lang })
+      }).then(r => r.json())
+    ]);
+
+    const writingFb = writingRes.feedback || writingRes.error || "No analysis returned.";
+    const grammarFb = grammarRes.grammar  || "No grammar feedback returned.";
+    const firstBand = (a.band !== null && a.band !== undefined) ? a.band : extractBand(a.analysis);
+    const redoBand  = extractBand(writingFb);
+    const wm        = writingFb.match(/^BAND:(\d+)(\s+WORDS:\d+)?/);
+    const writingRest = wm ? writingFb.slice(wm[0].length).trim() : writingFb;
+
+    resultEl.innerHTML =
+      '<div style="display:flex;padding:8px 0;align-items:center;justify-content:center;">' +
+        '<div style="text-align:center;flex:1;"><div style="font-size:11px;color:#888;text-transform:uppercase;">' + esc(trCached("First")) + '</div><div style="font-size:24px;font-weight:800;color:#c0392b;">' + firstBand + '</div></div>' +
+        '<div style="font-size:20px;color:#888;padding:0 14px;">→</div>' +
+        '<div style="text-align:center;flex:1;"><div style="font-size:11px;color:#888;text-transform:uppercase;">' + esc(trCached("Rewrite")) + '</div><div style="font-size:24px;font-weight:800;color:#00736b;">' + redoBand + '</div></div>' +
+      '</div>' +
+      '<div class="result-text-lbl">' + esc(trCached("Writing Analysis")) + '</div>' +
+      '<div class="result-analysis">' + escWithLabels(writingRest) + '</div>' +
+      '<div style="height:8px;"></div>' +
+      '<div class="result-text-lbl">' + esc(trCached("Grammar Check")) + '</div>' +
+      grammarSummaryHTML(grammarFb) +
+      '<div class="result-analysis">' + escWithLabels(highlightGrammarChanges(grammarFb)) + '</div>';
+
+    STATE.attempts[idx].redoText     = text;
+    STATE.attempts[idx].redoBand     = redoBand;
+    STATE.attempts[idx].redoAnalysis = writingFb;
+    STATE.attempts[idx].redoGrammar  = grammarFb;
+    statusEl.textContent = "";
+    // Save an updated snapshot (now including this redo) to Drive + bank
+    await uploadAnalysisHTML(true);
+  } catch(e) {
+    statusEl.textContent = trCached("Scoring failed. Please try again.");
+  } finally {
+    btn.disabled = false;
+  }
+}
+
+
+async function runGrammarCheck() {
+  const questions = STATE.attempts
+    .filter(a => a.stage >= 1)
+    .map(a => ({ question: a.scenario || a.theme, transcript: a.text || "" }));
+
+  // Show a loading placeholder in each grammar block while the check runs
+  STATE.attempts.forEach((a, i) => {
+    if (a.stage < 1) return;
+    const block = $(`grammar-${i}`);
+    if (!block) return;
+    block.innerHTML = `<div class="result-text-lbl">Grammar Check</div><div class="result-analysis" style="color:#888;">${esc(trCached("Checking grammar…"))}</div>`;
+    block.classList.remove("hidden");
+  });
+
+  const lang = STATE.analysisLang || "";
+  try {
+    const res = await fetch("/.netlify/functions/grammar", {
+      method: "POST", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ questions, language: lang })
+    });
+    const data = await res.json();
+    const raw  = data.grammar || "";
+    const parts = raw.split(/={2,}\s*(Q\d+|PATTERNS)\s*={2,}/);
+    const parsed = {};
+    for (let i = 1; i < parts.length; i += 2) {
+      const k = parts[i]?.trim(); const v = parts[i+1]?.trim();
+      if (k) parsed[k] = v;
+    }
+    let qi = 0;
+    STATE.attempts.forEach((a, i) => {
+      if (a.stage < 1) return;
+      qi++;
+      const block = $(`grammar-${i}`);
+      if (!block) return;
+      const key = "Q" + qi;
+      const gfb = parsed[key] || "";
+      a.grammarFeedback = gfb;   // for repeating-pattern analysis
+      block.innerHTML = `<div class="result-text-lbl">Grammar Check</div>${grammarSummaryHTML(gfb)}<div class="result-analysis">${gfb ? escWithLabels(highlightGrammarChanges(gfb)).replace(/\n/g,"<br>") : "(No grammar errors found)"}</div>`;
+      block.classList.remove("hidden");
+    });
+  } catch(e) {
+    console.error("Grammar check failed:", e);
+    throw e;
+  }
+}
+$("btn-grammar").onclick = () => {
+  $("btn-grammar").disabled = true;
+  runGrammarCheck().finally(() => { $("btn-grammar").disabled = false; });
+};
+
+// ═══════════════════════════════════════════════════
+// EMAIL ANALYSIS
+// ═══════════════════════════════════════════════════
+async function runEmailAnalysis() {
+  const targets = STATE.attempts.filter(a => (a.stage === 4 || a.stage === 5) && a.text && a.text.trim());
+  if (!targets.length) return;
+
+  const lang = STATE.analysisLang || "";
+  for (const a of targets) {
+    const i  = STATE.attempts.indexOf(a);
+    // Loading placeholder while this attempt is scored
+    const loadingBlock = $(`analysis-${i}`);
+    if (loadingBlock) {
+      loadingBlock.innerHTML = `<div class="result-text-lbl">Writing Analysis</div><div class="result-analysis" style="color:#888;">${esc(trCached("Scoring your email…"))}</div>`;
+      loadingBlock.classList.remove("hidden");
+    }
+    const qd = a.question_data || {};
+    const prompt = `Email Writing Task:\n${a.scenario}\n\nRequired content:\n1. ${qd.bullet1_q} (${qd.bullet1_type})\n2. ${qd.bullet2_q} (${qd.bullet2_type})\n3. ${qd.bullet3_q} (${qd.bullet3_type})\n\nStudent's email (${a.words} words):\n${a.text}`;
+    const res = await fetch("/.netlify/functions/email-analyze", {
+      method: "POST", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ user_prompt: prompt, language: lang })
+    });
+    if (!res.ok) throw new Error("Lambda error " + res.status);
+    const data = await res.json();
+    const fb   = data.feedback || "";
+    // Strip the leading BAND:X (and optional WORDS:) line, tolerant of spacing/case/fullwidth colon
+    const rest = fb.replace(/^\s*BAND\s*[:：]?\s*\d+(\s+WORDS\s*[:：]?\s*\d+)?\s*/i, "").trim();
+    // Persist band + feedback on the attempt (used by the Stage 5 redo gate).
+    // Use the lenient extractBand so "BAND: 3", leading whitespace, or fullwidth colon still parse.
+    const bandStr = extractBand(fb);
+    a.band     = /^\d+$/.test(bandStr) ? parseInt(bandStr, 10) : null;
+    a.analysis = fb;
+    const block = $(`analysis-${i}`);
+    if (block) {
+      block.innerHTML = `
+        <div class="result-text-lbl">Writing Analysis</div>
+        ${a.band !== null ? `<div class="result-band">Band ${a.band} · ${a.words} words</div>` : ""}
+        <div class="result-analysis">${escWithLabels(rest)}</div>`;
+      block.classList.remove("hidden");
+    }
+    // Full Email (Stage 4) and Exam (Stage 5): offer an untimed redo when the band is below 5
+    if ((a.stage === 4 || a.stage === 5) && a.band !== null && a.band < 5) {
+      renderExamRedo(i);
+    }
+  }
+}
+$("btn-analyze").onclick = () => {
+  $("btn-analyze").disabled = true;
+  runEmailAnalysis().finally(() => { $("btn-analyze").disabled = false; });
+};
+
+// ═══════════════════════════════════════════════════
+// PASTE & EVALUATE
+// ═══════════════════════════════════════════════════
+function formatFeedbackBlock(title, text, accentColor) {
+  return `<div style="background:var(--card);border:1px solid var(--border);border-left:3px solid ${accentColor};border-radius:8px;padding:16px 18px;margin-top:14px;">
+    <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:${accentColor};margin-bottom:8px;">${esc(title)}</div>
+    <div style="font-size:14px;line-height:1.7;color:#1a1a1a;white-space:pre-wrap;">${escWithLabels(text)}</div>
+  </div>`;
+}
+
+$("btn-go-evaluate").onclick = () => showScreen("screen-evaluate");
+$("btn-eval-back").onclick   = () => showScreen("screen-start");
+$("eval-answer").oninput = () => {
+  $("eval-word-count").textContent = countWords($("eval-answer").value);
+};
+
+$("btn-evaluate").onclick = async () => {
+  const question = $("eval-question").value.trim();
+  const answer   = $("eval-answer").value.trim();
+  const lang     = localStorage.getItem("analysis_lang") || "";
+
+  if (!question) { $("eval-status").textContent = "Please paste an email task prompt."; return; }
+  if (!answer)   { $("eval-status").textContent = "Please paste your email.";          return; }
+
+  const btn = $("btn-evaluate");
+  btn.disabled = true;
+  $("eval-status").textContent = "Analyzing…";
+  $("eval-writing-result").style.display = "none";
+  $("eval-grammar-result").style.display = "none";
+
+  const wordCount  = countWords(answer);
+  // Same shape the email-analyze backend expects: task context + student's email.
+  // The full rubric and band samples live in the backend SYSTEM_PROMPT.
+  const userPrompt = `Email Writing Task:\n${question}\n\nStudent's email (${wordCount} words):\n${answer}`;
+
+  try {
+    const [writingRes, grammarRes] = await Promise.all([
+      fetch("/.netlify/functions/email-analyze", {
+        method: "POST", headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ user_prompt: userPrompt, language: lang })
+      }).then(r => r.json()),
+      fetch("/.netlify/functions/grammar", {
+        method: "POST", headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ questions: [{ question, transcript: answer }], language: lang })
+      }).then(r => r.json())
+    ]);
+
+    let writingFb = writingRes.feedback || writingRes.error || "No analysis returned.";
+    // Lenient band parse (tolerant of spacing/case/fullwidth colon)
+    const bandStr  = extractBand(writingFb);
+    const bandNum  = /^\d+$/.test(bandStr) ? parseInt(bandStr, 10) : null;
+    // Strip the leading BAND:X marker into a heading line, like the practice flow
+    writingFb = writingFb.replace(/^\s*BAND\s*[:：]?\s*\d+(\s+WORDS\s*[:：]?\s*\d+)?\s*/i, "").trim();
+    if (bandNum !== null) writingFb = `Band ${bandNum} · ${wordCount} words\n\n` + writingFb;
+
+    const grammarRaw = grammarRes.grammar || "No grammar feedback returned.";
+    // Pull just this single response's Q1 section out of the grammar output
+    const gParts = grammarRaw.split(/={2,}\s*(Q\d+|PATTERNS)\s*={2,}/);
+    const gParsed = {};
+    for (let i = 1; i < gParts.length; i += 2) {
+      const k = gParts[i]?.trim(); const v = gParts[i+1]?.trim();
+      if (k) gParsed[k] = v;
+    }
+    const grammarFb = gParsed["Q1"] || grammarRaw;
+
+    const writingEl = $("eval-writing-result");
+    writingEl.innerHTML = formatFeedbackBlock("Writing Analysis", writingFb, "#00736b");
+    writingEl.style.display = "";
+
+    const grammarEl = $("eval-grammar-result");
+    grammarEl.innerHTML = grammarSummaryHTML(grammarFb) + formatFeedbackBlock("Grammar Check", highlightGrammarChanges(grammarFb), "#2980b9");
+    grammarEl.style.display = "";
+
+    // Redo box (band < 5): rewrite + rescore, mirroring the exam redo
+    if (bandNum !== null && bandNum < 5) {
+      renderPasteRedo(question, answer, bandNum, lang);
+    }
+
+    // Back-translation of the pasted answer (skip English)
+    if (lang && lang.trim().toLowerCase() !== "english") {
+      const trWrap = $("eval-tr-wrap");
+      if (trWrap) {
+        trWrap.style.display = "";
+        translateUI("What you wrote, in your language", $("eval-tr-label"), false);
+        translateUI(answer, $("eval-tr"), true);
+      }
+    }
+
+    $("eval-status").textContent = `Done — ${wordCount} words`;
+    // Save the paste analysis snapshot to Drive + bank
+    await uploadPasteHTML(question, answer);
+  } catch(e) {
+    $("eval-status").textContent = "Evaluation failed. Please try again.";
+  }
+
+  btn.disabled = false;
+};
+
+// Rewrite + rescore for Paste & Evaluate (mirrors the exam redo). Band < 5 only.
+function renderPasteRedo(question, firstAnswer, firstBand, lang) {
+  const grammarEl = $("eval-grammar-result");
+  if (!grammarEl || !grammarEl.parentNode) return;
+  // Remove any previous redo box (re-evaluations)
+  const prev = $("paste-redo-wrap");
+  if (prev) prev.remove();
+
+  const wrap = document.createElement("div");
+  wrap.id = "paste-redo-wrap";
+  wrap.style.cssText = "margin-top:16px;border:1px solid #b2dbd8;border-radius:10px;padding:14px 16px;background:#f0f9f8;";
+  wrap.innerHTML =
+    '<div style="font-weight:700;color:#00736b;font-size:14px;margin-bottom:6px;">' + esc(trCached("Redo this email ✍")) + '</div>' +
+    '<div style="font-size:12px;color:#666;margin-bottom:8px;">' + esc(trCached("Look again at the analysis above and what each check means, then rewrite your email to fix those issues. There is no timer. You will get a fresh score.")) + '</div>' +
+    '<textarea id="paste-redo-ta" placeholder="' + esc(trCached("Rewrite your email here…")) + '" style="width:100%;min-height:160px;border:1px solid #ddd;border-radius:8px;padding:10px;font-size:14px;font-family:inherit;line-height:1.7;resize:vertical;">' + esc(firstAnswer) + '</textarea>' +
+    '<div style="display:flex;align-items:center;gap:10px;margin-top:8px;">' +
+      '<button id="paste-redo-btn" class="btn-primary" style="width:auto;padding:8px 18px;">' + esc(trCached("Score my rewrite →")) + '</button>' +
+      '<span id="paste-redo-status" style="font-size:12px;color:#888;"></span>' +
+    '</div>' +
+    '<div id="paste-redo-result" style="margin-top:10px;"></div>';
+  // Insert right after the grammar block so the order is: Analysis → Grammar → Redo
+  grammarEl.parentNode.insertBefore(wrap, grammarEl.nextSibling);
+  $("paste-redo-btn").onclick = () => runPasteRedo(question, firstBand, lang);
+}
+
+async function runPasteRedo(question, firstBand, lang) {
+  const ta = $("paste-redo-ta");
+  const statusEl = $("paste-redo-status");
+  const resultEl = $("paste-redo-result");
+  const btn = $("paste-redo-btn");
+  if (!ta) return;
+  const text = ta.value.trim();
+  if (!text) { statusEl.textContent = trCached("Please write your rewrite first."); return; }
+  btn.disabled = true;
+  statusEl.textContent = trCached("Scoring…");
+  resultEl.innerHTML = "";
+  try {
+    const wc = countWords(text);
+    const userPrompt = `Email Writing Task:\n${question}\n\nStudent's email (${wc} words):\n${text}`;
+    const [writingRes, grammarRes] = await Promise.all([
+      fetch("/.netlify/functions/email-analyze", {
+        method: "POST", headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ user_prompt: userPrompt, language: lang })
+      }).then(r => r.json()),
+      fetch("/.netlify/functions/grammar", {
+        method: "POST", headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ questions: [{ question, transcript: text }], language: lang })
+      }).then(r => r.json())
+    ]);
+
+    let writingFb = writingRes.feedback || writingRes.error || "No analysis returned.";
+    const redoBand = extractBand(writingFb);
+    writingFb = writingFb.replace(/^\s*BAND\s*[:：]?\s*\d+(\s+WORDS\s*[:：]?\s*\d+)?\s*/i, "").trim();
+
+    const grammarRaw = grammarRes.grammar || "No grammar feedback returned.";
+    const gParts = grammarRaw.split(/={2,}\s*(Q\d+|PATTERNS)\s*={2,}/);
+    const gParsed = {};
+    for (let i = 1; i < gParts.length; i += 2) {
+      const k = gParts[i]?.trim(); const v = gParts[i+1]?.trim();
+      if (k) gParsed[k] = v;
+    }
+    const grammarFb = gParsed["Q1"] || grammarRaw;
+
+    resultEl.innerHTML =
+      '<div style="display:flex;padding:8px 0;align-items:center;justify-content:center;">' +
+        '<div style="text-align:center;flex:1;"><div style="font-size:11px;color:#888;text-transform:uppercase;">' + esc(trCached("First")) + '</div><div style="font-size:24px;font-weight:800;color:#c0392b;">' + firstBand + '</div></div>' +
+        '<div style="font-size:20px;color:#888;padding:0 14px;">→</div>' +
+        '<div style="text-align:center;flex:1;"><div style="font-size:11px;color:#888;text-transform:uppercase;">' + esc(trCached("Rewrite")) + '</div><div style="font-size:24px;font-weight:800;color:#00736b;">' + redoBand + '</div></div>' +
+      '</div>' +
+      formatFeedbackBlock("Writing Analysis", writingFb, "#00736b") +
+      '<div style="height:8px;"></div>' +
+      grammarSummaryHTML(grammarFb) +
+      formatFeedbackBlock("Grammar Check", highlightGrammarChanges(grammarFb), "#2980b9");
+    statusEl.textContent = "";
+    // Save updated paste snapshot (now including the rewrite) to Drive + bank
+    await uploadPasteHTML(question, ($("eval-answer") ? $("eval-answer").value.trim() : ""), true);
+  } catch(e) {
+    statusEl.textContent = trCached("Scoring failed. Please try again.");
+  } finally {
+    btn.disabled = false;
+  }
+}
+
+
+// ═══════════════════════════════════════════════════
+// NEW SESSION
+// ═══════════════════════════════════════════════════
+function resetToStart() {
+  stopTimer(); STATE.selectedStage = null; STATE.currentQ = null;
+  $("stage-selector").value = "";
+  checkStartReady(); $("start-status").textContent = "";
+  showScreen("screen-start");
+}
+$("btn-new-session").onclick = () => {
+  STATE.attempts = [];
+  $("btn-grammar").classList.add("hidden");
+  $("btn-analyze").classList.add("hidden");
+  $("end-status").classList.add("hidden");
+  resetToStart();
+};
+
+// ═══════════════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════════════
+initGate();
+</script>
+
+</body>
+</html>

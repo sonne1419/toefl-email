@@ -1,0 +1,27 @@
+{
+  "id": "em_s0_003",
+  "serial": "3",
+  "theme": "Workshop feedback",
+  "category": "Thank & follow up",
+  "convention": "formal",
+  "intro_q": "You recently attended a professional skills workshop and would like to thank the organizer and provide feedback. Write an email to the workshop organizer.",
+  "tips": "",
+  "bullet1_type": "Thanks",
+  "bullet1_q": "Thank the organizer",
+  "bullet2_type": "Reason",
+  "bullet2_q": "Describe what you found most valuable.",
+  "bullet3_type": "Suggestion",
+  "bullet3_q": "Suggest improvements for future workshops.",
+  "sample": {
+    "opening": "Dear Mr. Taylor,\nI hope you are well.",
+    "bullet1": "I truly appreciate that you organized such a well-structured and engaging workshop. I was truly impressed by how many valuable insights were provided in such a short period of time.",
+    "bullet2": "I find the interactive group discussions to be especially valuable. They allowed participants to exchange practical ideas, which made the learning experience much more meaningful.",
+    "bullet3": "I would like to offer one small suggestion for future workshops. It would be helpful if more time were allocated for Q&A sessions at the end so that participants could fully understand the key concepts.",
+    "closing": "Thank you in advance for your response. \nBest regards,\nLi-Yi Chen",
+    "opening_variety": "—",
+    "bullet1_variety": "1: I (sincerely/truly) appreciate that you…\n2: Passive voice (… was impressed by…)",
+    "bullet2_variety": "1: I find (positive adj.)\n2: Relative clause (…, which …)",
+    "bullet3_variety": "1: I would like to (suggest/offer)…\n2: Non-fronted subordinate clause (….if…) + purpose clause (…so that…)",
+    "closing_variety": "—"
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "id": "em_0003",
+  "serial": "3",
+  "theme": "Club Fair",
+  "category": "Other",
+  "convention": "formal",
+  "intro_q": "You want to attend a campus club fair but are unsure about the location and schedule. Write an email to the student activities office.",
+  "tips": "Type and speak at the same time to reduce the number of typos!",
+  "bullet1_type": "initial request",
+  "bullet1_q": "Ask for details about the time and location of the club fair.",
+  "bullet2_type": "Reason",
+  "bullet2_q": "Explain why you are interested in attending the event.",
+  "bullet3_type": "Request",
+  "bullet3_q": "Request recommendations for clubs you should visit.",
+  "sample": {
+    "opening": "",
+    "bullet1": "",
+    "bullet2": "",
+    "bullet3": "",
+    "closing": "",
+    "opening_variety": "—",
+    "bullet1_variety": "",
+    "bullet2_variety": "",
+    "bullet3_variety": "",
+    "closing_variety": "—"
+  }
+}

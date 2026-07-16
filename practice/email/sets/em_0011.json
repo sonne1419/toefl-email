@@ -1,0 +1,27 @@
+{
+  "id": "em_0011",
+  "serial": "11",
+  "theme": "An academic exchange program",
+  "category": "Make a request",
+  "convention": "formal",
+  "intro_q": "You are preparing to join a semester-long academic exchange program abroad and are feeling uncertain about what to expect. Your friend Maya completed a similar program last year. Write an email to Maya asking for her advice.",
+  "tips": "",
+  "bullet1_type": "Reason",
+  "bullet1_q": "Explain why you decided to apply for the exchange program.",
+  "bullet2_type": "initial request",
+  "bullet2_q": "Ask Maya for her recommendations on making the most of the experience.",
+  "bullet3_type": "Request",
+  "bullet3_q": "Describe what you are most hoping to gain and what you most want to avoid.",
+  "sample": {
+    "opening": "",
+    "bullet1": "",
+    "bullet2": "",
+    "bullet3": "",
+    "closing": "",
+    "opening_variety": "—",
+    "bullet1_variety": "",
+    "bullet2_variety": "",
+    "bullet3_variety": "",
+    "closing_variety": "—"
+  }
+}

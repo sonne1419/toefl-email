@@ -1,0 +1,68 @@
+{
+  "bullet_types": {
+    "Problem": {
+      "sample_cue": "I would like to request assistance with a Wi-Fi problem at the co-working space that began three days ago. When I connect to the network in the morning, the internet connection sometimes becomes extremely slow.",
+      "variety": "1. I would like to report/request…+ relative clause (..that…)\n2. Fronted subordinate clause (When…., [consequence])"
+    },
+    "Aftermath": {
+      "sample_cue": "As a result, uploading and downloading large files have become impossible. Online meetings with clients have to be postponed because of the low bandwidth.",
+      "variety": "1: Nominalization (Uploading…)\n2: Passive voice ( …have to be postponed...)"
+    },
+    "Request": {
+      "sample_cue": "Would it be possible for you to arrange for a technician to check the system in the next few days? It would also be great if you could let me know when this issue might be fixed so that everyone can transfer files without difficulty.",
+      "variety": "1. Would it be possible for (someone) to (do something)?\n2: Non-fronted subordinate clause (….if…) + purpose clause (…so that…)"
+    },
+    "Thanks": {
+      "sample_cue": "I truly appreciate that you organized such a well-structured and engaging workshop. I was truly impressed by how many valuable insights were provided in such a short period of time.",
+      "variety": "1: I (sincerely/truly) appreciate that you…\n2: Passive voice (… was impressed by…)"
+    },
+    "Reason": {
+      "sample_cue": "I find the interactive group discussions to be especially valuable. They allowed participants to exchange practical ideas, which made the learning experience much more meaningful.",
+      "variety": "**If it's the first bullet point, add one more line at the beginning:\nI would like to request….\n1: I find (positive adj.)\n2: Relative clause (…, which …)"
+    },
+    "Suggestion": {
+      "sample_cue": "I would like to offer one small suggestion for future workshops. It would be helpful if more time were allocated for Q&A sessions at the end so that participants could fully understand the key concepts.",
+      "variety": "1: I would like to (suggest/offer)…\n2: Non-fronted subordinate clause (….if…) + purpose clause (…so that…)"
+    },
+    "Providing Information": {
+      "sample_cue": "The event will take place on Tuesday at 6:00 p.m. in Room 204 of the main building. If you have any questions about the session, please feel free to contact me.",
+      "variety": "1: [Event] will take place on [date] at [time] in [location].\n2: Fronted subordinate clause (If….,...)"
+    },
+    "Neutral description": {
+      "sample_cue": "I wanted to tell you about an art exhibition that I visited downtown last week.\nMany local artists displayed different kinds of artwork, including landscape paintings, sculptures, and photography.",
+      "variety": "1. I would like to share with you about …&  relative clause (…an art exhibition that…)..\n2: Participle phrase (…., including…)"
+    },
+    "initial request": {
+      "sample_cue": "I would like to inquire about the time and location of the club fair that will be held this summer. When I checked the club’s Facebook page, I couldn’t find clear information.",
+      "variety": "(The pattern is the same as \"problem\")\n1. I would like to report/request…+ relative clause (..that…)\n2. Fronted subordinate clause (When….,....)"
+    }
+  },
+  "opening": {
+    "formal": {
+      "sample_cue": "Dear [Name],\nI hope you are well.",
+      "variety": "—"
+    },
+    "informal": {
+      "sample_cue": "Hi [Name],\nHow have you been",
+      "variety": "—"
+    },
+    "polite": {
+      "sample_cue": "Dear [Name],\nI hope you are doing well.",
+      "variety": "—"
+    }
+  },
+  "closing": {
+    "formal": {
+      "sample_cue": "Thank you in advance for your response.\nBest regards,\n[Name]",
+      "variety": "—"
+    },
+    "informal": {
+      "sample_cue": "Let me know what you think!\nSee you,\n[Name]",
+      "variety": "—"
+    },
+    "polite": {
+      "sample_cue": "We look forward to ….\nBest wishes,\n[Name]",
+      "variety": "—"
+    }
+  }
+}

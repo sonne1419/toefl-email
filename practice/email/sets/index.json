@@ -1,0 +1,326 @@
+[
+  {
+    "file": "em_0001.json",
+    "set_id": "em_0001",
+    "serial": "1",
+    "label": "Campus Parking Permit — Problem / Aftermath / Request",
+    "category": "Report a problem",
+    "convention": "formal",
+    "format": "email"
+  },
+  {
+    "file": "em_0002.json",
+    "set_id": "em_0002",
+    "serial": "2",
+    "label": "Lost and Found — Problem / Neutral description / Request",
+    "category": "Other",
+    "convention": "formal",
+    "format": "email"
+  },
+  {
+    "file": "em_0003.json",
+    "set_id": "em_0003",
+    "serial": "3",
+    "label": "Club Fair — initial request / Reason / Request",
+    "category": "Other",
+    "convention": "formal",
+    "format": "email"
+  },
+  {
+    "file": "em_0004.json",
+    "set_id": "em_0004",
+    "serial": "4",
+    "label": "Library Study Room — Reason / Providing Information / Request",
+    "category": "Other",
+    "convention": "formal",
+    "format": "email"
+  },
+  {
+    "file": "em_0005.json",
+    "set_id": "em_0005",
+    "serial": "5",
+    "label": "Campus Volunteering — initial request / Reason / Request",
+    "category": "Other",
+    "convention": "formal",
+    "format": "email"
+  },
+  {
+    "file": "em_0006.json",
+    "set_id": "em_0006",
+    "serial": "6",
+    "label": "New Dining Option — Neutral description / Reason / Suggestion",
+    "category": "Other",
+    "convention": "informal",
+    "format": "email"
+  },
+  {
+    "file": "em_0007.json",
+    "set_id": "em_0007",
+    "serial": "7",
+    "label": "Transit Pass — initial request / Reason / Request",
+    "category": "Other",
+    "convention": "formal",
+    "format": "email"
+  },
+  {
+    "file": "em_0008.json",
+    "set_id": "em_0008",
+    "serial": "8",
+    "label": "Housing Application Extension — Problem / Reason / Request",
+    "category": "Other",
+    "convention": "formal",
+    "format": "email"
+  },
+  {
+    "file": "em_0009.json",
+    "set_id": "em_0009",
+    "serial": "9",
+    "label": "Campus Orientation — initial request / Reason / Request",
+    "category": "Other",
+    "convention": "formal",
+    "format": "email"
+  },
+  {
+    "file": "em_0010.json",
+    "set_id": "em_0010",
+    "serial": "10",
+    "label": "A research conference abroad — Reason / initial request / Request",
+    "category": "Make a request",
+    "convention": "formal",
+    "format": "email"
+  },
+  {
+    "file": "em_0011.json",
+    "set_id": "em_0011",
+    "serial": "11",
+    "label": "An academic exchange program — Reason / initial request / Request",
+    "category": "Make a request",
+    "convention": "formal",
+    "format": "email"
+  },
+  {
+    "file": "em_0012.json",
+    "set_id": "em_0012",
+    "serial": "12",
+    "label": "A company training seminar — Reason / initial request / Request",
+    "category": "Make a request",
+    "convention": "formal",
+    "format": "email"
+  },
+  {
+    "file": "em_0013.json",
+    "set_id": "em_0013",
+    "serial": "13",
+    "label": "Missing group meeting again — Neutral description / Aftermath / Suggestion",
+    "category": "Share & advise",
+    "convention": "formal",
+    "format": "email"
+  },
+  {
+    "file": "em_0014.json",
+    "set_id": "em_0014",
+    "serial": "14",
+    "label": "Splitting research sections fairly — Neutral description / Aftermath / Suggestion",
+    "category": "Share & advise",
+    "convention": "formal",
+    "format": "email"
+  },
+  {
+    "file": "em_0015.json",
+    "set_id": "em_0015",
+    "serial": "15",
+    "label": "Final submission deadline confusion — Neutral description / Aftermath / Suggestion",
+    "category": "Share & advise",
+    "convention": "formal",
+    "format": "email"
+  },
+  {
+    "file": "em_0016.json",
+    "set_id": "em_0016",
+    "serial": "16",
+    "label": "A broken public bench — Problem / Reason / Suggestion",
+    "category": "Report a problem",
+    "convention": "formal",
+    "format": "email"
+  },
+  {
+    "file": "em_0017.json",
+    "set_id": "em_0017",
+    "serial": "17",
+    "label": "Poor street lighting — Problem / Reason / Suggestion",
+    "category": "Report a problem",
+    "convention": "formal",
+    "format": "email"
+  },
+  {
+    "file": "em_0018.json",
+    "set_id": "em_0018",
+    "serial": "18",
+    "label": "Overflowing public trash cans — Problem / Reason / Suggestion",
+    "category": "Report a problem",
+    "convention": "formal",
+    "format": "email"
+  },
+  {
+    "file": "em_0019.json",
+    "set_id": "em_0019",
+    "serial": "19",
+    "label": "A charity fundraiser event — Reason / Neutral description / Suggestion",
+    "category": "Propose & organize",
+    "convention": "formal",
+    "format": "email"
+  },
+  {
+    "file": "em_0020.json",
+    "set_id": "em_0020",
+    "serial": "20",
+    "label": "A birthday party — Neutral description / Reason / Providing Information",
+    "category": "Share & advise",
+    "convention": "formal",
+    "format": "email"
+  },
+  {
+    "file": "em_0021.json",
+    "set_id": "em_0021",
+    "serial": "21",
+    "label": "A sports tournament — Reason / Neutral description / Suggestion",
+    "category": "Propose & organize",
+    "convention": "formal",
+    "format": "email"
+  },
+  {
+    "file": "em_0022.json",
+    "set_id": "em_0022",
+    "serial": "22",
+    "label": "A photography masterclass — Thanks / Reason / Request",
+    "category": "Thank & follow up",
+    "convention": "formal",
+    "format": "email"
+  },
+  {
+    "file": "em_0023.json",
+    "set_id": "em_0023",
+    "serial": "23",
+    "label": "A public speaking seminar — Thanks / Reason / Suggestion",
+    "category": "Thank & follow up",
+    "convention": "formal",
+    "format": "email"
+  },
+  {
+    "file": "em_0024.json",
+    "set_id": "em_0024",
+    "serial": "24",
+    "label": "A startup pitch event — Thanks / Reason / Request",
+    "category": "Thank & follow up",
+    "convention": "formal",
+    "format": "email"
+  },
+  {
+    "file": "em_0025.json",
+    "set_id": "em_0025",
+    "serial": "25",
+    "label": "A product pre-order — Problem / initial request / Request",
+    "category": "Report a problem",
+    "convention": "formal",
+    "format": "email"
+  },
+  {
+    "file": "em_0026.json",
+    "set_id": "em_0026",
+    "serial": "26",
+    "label": "A hotel room booking — Problem / initial request / Request",
+    "category": "Report a problem",
+    "convention": "formal",
+    "format": "email"
+  },
+  {
+    "file": "em_0027.json",
+    "set_id": "em_0027",
+    "serial": "27",
+    "label": "A visa application status — Problem / initial request / Request",
+    "category": "Report a problem",
+    "convention": "formal",
+    "format": "email"
+  },
+  {
+    "file": "em_0028.json",
+    "set_id": "em_0028",
+    "serial": "28",
+    "label": "Starting a new job — Neutral description / Suggestion / Request",
+    "category": "Share & advise",
+    "convention": "formal",
+    "format": "email"
+  },
+  {
+    "file": "em_0029.json",
+    "set_id": "em_0029",
+    "serial": "29",
+    "label": "Adopting a first pet — Neutral description / Suggestion / Request",
+    "category": "Share & advise",
+    "convention": "formal",
+    "format": "email"
+  },
+  {
+    "file": "em_0030.json",
+    "set_id": "em_0030",
+    "serial": "30",
+    "label": "Living alone for the first time — Neutral description / Suggestion / Request",
+    "category": "Share & advise",
+    "convention": "formal",
+    "format": "email"
+  },
+  {
+    "file": "em_0031.json",
+    "set_id": "em_0031",
+    "serial": "31",
+    "label": "A missed class session — initial request / Reason / Suggestion",
+    "category": "Make a request",
+    "convention": "formal",
+    "format": "email"
+  },
+  {
+    "file": "em_0032.json",
+    "set_id": "em_0032",
+    "serial": "32",
+    "label": "Assignment submission method — Reason / initial request / Thanks",
+    "category": "Propose & organize",
+    "convention": "formal",
+    "format": "email"
+  },
+  {
+    "file": "em_0033.json",
+    "set_id": "em_0033",
+    "serial": "33",
+    "label": "Course material clarification — initial request / Reason / Suggestion",
+    "category": "Make a request",
+    "convention": "formal",
+    "format": "email"
+  },
+  {
+    "file": "em_0034.json",
+    "set_id": "em_0034",
+    "serial": "34",
+    "label": "A broken office chair — Problem / Aftermath / Request",
+    "category": "Report a problem",
+    "convention": "formal",
+    "format": "email"
+  },
+  {
+    "file": "em_0035.json",
+    "set_id": "em_0035",
+    "serial": "35",
+    "label": "A leaking faucet — Problem / Aftermath / Request",
+    "category": "Report a problem",
+    "convention": "formal",
+    "format": "email"
+  },
+  {
+    "file": "em_0036.json",
+    "set_id": "em_0036",
+    "serial": "36",
+    "label": "A faulty light switch — Problem / Aftermath / Request",
+    "category": "Report a problem",
+    "convention": "formal",
+    "format": "email"
+  }
+]

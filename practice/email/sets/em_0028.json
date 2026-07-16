@@ -1,0 +1,27 @@
+{
+  "id": "em_0028",
+  "serial": "28",
+  "theme": "Starting a new job",
+  "category": "Share & advise",
+  "convention": "formal",
+  "intro_q": "Your friend Alex has just started a new job and is feeling overwhelmed and unsure how to settle in. You have been in a similar position before and want to share some advice. Write an email to Alex.",
+  "tips": "",
+  "bullet1_type": "Neutral description",
+  "bullet1_q": "Describe your own experience starting a new job",
+  "bullet2_type": "Suggestion",
+  "bullet2_q": "Suggest one thing Alex could do to feel more comfortable",
+  "bullet3_type": "Request",
+  "bullet3_q": "Offer to help Alex further if needed",
+  "sample": {
+    "opening": "",
+    "bullet1": "",
+    "bullet2": "",
+    "bullet3": "",
+    "closing": "",
+    "opening_variety": "—",
+    "bullet1_variety": "",
+    "bullet2_variety": "",
+    "bullet3_variety": "",
+    "closing_variety": "—"
+  }
+}

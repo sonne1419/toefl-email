@@ -1,0 +1,27 @@
+{
+  "id": "em_0034",
+  "serial": "34",
+  "theme": "A broken office chair",
+  "category": "Report a problem",
+  "convention": "formal",
+  "intro_q": "Your office chair has broken and is no longer safe to sit on. You need to keep working but cannot do so comfortably or safely. Write an email to Marcus in Facilities to report the issue.",
+  "tips": "",
+  "bullet1_type": "Problem",
+  "bullet1_q": "Describe what is wrong with the chair",
+  "bullet2_type": "Aftermath",
+  "bullet2_q": "Explain how it is affecting your ability to work",
+  "bullet3_type": "Request",
+  "bullet3_q": "Request a repair or replacement and suggest a timeframe",
+  "sample": {
+    "opening": "",
+    "bullet1": "",
+    "bullet2": "",
+    "bullet3": "",
+    "closing": "",
+    "opening_variety": "—",
+    "bullet1_variety": "",
+    "bullet2_variety": "",
+    "bullet3_variety": "",
+    "closing_variety": "—"
+  }
+}

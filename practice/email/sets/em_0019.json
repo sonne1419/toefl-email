@@ -1,0 +1,27 @@
+{
+  "id": "em_0019",
+  "serial": "19",
+  "theme": "A charity fundraiser event",
+  "category": "Propose & organize",
+  "convention": "formal",
+  "intro_q": "You are organizing a charity fundraiser event and want Marcus, a local business owner, to get involved as a sponsor. Write an email to Marcus introducing the event and inviting his participation.",
+  "tips": "",
+  "bullet1_type": "Reason",
+  "bullet1_q": "Explain the cause the fundraiser is supporting and why it matters.",
+  "bullet2_type": "Neutral description",
+  "bullet2_q": "Describe what the event will involve and how sponsorship works.",
+  "bullet3_type": "Suggestion",
+  "bullet3_q": "Suggest a time and place to meet and discuss further.",
+  "sample": {
+    "opening": "",
+    "bullet1": "",
+    "bullet2": "",
+    "bullet3": "",
+    "closing": "",
+    "opening_variety": "—",
+    "bullet1_variety": "",
+    "bullet2_variety": "",
+    "bullet3_variety": "",
+    "closing_variety": "—"
+  }
+}

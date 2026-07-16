@@ -1,0 +1,27 @@
+{
+  "id": "em_0027",
+  "serial": "27",
+  "theme": "A visa application status",
+  "category": "Report a problem",
+  "convention": "formal",
+  "intro_q": "You applied for a visa several weeks ago and have not received any update on its status. You are concerned something may have gone wrong with your application. Write an email to Officer Chen at the visa processing office.",
+  "tips": "",
+  "bullet1_type": "Problem",
+  "bullet1_q": "Describe the problem you have encountered with your application status.",
+  "bullet2_type": "initial request",
+  "bullet2_q": "Ask whether your application has been received and is being processed.",
+  "bullet3_type": "Request",
+  "bullet3_q": "Request guidance on the next steps you should take.",
+  "sample": {
+    "opening": "",
+    "bullet1": "",
+    "bullet2": "",
+    "bullet3": "",
+    "closing": "",
+    "opening_variety": "—",
+    "bullet1_variety": "",
+    "bullet2_variety": "",
+    "bullet3_variety": "",
+    "closing_variety": "—"
+  }
+}

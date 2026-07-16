@@ -1,0 +1,27 @@
+{
+  "id": "em_0024",
+  "serial": "24",
+  "theme": "A startup pitch event",
+  "category": "Thank & follow up",
+  "convention": "formal",
+  "intro_q": "You attended a startup pitch event last week and found it genuinely useful for your own entrepreneurial plans. Write a follow-up email to Maya, the organizer who ran the event.",
+  "tips": "",
+  "bullet1_type": "Thanks",
+  "bullet1_q": "Thank Maya for organizing and hosting the event.",
+  "bullet2_type": "Reason",
+  "bullet2_q": "Explain what aspect of the event was most valuable to you.",
+  "bullet3_type": "Request",
+  "bullet3_q": "Ask if there is a way to get involved in a future event.",
+  "sample": {
+    "opening": "",
+    "bullet1": "",
+    "bullet2": "",
+    "bullet3": "",
+    "closing": "",
+    "opening_variety": "—",
+    "bullet1_variety": "",
+    "bullet2_variety": "",
+    "bullet3_variety": "",
+    "closing_variety": "—"
+  }
+}

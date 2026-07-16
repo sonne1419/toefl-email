@@ -1,0 +1,27 @@
+{
+  "id": "em_0017",
+  "serial": "17",
+  "theme": "Poor street lighting",
+  "category": "Report a problem",
+  "convention": "formal",
+  "intro_q": "You walk through Riverside Park most evenings and have recently noticed a safety issue affecting the area after dark. You decide to contact Marcus, the local council's parks and public spaces officer, to report your concern.",
+  "tips": "",
+  "bullet1_type": "Problem",
+  "bullet1_q": "Describe the lighting problem you have observed in the park.",
+  "bullet2_type": "Reason",
+  "bullet2_q": "Explain why this issue poses a risk to park users.",
+  "bullet3_type": "Suggestion",
+  "bullet3_q": "Suggest a practical measure the council could take to improve the situation.",
+  "sample": {
+    "opening": "",
+    "bullet1": "",
+    "bullet2": "",
+    "bullet3": "",
+    "closing": "",
+    "opening_variety": "—",
+    "bullet1_variety": "",
+    "bullet2_variety": "",
+    "bullet3_variety": "",
+    "closing_variety": "—"
+  }
+}

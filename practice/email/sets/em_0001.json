@@ -1,0 +1,27 @@
+{
+  "id": "em_0001",
+  "serial": "1",
+  "theme": "Campus Parking Permit",
+  "category": "Report a problem",
+  "convention": "formal",
+  "intro_q": "Your campus parking permit is about to expire. Write an email to the campus parking office.",
+  "tips": "Type and speak at the same time to reduce the number of typos!",
+  "bullet1_type": "Problem",
+  "bullet1_q": "Describe your situation and mention that your permit will expire soon.",
+  "bullet2_type": "Aftermath",
+  "bullet2_q": "Explain why you need to renew your parking permit.",
+  "bullet3_type": "Request",
+  "bullet3_q": "Request information about the renewal process.",
+  "sample": {
+    "opening": "",
+    "bullet1": "",
+    "bullet2": "",
+    "bullet3": "",
+    "closing": "",
+    "opening_variety": "—",
+    "bullet1_variety": "",
+    "bullet2_variety": "",
+    "bullet3_variety": "",
+    "closing_variety": "—"
+  }
+}

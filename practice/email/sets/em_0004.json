@@ -1,0 +1,27 @@
+{
+  "id": "em_0004",
+  "serial": "4",
+  "theme": "Library Study Room",
+  "category": "Other",
+  "convention": "formal",
+  "intro_q": "You need to reserve a study room in the library for a group project. Write an email to the library staff.",
+  "tips": "Type and speak at the same time to reduce the number of typos!",
+  "bullet1_type": "Reason",
+  "bullet1_q": "Describe your group's need for a study space.",
+  "bullet2_type": "Providing Information",
+  "bullet2_q": "Explain the preferred date and time for the reservation.",
+  "bullet3_type": "Request",
+  "bullet3_q": "Request instructions for booking a study room.",
+  "sample": {
+    "opening": "",
+    "bullet1": "",
+    "bullet2": "",
+    "bullet3": "",
+    "closing": "",
+    "opening_variety": "—",
+    "bullet1_variety": "",
+    "bullet2_variety": "",
+    "bullet3_variety": "",
+    "closing_variety": "—"
+  }
+}

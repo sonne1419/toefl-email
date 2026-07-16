@@ -1,0 +1,27 @@
+{
+  "id": "em_0007",
+  "serial": "7",
+  "theme": "Transit Pass",
+  "category": "Other",
+  "convention": "formal",
+  "intro_q": "You need to purchase a transit pass for campus shuttles. Write an email to the transportation office.",
+  "tips": "Type and speak at the same time to reduce the number of typos!",
+  "bullet1_type": "initial request",
+  "bullet1_q": "Describe your daily commute and transportation needs.",
+  "bullet2_type": "Reason",
+  "bullet2_q": "Explain why you need a transit pass.",
+  "bullet3_type": "Request",
+  "bullet3_q": "Request information about where and how to buy one.",
+  "sample": {
+    "opening": "",
+    "bullet1": "",
+    "bullet2": "",
+    "bullet3": "",
+    "closing": "",
+    "opening_variety": "—",
+    "bullet1_variety": "",
+    "bullet2_variety": "",
+    "bullet3_variety": "",
+    "closing_variety": "—"
+  }
+}

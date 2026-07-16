@@ -1,0 +1,27 @@
+{
+  "id": "em_0014",
+  "serial": "14",
+  "theme": "Splitting research sections fairly",
+  "category": "Share & advise",
+  "convention": "formal",
+  "intro_q": "Your study group is working on a shared research report, but no one has yet agreed on how to divide the research sections among members. Write an email to your group leader, Priya, to address this.",
+  "tips": "",
+  "bullet1_type": "Neutral description",
+  "bullet1_q": "Describe how the research sections have been divided so far",
+  "bullet2_type": "Aftermath",
+  "bullet2_q": "Explain how this uncertainty is affecting the group's progress",
+  "bullet3_type": "Suggestion",
+  "bullet3_q": "Suggest a fair method for splitting the sections going forward",
+  "sample": {
+    "opening": "",
+    "bullet1": "",
+    "bullet2": "",
+    "bullet3": "",
+    "closing": "",
+    "opening_variety": "—",
+    "bullet1_variety": "",
+    "bullet2_variety": "",
+    "bullet3_variety": "",
+    "closing_variety": "—"
+  }
+}

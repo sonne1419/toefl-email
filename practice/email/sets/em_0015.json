@@ -1,0 +1,27 @@
+{
+  "id": "em_0015",
+  "serial": "15",
+  "theme": "Final submission deadline confusion",
+  "category": "Share & advise",
+  "convention": "formal",
+  "intro_q": "Your group is working on a shared research report for your marketing module, but members have received different deadline information from various sources and no one is certain which is correct. Write an email to your group leader, Priya, to address the situation.",
+  "tips": "",
+  "bullet1_type": "Neutral description",
+  "bullet1_q": "Describe the conflicting deadline information the group has encountered.",
+  "bullet2_type": "Aftermath",
+  "bullet2_q": "Explain how the uncertainty is affecting the group's progress and planning.",
+  "bullet3_type": "Suggestion",
+  "bullet3_q": "Suggest a way the group can confirm and agree on the correct deadline.",
+  "sample": {
+    "opening": "",
+    "bullet1": "",
+    "bullet2": "",
+    "bullet3": "",
+    "closing": "",
+    "opening_variety": "—",
+    "bullet1_variety": "",
+    "bullet2_variety": "",
+    "bullet3_variety": "",
+    "closing_variety": "—"
+  }
+}

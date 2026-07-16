@@ -1,0 +1,27 @@
+{
+  "id": "em_0016",
+  "serial": "16",
+  "theme": "A broken public bench",
+  "category": "Report a problem",
+  "convention": "formal",
+  "intro_q": "You often visit Riverside Park and have recently noticed a problem with one of the benches. You decide to write an email to the park's facility manager, Mr. Hargreaves, to report the issue.",
+  "tips": "",
+  "bullet1_type": "Problem",
+  "bullet1_q": "Describe the damage you observed on the bench.",
+  "bullet2_type": "Reason",
+  "bullet2_q": "Explain why this poses a risk to park visitors.",
+  "bullet3_type": "Suggestion",
+  "bullet3_q": "Suggest a way the problem could be resolved.",
+  "sample": {
+    "opening": "",
+    "bullet1": "",
+    "bullet2": "",
+    "bullet3": "",
+    "closing": "",
+    "opening_variety": "—",
+    "bullet1_variety": "",
+    "bullet2_variety": "",
+    "bullet3_variety": "",
+    "closing_variety": "—"
+  }
+}

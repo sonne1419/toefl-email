@@ -1,0 +1,27 @@
+{
+  "id": "em_0009",
+  "serial": "9",
+  "theme": "Campus Orientation",
+  "category": "Other",
+  "convention": "formal",
+  "intro_q": "You are planning to attend a campus orientation session but have questions about the schedule. Write an email to the orientation coordinator.",
+  "tips": "Type and speak at the same time to reduce the number of typos!",
+  "bullet1_type": "initial request",
+  "bullet1_q": "Ask for details about the orientation schedule.",
+  "bullet2_type": "Reason",
+  "bullet2_q": "Explain your interest in attending the session.",
+  "bullet3_type": "Request",
+  "bullet3_q": "Request advice or recommendations for new students.",
+  "sample": {
+    "opening": "",
+    "bullet1": "",
+    "bullet2": "",
+    "bullet3": "",
+    "closing": "",
+    "opening_variety": "—",
+    "bullet1_variety": "",
+    "bullet2_variety": "",
+    "bullet3_variety": "",
+    "closing_variety": "—"
+  }
+}

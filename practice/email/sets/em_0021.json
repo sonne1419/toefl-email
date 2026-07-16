@@ -1,0 +1,27 @@
+{
+  "id": "em_0021",
+  "serial": "21",
+  "theme": "A sports tournament",
+  "category": "Propose & organize",
+  "convention": "formal",
+  "intro_q": "You are organizing a local sports tournament and want a friend, Marcus, to help you run it. Write an email to Marcus explaining your plans and asking for his involvement.",
+  "tips": "",
+  "bullet1_type": "Reason",
+  "bullet1_q": "Explain why you want Marcus to help organize the tournament.",
+  "bullet2_type": "Neutral description",
+  "bullet2_q": "Describe what the tournament will involve and how it will be run.",
+  "bullet3_type": "Suggestion",
+  "bullet3_q": "Suggest a time and place to meet and discuss the details.",
+  "sample": {
+    "opening": "",
+    "bullet1": "",
+    "bullet2": "",
+    "bullet3": "",
+    "closing": "",
+    "opening_variety": "—",
+    "bullet1_variety": "",
+    "bullet2_variety": "",
+    "bullet3_variety": "",
+    "closing_variety": "—"
+  }
+}

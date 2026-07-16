@@ -1,0 +1,27 @@
+{
+  "id": "em_0012",
+  "serial": "12",
+  "theme": "A company training seminar",
+  "category": "Make a request",
+  "convention": "formal",
+  "intro_q": "You are attending a week-long company training seminar in another city next month. Your colleague Dana has attended the same seminar before. Write an email to Dana asking for advice.",
+  "tips": "",
+  "bullet1_type": "Reason",
+  "bullet1_q": "Explain why you are attending this seminar",
+  "bullet2_type": "initial request",
+  "bullet2_q": "Ask Dana for her recommendations about the seminar",
+  "bullet3_type": "Request",
+  "bullet3_q": "Say what you most hope to get out of it and what you want to avoid",
+  "sample": {
+    "opening": "",
+    "bullet1": "",
+    "bullet2": "",
+    "bullet3": "",
+    "closing": "",
+    "opening_variety": "—",
+    "bullet1_variety": "",
+    "bullet2_variety": "",
+    "bullet3_variety": "",
+    "closing_variety": "—"
+  }
+}

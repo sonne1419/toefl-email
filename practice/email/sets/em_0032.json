@@ -1,0 +1,27 @@
+{
+  "id": "em_0032",
+  "serial": "32",
+  "theme": "Assignment submission method",
+  "category": "Propose & organize",
+  "convention": "formal",
+  "intro_q": "You are enrolled in an online certification program and are unsure about how to submit your upcoming assignment. Write an email to the course coordinator, Sandra, to get the information you need.",
+  "tips": "",
+  "bullet1_type": "Reason",
+  "bullet1_q": "Explain why completing and submitting this assignment matters to you.",
+  "bullet2_type": "initial request",
+  "bullet2_q": "Ask specifically about the accepted submission method or platform.",
+  "bullet3_type": "Thanks",
+  "bullet3_q": "Thank Sandra in advance for her help.",
+  "sample": {
+    "opening": "",
+    "bullet1": "",
+    "bullet2": "",
+    "bullet3": "",
+    "closing": "",
+    "opening_variety": "—",
+    "bullet1_variety": "",
+    "bullet2_variety": "",
+    "bullet3_variety": "",
+    "closing_variety": "—"
+  }
+}

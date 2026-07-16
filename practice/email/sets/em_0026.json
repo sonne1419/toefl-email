@@ -1,0 +1,27 @@
+{
+  "id": "em_0026",
+  "serial": "26",
+  "theme": "A hotel room booking",
+  "category": "Report a problem",
+  "convention": "formal",
+  "intro_q": "You booked a hotel room online last week, but something has gone wrong with your reservation. Write an email to the reservations manager, Clara, to sort out the issue.",
+  "tips": "",
+  "bullet1_type": "Problem",
+  "bullet1_q": "Describe the problem you encountered with your booking.",
+  "bullet2_type": "initial request",
+  "bullet2_q": "Ask whether your reservation is confirmed in the system.",
+  "bullet3_type": "Request",
+  "bullet3_q": "Request advice on the steps you should take to resolve this.",
+  "sample": {
+    "opening": "",
+    "bullet1": "",
+    "bullet2": "",
+    "bullet3": "",
+    "closing": "",
+    "opening_variety": "—",
+    "bullet1_variety": "",
+    "bullet2_variety": "",
+    "bullet3_variety": "",
+    "closing_variety": "—"
+  }
+}

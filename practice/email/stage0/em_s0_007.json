@@ -1,0 +1,27 @@
+{
+  "id": "em_s0_007",
+  "serial": "7",
+  "theme": "Guest Speaker Event",
+  "category": "Other",
+  "convention": "formal",
+  "intro_q": "You work for the Career Services Office and have invited a guest speaker to speak to students. Write an email to them.",
+  "tips": "",
+  "bullet1_type": "Reason",
+  "bullet1_q": "Describe the speaker and why you invited them.",
+  "bullet2_type": "Reason",
+  "bullet2_q": "Explain how the talk fits students’ interests.",
+  "bullet3_type": "Providing Information",
+  "bullet3_q": "Provide date, time, and location details",
+  "sample": {
+    "opening": "Dear Students,",
+    "bullet1": "We have invited Dr. Laura Kim, a senior marketing strategist with over ten years of experience to give a lecture on modern marketing. We selected her because she is a renowned expert in digital marketing and one of our alumni.",
+    "bullet2": "It would be a valuable opportunity for students to connect classroom learning with real-world applications through Dr. Kim's case studies. The speaker will also share interview tips for students who wish to enter the industry in the near future.",
+    "bullet3": "The event will take place on Tuesday at 6:00 p.m. in Room 204 of the main building. If you have any questions about the session, please feel free to contact me.",
+    "closing": "We look forward to seeing you at the event.\n\nKind regards,\nDepartment of Business Administration",
+    "opening_variety": "—",
+    "bullet1_variety": "1. --\n2. Non-fronted subordinate clause (…beause...)",
+    "bullet2_variety": "1: Extraposition (It is adj. to…)\n2: Relative clause (…, which …)",
+    "bullet3_variety": "1. [Event] will take place on [date] at [time] in [location].\n2: Fronted subordinate clause (If….,...)",
+    "closing_variety": "—"
+  }
+}

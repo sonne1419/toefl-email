@@ -1,0 +1,74 @@
+[
+  {
+    "file": "em_s0_001.json",
+    "set_id": "em_s0_001",
+    "serial": "1",
+    "label": "Wifi problem — Problem / Aftermath / Request",
+    "category": "Report a problem",
+    "convention": "formal",
+    "format": "email"
+  },
+  {
+    "file": "em_s0_002.json",
+    "set_id": "em_s0_002",
+    "serial": "2",
+    "label": "Locker problem — Problem / Aftermath / Request",
+    "category": "Report a problem",
+    "convention": "formal",
+    "format": "email"
+  },
+  {
+    "file": "em_s0_003.json",
+    "set_id": "em_s0_003",
+    "serial": "3",
+    "label": "Workshop feedback — Thanks / Reason / Suggestion",
+    "category": "Thank & follow up",
+    "convention": "formal",
+    "format": "email"
+  },
+  {
+    "file": "em_s0_004.json",
+    "set_id": "em_s0_004",
+    "serial": "4",
+    "label": "Seminar feedback — Thanks / Reason / Suggestion",
+    "category": "Thank & follow up",
+    "convention": "formal",
+    "format": "email"
+  },
+  {
+    "file": "em_s0_005.json",
+    "set_id": "em_s0_005",
+    "serial": "5",
+    "label": "Seminar feedback 2 — Thanks / Reason / Suggestion",
+    "category": "Thank & follow up",
+    "convention": "formal",
+    "format": "email"
+  },
+  {
+    "file": "em_s0_006.json",
+    "set_id": "em_s0_006",
+    "serial": "6",
+    "label": "Sharing about art exhibition — Neutral description / Reason / Suggestion",
+    "category": "Other",
+    "convention": "informal",
+    "format": "email"
+  },
+  {
+    "file": "em_s0_007.json",
+    "set_id": "em_s0_007",
+    "serial": "7",
+    "label": "Guest Speaker Event — Reason / Reason / Providing Information",
+    "category": "Other",
+    "convention": "formal",
+    "format": "email"
+  },
+  {
+    "file": "em_s0_008.json",
+    "set_id": "em_s0_008",
+    "serial": "8",
+    "label": "Career Networking Event — Reason / Reason / Providing Information",
+    "category": "Other",
+    "convention": "formal",
+    "format": "email"
+  }
+]

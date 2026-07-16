@@ -1,0 +1,27 @@
+{
+  "id": "em_s0_002",
+  "serial": "2",
+  "theme": "Locker problem",
+  "category": "Report a problem",
+  "convention": "formal",
+  "intro_q": "You recently joined a fitness center and noticed a problem with the locker facilities. Write an email to the manager.",
+  "tips": "",
+  "bullet1_type": "Problem",
+  "bullet1_q": "Describe the issue you encountered.",
+  "bullet2_type": "Aftermath",
+  "bullet2_q": "Explain how it has affected your workouts.",
+  "bullet3_type": "Request",
+  "bullet3_q": "Request that the issue be addressed and ask when it will be fixed.",
+  "sample": {
+    "opening": "Dear Mr. Taylor,\nI hope you are well.",
+    "bullet1": "I would like to request assistance with a locker problem in the men's rest area that has existed for a long time. When I try to lock my belongings, many of the doors do not close properly, and some lockers open even after I turn the key.",
+    "bullet2": "As a result, it is difficult to concentrate on working out because I often have to check whether my belongings are secure in the locker. In fact, my friend’s laptop was stolen just yesterday because of this.",
+    "bullet3": "Would it be possible for you to arrange for someone to inspect and repair the lockers soon? It would be very helpful if you could also let me know when this issue is expected to be resolved.",
+    "closing": "Thank you in advance for your response. \n\nBest regards,\nChen",
+    "opening_variety": "—",
+    "bullet1_variety": "1. I would like to report/request…+ relative clause (..that…)\n2. Fronted subordinate clause (When…., [consequence])",
+    "bullet2_variety": "1: Nominalization (working out…)\n2: Passive voice ( …was stolen...)\n3. Extraposition (It's adj to…)",
+    "bullet3_variety": "1. Would it be possible for (someone) to (do something)?\n2: Non-fronted subordinate clause (….if…) + purpose clause (…so that…)",
+    "closing_variety": "—"
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "id": "em_s0_004",
+  "serial": "4",
+  "theme": "Seminar feedback",
+  "category": "Thank & follow up",
+  "convention": "formal",
+  "intro_q": "You recently attended a professional development seminar and would like to thank the organizer and provide feedback. Write an email to the seminar organizer.",
+  "tips": "",
+  "bullet1_type": "Thanks",
+  "bullet1_q": "Thank the organizer",
+  "bullet2_type": "Reason",
+  "bullet2_q": "Describe what you enjoyed most.",
+  "bullet3_type": "Suggestion",
+  "bullet3_q": "Suggest improvements for future seminars.",
+  "sample": {
+    "opening": "Dear Mr. Taylor,\nI hope you are well.",
+    "bullet1": "I sincerely appreciate that you arranged such a well-organized and insightful seminar. I was truly impressed by how many experts in each industry were invited to speak in just one event.",
+    "bullet2": "I find the Q&A sessions to be especially valuable. The speakers were very patient in answering my questions, which clarified many doubts and misconceptions that used to bother me for a long time.",
+    "bullet3": "I would like to offer one small suggestion for future seminars. It would be helpful if additional networking time were included after the main sessions so that participants could connect with one another and build stronger professional relationships.",
+    "closing": "Thank you in advance for your response. \n\nBest regards,\nLi-Yi Chen",
+    "opening_variety": "—",
+    "bullet1_variety": "1: I (sincerely/truly) appreciate that you…\n2: Passive voice (… was impressed by…)",
+    "bullet2_variety": "1: I find (positive adj.)\n2: Relative clause (…, which …)",
+    "bullet3_variety": "1: I would like to (suggest/offer)…\n2: Non-fronted subordinate clause (….if…) + purpose clause (…so that…)",
+    "closing_variety": "—"
+  }
+}

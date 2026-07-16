@@ -1,0 +1,27 @@
+{
+  "id": "em_0031",
+  "serial": "31",
+  "theme": "A missed class session",
+  "category": "Make a request",
+  "convention": "formal",
+  "intro_q": "You are enrolled in a professional training program and missed an important class session last week. You need to obtain materials or a catch-up arrangement from the program coordinator. Write an email to Jordan.",
+  "tips": "",
+  "bullet1_type": "initial request",
+  "bullet1_q": "Ask for the missed session's materials or a way to catch up.",
+  "bullet2_type": "Reason",
+  "bullet2_q": "Explain why you were unable to attend the session.",
+  "bullet3_type": "Suggestion",
+  "bullet3_q": "Suggest a specific time or method to make up the content.",
+  "sample": {
+    "opening": "",
+    "bullet1": "",
+    "bullet2": "",
+    "bullet3": "",
+    "closing": "",
+    "opening_variety": "—",
+    "bullet1_variety": "",
+    "bullet2_variety": "",
+    "bullet3_variety": "",
+    "closing_variety": "—"
+  }
+}

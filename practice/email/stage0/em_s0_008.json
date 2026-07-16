@@ -1,0 +1,27 @@
+{
+  "id": "em_s0_008",
+  "serial": "8",
+  "theme": "Career Networking Event",
+  "category": "Other",
+  "convention": "formal",
+  "intro_q": "You work for the Career Services Office and are organizing a career networking session for students to meet alumni working in different industries. Write an email to participants.",
+  "tips": "",
+  "bullet1_type": "Reason",
+  "bullet1_q": "Describe the event and why it was organized.",
+  "bullet2_type": "Reason",
+  "bullet2_q": "Explain how it benefits attendees.",
+  "bullet3_type": "Providing Information",
+  "bullet3_q": "Provide date, time, and location details.",
+  "sample": {
+    "opening": "Dear Students,",
+    "bullet1": "We are organizing a career networking session that will bring together alumni in different industries and current students. We arranged this event because many students are concerned about choosing the right career path.",
+    "bullet2": "It would be a valuable opportunity to speak directly with alumni who are working in large international corporations. They will explain their own job search strategies in detail so that attendees can create their own effective job search plans.",
+    "bullet3": "The event will take place on Friday at 7:00 p.m. in the university conference hall. If you have any questions about attending, please feel free to contact me.",
+    "closing": "We look forward to seeing you at the event.\n\nKind regards,\nCareer Services Office",
+    "opening_variety": "—",
+    "bullet1_variety": "1. Relative clause (..that…)\n2. Non-fronted subordinate clause (…beause..)",
+    "bullet2_variety": "1: Extraposition (It is adj. to…) + relative clause (...who…)\n2: Purpose clause (…so that..)",
+    "bullet3_variety": "Sentence 1: [Event] will take place on [date] at [time] in [location].\nSentence 2: Fronted subordinate clause (If….,...)",
+    "closing_variety": "—"
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "id": "em_0018",
+  "serial": "18",
+  "theme": "Overflowing public trash cans",
+  "category": "Report a problem",
+  "convention": "formal",
+  "intro_q": "You visit Riverside Park regularly and have noticed an ongoing cleanliness issue that is affecting your experience there. The park falls under the care of the local parks authority. Write an email to the Parks Manager, David Chen, to raise your concern.",
+  "tips": "",
+  "bullet1_type": "Problem",
+  "bullet1_q": "Describe the specific problem you have observed with the trash cans.",
+  "bullet2_type": "Reason",
+  "bullet2_q": "Explain why this situation is a concern for park users and the environment.",
+  "bullet3_type": "Suggestion",
+  "bullet3_q": "Suggest a practical measure the parks authority could take to resolve it.",
+  "sample": {
+    "opening": "",
+    "bullet1": "",
+    "bullet2": "",
+    "bullet3": "",
+    "closing": "",
+    "opening_variety": "—",
+    "bullet1_variety": "",
+    "bullet2_variety": "",
+    "bullet3_variety": "",
+    "closing_variety": "—"
+  }
+}

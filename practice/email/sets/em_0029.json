@@ -1,0 +1,27 @@
+{
+  "id": "em_0029",
+  "serial": "29",
+  "theme": "Adopting a first pet",
+  "category": "Share & advise",
+  "convention": "formal",
+  "intro_q": "Your friend Maya has just decided to adopt her very first pet and is feeling overwhelmed and unsure where to start. You have some experience in this area and want to share what you know. Write an email to Maya offering your advice.",
+  "tips": "",
+  "bullet1_type": "Neutral description",
+  "bullet1_q": "Describe your own experience getting your first pet.",
+  "bullet2_type": "Suggestion",
+  "bullet2_q": "Suggest one or two practical steps Maya could take.",
+  "bullet3_type": "Request",
+  "bullet3_q": "Offer to help Maya further if she has questions.",
+  "sample": {
+    "opening": "",
+    "bullet1": "",
+    "bullet2": "",
+    "bullet3": "",
+    "closing": "",
+    "opening_variety": "—",
+    "bullet1_variety": "",
+    "bullet2_variety": "",
+    "bullet3_variety": "",
+    "closing_variety": "—"
+  }
+}

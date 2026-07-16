@@ -1,0 +1,27 @@
+{
+  "id": "em_s0_001",
+  "serial": "1",
+  "theme": "Wifi problem",
+  "category": "Report a problem",
+  "convention": "formal",
+  "intro_q": "You recently started using a co-working space and have experienced problems with the Wi-Fi connection. Write an email to the manager of the co-working space.",
+  "tips": "",
+  "bullet1_type": "Problem",
+  "bullet1_q": "Describe the Wi-Fi issues",
+  "bullet2_type": "Aftermath",
+  "bullet2_q": "Explain how they affect your daily work.",
+  "bullet3_type": "Request",
+  "bullet3_q": "Request a repair and ask for a timeline.",
+  "sample": {
+    "opening": "Dear Mr. Taylor,\nI hope you are well.",
+    "bullet1": "I would like to request assistance with a Wi-Fi problem at the co-working space that began three days ago. When I connect to the network in the morning, the internet connection sometimes becomes extremely slow.",
+    "bullet2": "As a result, uploading and downloading large files have become impossible. Online meetings with clients have to be postponed because of the low bandwidth.",
+    "bullet3": "Would it be possible for you to arrange for a technician to check the system in the next few days? It would also be great if you could let me know when this issue might be fixed so that everyone can transfer files without difficulty.",
+    "closing": "Thank you in advance for your response. \n\nBest regards,\nChen",
+    "opening_variety": "—",
+    "bullet1_variety": "1. I would like to report/request…+ relative clause (..that…)\n2. Fronted subordinate clause (When…., [consequence])",
+    "bullet2_variety": "1: Nominalization (uploading…)\n2: Passive voice ( …have to be postponed...)",
+    "bullet3_variety": "1. Would it be possible for (someone) to (do something)?\n2: Non-fronted subordinate clause (….if…) + purpose clause (…so that…)",
+    "closing_variety": "—"
+  }
+}
