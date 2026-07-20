@@ -1,8 +1,8 @@
 // functions/email-block-check.js
-// Per-bullet DISCOURSE & SYNTAX evaluator for Stage 4 (Email writing).
+// Per-bullet DISCOURSE evaluator for Stage 4 (Email writing).
 // Checks one bullet (Bullet 1 / Bullet 2 / Bullet 3) against:
 //   - the email task (scenario + all three bullet points) for context
-//   - the per-question SAMPLE for that bullet (benchmark for moves & syntax)
+//   - the per-question SAMPLE for that bullet (benchmark for discourse moves)
 // Does NOT check grammar/punctuation — that is handled separately by grammar.js.
 // Opening and Closing are NOT checked here (grammar only).
 //
@@ -27,13 +27,14 @@ You receive:
 - THE SAMPLE: a model for this section, written for a DIFFERENT scenario. Use it ONLY to benchmark moves and syntax — NEVER for content. A different topic is fine and must never be flagged.
 - THE STUDENT'S SECTION: what the student wrote.
 
-Always output these three lines, in this order:
+Always output these two lines, in this order:
 
 ON-TOPIC: Does the student's section cover the task point it must address? Output "OK", or briefly what is missing.
 MOVES: Compare the number of discourse moves (distinct developing steps) in the student's section vs THE SAMPLE. Verdict: MORE / LESS / ROUGHLY THE SAME, with a brief reason. ROUGHLY THE SAME is normal; say LESS only when clearly and substantially fewer. fewer details ≠ fewer moves.
-SYNTAX: Compare the range of sentence structures vs THE SAMPLE. Verdict: MORE / LESS / ROUGHLY THE SAME, with a brief reason. ROUGHLY THE SAME is normal; say LESS only when clearly and substantially narrower. No quotes, no construction names.
 
-Keep each line to one sentence. Do not output a band or score. Keep the labels (ON-TOPIC:, MOVES:, SYNTAX:) and the words OK / MORE / LESS / ROUGHLY THE SAME in English exactly as written.`;
+Do NOT comment on sentence structure or syntactic variety — a separate check reports the sentence patterns used, and duplicating it here gives the student two verdicts on the same thing.
+
+Keep each line to one sentence. Do not output a band or score. Keep the labels (ON-TOPIC:, MOVES:) and the words OK / MORE / LESS / ROUGHLY THE SAME in English exactly as written.`;
 
 function callOpenAI(apiKey, systemPrompt, userContent) {
   return new Promise((resolve, reject) => {
@@ -110,7 +111,7 @@ exports.handler = async (event) => {
     return { statusCode: 400, body: JSON.stringify({ error: "Missing student_block" }) };
   }
 
-  const labelList = `ON-TOPIC:, MOVES:, SYNTAX:`;
+  const labelList = `ON-TOPIC:, MOVES:`;
   const systemPrompt = (language && language.trim().toLowerCase() !== "english")
     ? BLOCK_SYSTEM + `\n\nWrite all your explanations in ${language.trim()}, but keep the format labels (${labelList}) and the words OK / MORE / LESS / ROUGHLY THE SAME in English exactly as written — these are required for parsing.`
     : BLOCK_SYSTEM;

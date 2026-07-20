@@ -83,19 +83,28 @@ async function fetchEmailStage0Index(siteUrl) {
 }
 
 async function fetchEmailFile(subdir, file, siteUrl) {
-  if (siteUrl) {
-    try { return await fetchURL(`${siteUrl}/practice/email/${subdir}/${file}`); }
-    catch(e) {}
+  if (!siteUrl) { console.error("[api] fetchEmailFile: no siteUrl"); return null; }
+  const url = `${siteUrl}/practice/email/${subdir}/${file}`;
+  try {
+    return await fetchURL(url);
+  } catch (e) {
+    // Logged, not swallowed: a silent null here surfaces to the student as
+    // "Could not load question." with no clue whether the file is missing, the
+    // URL is wrong, or the request failed.
+    console.error("[api] fetchEmailFile failed:", url, "-", e.message);
+    return null;
   }
-  return null;
 }
 
 async function fetchEmailRootFile(file, siteUrl) {
-  if (siteUrl) {
-    try { return await fetchURL(`${siteUrl}/practice/email/${file}`); }
-    catch(e) {}
+  if (!siteUrl) { console.error("[api] fetchEmailRootFile: no siteUrl"); return null; }
+  const url = `${siteUrl}/practice/email/${file}`;
+  try {
+    return await fetchURL(url);
+  } catch (e) {
+    console.error("[api] fetchEmailRootFile failed:", url, "-", e.message);
+    return null;
   }
-  return null;
 }
 
 const JSON_HEADERS = {
@@ -143,7 +152,8 @@ exports.handler = async (event) => {
     if (op === "get_email_sets" && params.file) {
       const basename = params.file.replace(/[^a-zA-Z0-9_.\-]/g, "");
       const raw = await fetchEmailFile("sets", basename, siteUrl);
-      if (!raw) return { statusCode: 404, body: JSON.stringify({ error: "Question not found" }) };
+      if (!raw) return { statusCode: 404, body: JSON.stringify({
+        error: "Question not found", file: basename, tried: `${siteUrl}/practice/email/sets/${basename}` }) };
       return { statusCode: 200, headers: JSON_HEADERS, body: raw };
     }
 

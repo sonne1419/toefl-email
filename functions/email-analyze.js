@@ -4,7 +4,7 @@
 
 const https = require("https");
 
-const SYSTEM_PROMPT = `You are a TOEFL teacher evaluating a student's email writing response.
+const SCORING_RULES = `You are a TOEFL teacher evaluating a student's email writing response.
 Compare the student's email to the band samples provided below.
 The band samples use a DIFFERENT scenario — they illustrate writing quality only, not topic content. Evaluate the student's email on its own scenario.
 
@@ -17,14 +17,22 @@ IMPORTANT: Evaluate ONLY the student's email. The task prompt and bullet points 
 
 Do not use accuracy as a separate criterion that determines the band — judge whether the overall communication is effective and the task is accomplished. A response that fully addresses all bullet points with specific detail, appropriate register, and good syntactic variety should be Band 5 even if it contains a few minor errors like spelling mistakes or subject-verb agreement slips. Do not let minor errors alone prevent Band 5. Placeholders such as [Name], [Your name], or a bracketed signature are normal stand-ins and are NOT a deficiency — do not lower the band for them.
 
-Before evaluating register, determine what register is appropriate for this specific task. Not all email tasks require formal register — a complaint to a co-working space manager, a request to a club organiser, or a message to a university office may call for semi-formal language. Evaluate the student's register against what is actually appropriate for the task context.
+Before evaluating register, determine what register is appropriate for this specific task. Not all email tasks require formal register — a complaint to a co-working space manager, a request to a club organiser, or a message to a university office may call for semi-formal language. Evaluate the student's register against what is actually appropriate for the task context.`;
+
+// The written feedback half. Omitted in band_only mode, where a separate call
+// (email-why-not-5) explains the gap instead — so this would only duplicate it.
+const FEEDBACK_CATEGORIES = `
 
 After the band assignment, evaluate using these categories, each labelled on its own line:
    - Content & Task Completion: Did the student address all parts of the task with relevant, developed content?
    - Register & Tone: Is the register appropriate for this specific task context?
    - Syntactic/Lexical Variety: Does the student use varied sentence structures and vocabulary?
    - Accuracy/Errors: Are there grammar, spelling, or structural errors? What are the patterns?
-Identify error patterns and root causes.
+Identify error patterns and root causes.`;
+
+// The band reference samples. Shared by both modes — the scoring must be
+// identical whether or not written feedback is requested.
+const BAND_SAMPLES = `
 
 Sample Question (for band reference only — the student's actual task is different):
 You recently started using a co-working space and have experienced problems with the Wi-Fi connection.
@@ -77,6 +85,17 @@ Hi Mr. Taylor,
 I started using co-working space and have experienced problems with the Wi-Fi connection. Wi-The issues affect my daily work. I request a repair and ask for a timeline.
 Thanks.`;
 
+// Full analysis: scoring rules + written feedback categories + band samples.
+const SYSTEM_PROMPT = SCORING_RULES + FEEDBACK_CATEGORIES + BAND_SAMPLES;
+
+// Band only: the same scoring rules and the same samples, minus the written
+// feedback. Used where a separate call explains the gap, so the two would
+// otherwise say the same thing twice. Identical rules in, identical band out.
+const SYSTEM_PROMPT_BAND_ONLY = SCORING_RULES + BAND_SAMPLES + `
+
+Respond with ONLY the band line, exactly: BAND:X
+Give no explanation, no categories, and no other text.`;
+
 function callOpenAI(userPrompt, systemPrompt) {
   const apiKey = process.env.ALT_OPENAI_KEY || "";
   if (!apiKey) throw new Error("ALT_OPENAI_KEY not set.");
@@ -126,16 +145,21 @@ exports.handler = async (event) => {
   try { body = JSON.parse(event.body); }
   catch(e) { return { statusCode: 400, body: JSON.stringify({ error: "Invalid request body" }) }; }
 
-  const { user_prompt, language } = body;
+  const { user_prompt, language, mode } = body;
   if (!user_prompt)
     return { statusCode: 400, body: JSON.stringify({ error: "user_prompt is required" }) };
 
-  // Inject language instruction if the student's language isn't English
+  const bandOnly = (mode === "band_only");
+  const base = bandOnly ? SYSTEM_PROMPT_BAND_ONLY : SYSTEM_PROMPT;
+
+  // Inject language instruction if the student's language isn't English.
+  // Band-only output is a single "BAND:X" line with nothing to translate, so
+  // the instruction is skipped there — it would only invite stray prose.
   const lang = (language || "").trim();
   const isEnglish = !lang || /^english$/i.test(lang);
-  const systemPrompt = isEnglish
-    ? SYSTEM_PROMPT
-    : SYSTEM_PROMPT + `\n\nIMPORTANT: Write ALL of your feedback in ${lang}, including the text after each category label (Content & Task Completion, Register & Tone, Syntactic/Lexical Variety, Accuracy/Errors). Keep only the "BAND:X" line and the four category labels themselves in English exactly as written — translate everything else, including all explanations. Keep grammar terminology clear.`;
+  const systemPrompt = (isEnglish || bandOnly)
+    ? base
+    : base + `\n\nIMPORTANT: Write ALL of your feedback in ${lang}, including the text after each category label (Content & Task Completion, Register & Tone, Syntactic/Lexical Variety, Accuracy/Errors). Keep only the "BAND:X" line and the four category labels themselves in English exactly as written — translate everything else, including all explanations. Keep grammar terminology clear.`;
 
   try {
     const feedback = await callOpenAI(user_prompt, systemPrompt);

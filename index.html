@@ -146,9 +146,16 @@ textarea:focus { border-color: var(--green); outline: none; }
   letter-spacing: .04em; color: var(--muted); padding: 7px 10px;
   text-align: left; border-bottom: 1px solid var(--border);
 }
-.s0-table th:nth-child(1) { width: 110px; }
-.s0-table th:nth-child(2) { width: 22%; }
-.s0-table th:nth-child(3) { width: 28%; }
+.s0-table th:nth-child(1) { width: 92px; }
+.s0-table th:nth-child(2) { width: 108px; }
+.s0-table th:nth-child(3) { width: 17%; }
+.s0-table th:nth-child(4) { width: 23%; }
+.s0-table th:nth-child(5) { width: 17%; }
+.s0-col-type    { background: #fafafa; }
+.s0-type-text   { font-size: 12px; font-weight: 600; color: var(--green-dark); line-height: 1.4; }
+.s0-type-q      { font-size: 11px; color: #888; font-style: italic; margin-top: 3px; line-height: 1.4; }
+.s0-col-idea    { background: #fdfbfe; }
+.s0-idea-text   { font-size: 12px; color: #6c3483; line-height: 1.5; white-space: pre-wrap; }
 /* Your Text column: remaining space (auto) */
 .s0-table td { padding: 9px 10px; border-bottom: 1px solid #f0f0ee; vertical-align: top; }
 .s0-table tr:last-child td { border-bottom: none; }
@@ -176,7 +183,7 @@ textarea:focus { border-color: var(--green); outline: none; }
   padding: 10px 16px; cursor: pointer; user-select: none;
 }
 #prac-instr-bar:hover { background: #e6f4f3; }
-#prac-instr-body { padding: 0 16px 14px; font-size: 13px; line-height: 1.7; color: #333; }
+#prac-instr-body { padding: 0 16px 12px; font-size: 12.5px; line-height: 1.5; color: #333; }
 .btn-got-it {
   background: #00736b; color: #fff; border: none; border-radius: 8px;
   padding: 7px 18px; font-size: 13px; font-weight: 600; cursor: pointer;
@@ -198,11 +205,15 @@ textarea:focus { border-color: var(--green); outline: none; }
   border-bottom: 1px solid #f0f0ee; background: #fafafa; flex-wrap: wrap;
 }
 .sec-label { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; color: var(--green-dark); }
-.sec-type  { font-size: 11px; color: var(--faint); }
-.sec-instr { font-size: 13px; color: #333; flex: 1; }
-.sec-body  { display: grid; grid-template-columns: 35% 22% 1fr; align-items: start; }
-.sec-left  { padding: 11px 13px; border-right: 1px solid #f0f0ee; background: #fcfcfb; }
-.sec-variety { padding: 11px 13px; border-right: 1px solid #f0f0ee; background: #fafafa; font-size: 11px; color: #888; line-height: 1.55; white-space: pre-wrap; }
+/* The bullet type is what the student has to act on, so it reads as a badge
+   rather than faint grey text competing with everything else on the line. */
+.sec-type  { font-size: 11px; font-weight: 700; color: #fff; background: var(--green);
+             padding: 2px 8px; border-radius: 10px; letter-spacing: .02em; white-space: nowrap; }
+.sec-instr { font-size: 13px; color: #333; flex: 1; min-width: 200px; }
+.sec-body  { display: grid; grid-template-columns: 1fr 17% 23% 17%; align-items: start; }
+.sec-idea  { padding: 11px 13px; border-left: 1px solid #f0f0ee; background: #fdfbfe; font-size: 12px; color: #6c3483; line-height: 1.5; white-space: pre-wrap; }
+.sec-left  { padding: 11px 13px; border-left: 1px solid #f0f0ee; background: #fcfcfb; }
+.sec-variety { padding: 11px 13px; border-left: 1px solid #f0f0ee; background: #fafafa; font-size: 11px; color: #888; line-height: 1.55; white-space: pre-wrap; }
 .sec-right { padding: 9px 11px; display: flex; flex-direction: column; gap: 4px; }
 .sec-sample-lbl { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: .05em; color: var(--faint); margin-bottom: 5px; }
 .sec-sample-txt { font-size: 13px; line-height: 1.65; color: #2a2a2a; white-space: pre-wrap; }
@@ -260,9 +271,9 @@ textarea:focus { border-color: var(--green); outline: none; }
 .end-body { flex: 1; overflow-y: auto; padding: 18px 22px; }
 .end-summary { font-size: 13px; color: var(--muted); margin-bottom: 14px; }
 .status-bar { font-size: 13px; color: var(--muted); padding: 6px 0; margin-bottom: 8px; }
-.result-item { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 14px; margin-bottom: 11px; }
-.result-hd { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); margin-bottom: 6px; }
-.result-scenario { font-size: 12px; color: #888; margin-bottom: 8px; line-height: 1.4; }
+.result-item { background: var(--card); border: 1px solid var(--border); border-left: 4px solid #00736b; border-radius: 8px; padding: 16px 16px 14px; margin-bottom: 22px; }
+.result-hd { font-size: 14px; font-weight: 700; letter-spacing: .01em; color: #00736b; margin-bottom: 7px; padding-bottom: 7px; border-bottom: 1px solid #ececec; }
+.result-scenario { font-size: 13px; color: #555; margin-bottom: 10px; line-height: 1.5; }
 .result-text-lbl { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: .05em; color: var(--faint); margin: 8px 0 4px; }
 .result-text { font-size: 13px; color: #333; line-height: 1.6; white-space: pre-wrap; background: #f8f8f7; padding: 9px 11px; border-radius: 6px; }
 .result-meta { font-size: 11px; color: var(--faint); margin-top: 5px; }
@@ -400,7 +411,6 @@ textarea:focus { border-color: var(--green); outline: none; }
       <span style="color:var(--border);">|</span>
       <span class="bar-title" id="s0-current-label">—</span>
       <div class="timer-up" id="s0-timer">00:00</div>
-      <button class="btn-primary" id="btn-s0-end">End Session</button>
     </div>
     <div id="s0-intro-wrap" style="background:#f0f9f8;border:1px solid #b2dbd8;overflow:hidden;flex-shrink:0;">
       <div id="s0-intro-bar" onclick="toggleS0Intro()" style="display:flex;align-items:center;justify-content:space-between;padding:10px 16px;cursor:pointer;user-select:none;">
@@ -414,23 +424,42 @@ textarea:focus { border-color: var(--green); outline: none; }
     </div>
     <div class="s0-body">
       <div class="scenario-box" id="s0-scenario"></div>
+      <!-- Native / English toggle for the sample text, modelled on the Academic
+           Discussion tool. A weak reader can grasp the logic of a model answer
+           in their own language first, then switch to English to study the
+           sentences — instead of decoding vocabulary and structure at once. -->
+      <div id="s0-lang-bar" style="display:none;align-items:center;gap:10px;margin:0 0 10px;">
+        <span style="font-size:13px;font-weight:700;color:#8e44ad;">🌐 <span id="s0-lang-label">Sample language:</span></span>
+        <div id="s0-lang-switch" onclick="toggleS0SampleLang()" role="switch" tabindex="0"
+          style="position:relative;display:inline-flex;align-items:center;width:230px;height:34px;border-radius:17px;background:#ede0f5;border:2px solid #8e44ad;cursor:pointer;user-select:none;">
+          <span id="s0-lang-knob"
+            style="position:absolute;top:2px;left:2px;width:111px;height:26px;border-radius:13px;background:#8e44ad;transition:left .22s ease;box-shadow:0 1px 4px rgba(0,0,0,.2);"></span>
+          <span id="s0-lang-seg-native"
+            style="position:relative;z-index:1;flex:1;text-align:center;font-size:13px;font-weight:800;color:#fff;pointer-events:none;">My language</span>
+          <span id="s0-lang-seg-en"
+            style="position:relative;z-index:1;flex:1;text-align:center;font-size:13px;font-weight:800;color:#8e44ad;pointer-events:none;">English</span>
+        </div>
+      </div>
       <table class="s0-table">
         <thead>
           <tr>
-            <th style="width:110px;">Part</th>
-            <th class="s0-col-sample"><label style="display:flex;align-items:center;gap:5px;cursor:pointer;"><input type="checkbox" id="toggle-s0-sample-cb" checked onchange="toggleS0Sample()" style="accent-color:var(--green);width:auto;margin:0;"> Hide Sample</label></th>
+            <th style="width:92px;">Part</th>
+            <th class="s0-col-type">Type</th>
+            <th class="s0-col-idea"><div style="display:flex;align-items:center;justify-content:space-between;gap:6px;">💡 Ideas <button id="btn-s0-idea" style="font-size:11px;padding:4px 10px;text-transform:none;letter-spacing:0;font-weight:700;background:#faf5fc;color:#8e44ad;border:1px solid #8e44ad;border-radius:6px;cursor:pointer;font-family:inherit;white-space:nowrap;">Generate</button></div></th>
+            <th class="s0-col-sample"><label style="display:flex;align-items:center;gap:5px;cursor:pointer;"><input type="checkbox" id="toggle-s0-sample-cb" checked onchange="toggleS0Sample()" style="accent-color:var(--green);width:auto;margin:0;"> Show Sample</label></th>
             <th class="s0-col-variety">Variety</th>
-            <th><div style="display:flex;align-items:center;justify-content:space-between;gap:8px;">Your Text <button id="btn-s0-clear" style="font-size:12px;padding:5px 14px;text-transform:none;letter-spacing:0;font-weight:600;background:var(--red);color:#fff;border:none;border-radius:6px;cursor:pointer;font-family:inherit;">🗑 Clear All</button></div></th>
+            <th><div style="display:flex;align-items:center;justify-content:space-between;gap:8px;">Your Text <button id="btn-s0-clear" style="font-size:11px;padding:3px 10px;text-transform:none;letter-spacing:0;font-weight:600;background:#fff;color:var(--red);border:1px solid var(--red);border-radius:6px;cursor:pointer;font-family:inherit;opacity:.75;">🗑 Clear All</button></div></th>
           </tr>
         </thead>
         <tbody id="s0-tbody"></tbody>
       </table>
-      <div id="s0-feedback-box" style="display:none;background:#f8f8f7;border:1px solid var(--border);border-radius:8px;padding:14px 16px;font-size:13px;line-height:1.7;white-space:pre-wrap;color:#333;margin-top:8px;"></div>
+      <div id="s0-feedback-box" style="display:none;background:#f8f8f7;border:1px solid var(--border);border-radius:8px;padding:14px 16px;font-size:13px;line-height:1.7;color:#333;margin-top:8px;"></div>
     </div>
     <div class="s0-footer">
       <div class="s0-total">Total: <span id="s0-total-words">0</span> words</div>
-      <button class="btn-primary btn-sm" id="btn-s0-save">Save &amp; Check</button>
-      <button class="btn-ghost btn-sm" id="btn-s0-next" style="display:none;">Next Question</button>
+      <div id="s0-footer-hint" style="display:none;flex:1;text-align:center;font-size:14px;font-weight:700;color:#c0392b;">Modify your answer to get a new analysis, or try a different question from the list.</div>
+      <button class="btn-primary btn-sm" id="btn-s0-save" style="margin-left:auto;flex-shrink:0;">Save &amp; Check</button>
+      <button id="btn-s0-end-footer" style="flex-shrink:0;font-size:13px;font-weight:700;color:var(--green);background:#fff;border:1.5px solid var(--green);border-radius:6px;padding:8px 16px;cursor:pointer;white-space:nowrap;font-family:inherit;">End Practice and See Summary</button>
     </div>
   </div>
 </div>
@@ -472,38 +501,45 @@ textarea:focus { border-color: var(--green); outline: none; }
     <div id="prac-question-content" style="display:none;flex-direction:column;gap:11px;">
       <div class="scenario-box" id="prac-scenario"></div>
       <div style="display:flex;gap:14px;align-items:flex-start;">
-        <!-- Tips panel: collapses horizontally -->
-        <div id="prac-tips-wrap" style="width:200px;min-width:200px;flex-shrink:0;background:#fff;border:1px solid var(--border);border-radius:8px;overflow:hidden;transition:width .2s,min-width .2s;">
-          <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 12px;background:#fafafa;border-bottom:1px solid var(--border);">
-            <span style="font-size:12px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;">Tips</span>
-            <button id="btn-hide-tips" onclick="togglePracTips()" style="font-size:11px;background:none;border:1px solid var(--border);border-radius:4px;padding:2px 7px;cursor:pointer;font-family:inherit;color:var(--muted);">Hide</button>
-          </div>
-          <div id="prac-tips-body" style="padding:10px 12px;font-size:12px;line-height:1.7;color:#333;"></div>
-        </div>
-        <!-- Show Tips button — only visible when tips hidden -->
-        <button id="btn-show-tips" onclick="togglePracTips()" style="display:none;writing-mode:vertical-rl;font-size:11px;font-weight:600;color:var(--muted);background:#fff;border:1px solid var(--border);border-radius:8px;padding:10px 6px;cursor:pointer;font-family:inherit;flex-shrink:0;">Tips ▶</button>
         <div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:0;">
           <!-- Column header row above sections -->
-          <div style="display:grid;grid-template-columns:35% 22% 1fr;margin-bottom:6px;">
-            <div style="padding:5px 13px;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);display:flex;align-items:center;gap:8px;">
-              SAMPLE
-              <label style="display:flex;align-items:center;gap:4px;cursor:pointer;font-weight:normal;text-transform:none;letter-spacing:0;color:var(--green);font-size:11px;">
-                <input type="checkbox" id="toggle-prac-sample" onchange="applyPracToggles(STAGE_META[STATE.selectedStage]?.sections||[])" style="accent-color:var(--green);width:auto;margin:0;">
-                Hide
-              </label>
+          <div style="display:grid;grid-template-columns:1fr 17% 23% 17%;margin-bottom:6px;">
+            <div style="padding:5px 13px;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);display:flex;align-items:center;justify-content:space-between;gap:8px;">YOUR TEXT <button id="btn-prac-clear" style="font-size:11px;padding:3px 10px;text-transform:none;letter-spacing:0;font-weight:600;background:#fff;color:var(--red);border:1px solid var(--red);border-radius:6px;cursor:pointer;font-family:inherit;opacity:.75;">🗑 Clear All</button></div>
+            <div style="padding:5px 13px;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);display:flex;align-items:center;gap:6px;">💡 IDEAS
+              <button id="btn-prac-idea" style="font-size:10px;padding:3px 9px;text-transform:none;letter-spacing:0;font-weight:700;background:#faf5fc;color:#8e44ad;border:1px solid #8e44ad;border-radius:5px;cursor:pointer;font-family:inherit;white-space:nowrap;">Generate</button>
+            </div>
+            <div style="padding:5px 13px;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);">
+              <div style="display:flex;align-items:center;gap:8px;">
+                SAMPLE
+                <label style="display:flex;align-items:center;gap:4px;cursor:pointer;font-weight:normal;text-transform:none;letter-spacing:0;color:var(--green);font-size:11px;">
+                  <input type="checkbox" id="toggle-prac-sample" onchange="applyPracToggles(STAGE_META[STATE.selectedStage]?.sections||[])" style="accent-color:var(--green);width:auto;margin:0;">
+                  Show Sample
+                </label>
+              </div>
+              <!-- Sits at the point of reading, not only in the intro: the intro
+                   is collapsible and most students will have dismissed it by the
+                   time they open this column. Without it, a Wi-Fi sample beside a
+                   parking-permit question reads as a broken tool. -->
+              <div style="font-weight:600;text-transform:none;letter-spacing:0;color:#c0392b;font-size:10px;line-height:1.35;margin-top:3px;">
+                From a different scenario — for phrasing, not content.
+              </div>
             </div>
             <div style="padding:5px 13px;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);">SYNTACTIC VARIETY</div>
-            <div style="padding:5px 13px;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);display:flex;align-items:center;justify-content:space-between;gap:8px;">YOUR TEXT <button id="btn-prac-clear" style="font-size:12px;padding:5px 14px;text-transform:none;letter-spacing:0;font-weight:600;background:var(--red);color:#fff;border:none;border-radius:6px;cursor:pointer;font-family:inherit;">🗑 Clear All</button></div>
           </div>
           <div id="prac-sections" style="display:flex;flex-direction:column;gap:11px;"></div>
         </div>
       </div>
+      <!-- Band, comparison, grammar and sentence patterns render here, in the
+           practice screen, exactly as Stage 0 does — the student stays on the
+           page they wrote on instead of being thrown to the summary. -->
+      <div id="prac-feedback-box" style="display:none;background:#f8f8f7;border:1px solid var(--border);border-radius:8px;padding:14px 16px;font-size:13px;line-height:1.7;color:#333;margin-top:10px;"></div>
     </div>
   </div>
   <div class="prac-footer">
     <div class="prac-total">Total: <span id="prac-total-words">0</span> words &nbsp;·&nbsp; <span style="font-size:11px;color:#555;">100 words or above is recommended</span></div>
-    <button class="btn-primary" id="btn-prac-save">Save &amp; Next</button>
-    <button class="btn-primary" id="btn-prac-end" style="background:#00736b;margin-left:auto;">End Practice &amp; Check Analysis</button>
+    <div id="prac-footer-hint" style="display:none;flex:1;text-align:center;font-size:14px;font-weight:700;color:#c0392b;">Modify your answer to get a new analysis, or press End Practice to see your summary.</div>
+    <button class="btn-primary" id="btn-prac-end" style="background:#00736b;margin-left:auto;">Save &amp; Check</button>
+    <button id="btn-prac-summary" style="flex-shrink:0;font-size:13px;font-weight:700;color:var(--green);background:#fff;border:1.5px solid var(--green);border-radius:6px;padding:8px 16px;cursor:pointer;white-space:nowrap;font-family:inherit;">End Practice and See Summary</button>
   </div>
 </div>
 
@@ -547,6 +583,11 @@ textarea:focus { border-color: var(--green); outline: none; }
     <button class="btn-ghost btn-sm hidden" id="btn-grammar">Grammar Check</button>
     <button class="btn-ghost btn-sm hidden" id="btn-analyze">Analyze Writing</button>
     <button class="btn-primary btn-sm" id="btn-new-session">New Session</button>
+  </div>
+  <!-- Sits directly under the New Session button: pressing it saves the file
+       first, which takes a second or two of otherwise silent waiting. -->
+  <div id="new-session-wait" style="display:none;padding:6px 18px;background:#fff9e6;border-bottom:1px solid #ecdca8;font-size:13px;font-weight:600;color:#8a6d1f;text-align:right;">
+    Please wait — saving your file…
   </div>
   <div class="end-body">
     <div class="status-bar hidden" id="end-status"></div>
@@ -596,14 +637,36 @@ const STATE = {
   _timerRunning: false,
   analysisLang:  localStorage.getItem("analysis_lang") || "",
   // Stage 4 before/after + gating (AD model). Per-section flags.
-  s4State:       {}    // { bullet1: { firstAttempt, discourseChecked, grammarChecked }, ... }
+  s4State:       {}    // { bullet1: { firstSavedSecs, discourseChecked, grammarChecked }, ... }
 };
 
 const S4_SECTIONS = ["opening", "bullet1", "bullet2", "bullet3", "closing"];
+
+// Universal Band 5 reference shown beside the student's writing on the results page.
+// Mirrors the sample inside functions/email-analyze.js so the student sees the same
+// standard they were graded against. Typos in the grading copy (deliberate there —
+// Band 5 tolerates minor slips) are corrected here, since this version is displayed
+// as a model to learn from. Replace with per-category or per-question samples later.
+const BAND5_REFERENCE = {
+  question:
+    "You recently started using a co-working space and have experienced problems with the Wi-Fi connection.\n" +
+    "Write an email to the manager of the co-working space. In your email:\n" +
+    "– Describe the Wi-Fi issues.\n" +
+    "– Explain how they affect your daily work.\n" +
+    "– Request a repair and ask for a timeline.",
+  answer:
+    "Hi Mr. Taylor,\n" +
+    "I hope you are well. I would like to request assistance with repairing the Wi-Fi system at the co-working space.\n" +
+    "When I connect to the network in the morning, the internet sometimes becomes extremely slow.\n" +
+    "This has really affected my progress at the office. As a result, my work as a software engineer has been significantly affected, and many others have also expressed similar complaints.\n" +
+    "Would it be possible for you to arrange for a technician to check the system in the next few days? It would also be great if you could let me know when this issue might be resolved so that everyone can send files easily.\n" +
+    "Thank you in advance for your response.\n" +
+    "Best regards, Chen"
+};
 const S4_BULLETS   = ["bullet1", "bullet2", "bullet3"];
 
 // Stage 0 "how to use" text — modeled on the AD tool, adapted for the email task.
-const STAGE0_INTRO = "Goal: Learn the email structures and sentence patterns by copying the sample — you're not writing your own ideas yet (you'll do that in the Full Email practice).\n\n1. Read the scenario and study each part of the sample email. Notice how it is built and the kinds of sentences it uses.\n2. When you think you can rebuild most of those sentences from memory, hide the sample and type it out yourself.\n3. Then check the time you spent and your word count.\n\nWhy you copy a sample here: the point of this stage is to absorb the structure and sentence variety so you can reuse them later in your own words.";
+const STAGE0_INTRO = "Every question comes with a strong sample answer to the SAME question. Show Sample is ticked by default \u2014 untick it whenever you want to write from memory. Choose how closely to follow it:\nCOPY \u2014 read the sample until you can hold it in your head, untick Show Sample, write it back in your own words.\nTRANSLATE \u2014 switch the sample to your language, then write it back in English without looking at the English.\nCREATE \u2014 answer with your own content, using the sample only as a reminder of how an email is built.\n\ud83d\udca1 IDEAS \u2014 stuck? Press Generate above the Ideas column for a few short phrases per bullet. Raw material, not sentences to copy.\n\nSave & Check gives you a band score, a comparison with the sample, a grammar check and the sentence patterns you used. Re-checking the same question replaces your previous attempt; below Band 5 you can rewrite for a fresh score.";
 
 // What "fully checked" means for a section:
 //  - bullets need BOTH discourse + grammar (like AD)
@@ -614,14 +677,14 @@ function s4SectionDone(key) {
   return !!st.grammarChecked; // opening / closing
 }
 
-// Capture the first version once. Bullets capture on discourse press; opening/closing on grammar press.
+// Record the time checkpoint for a block, once, the first time it is checked.
+// Bullets fire on the discourse press; opening/closing on the grammar press.
+// The value is elapsed seconds SINCE THE SESSION STARTED — the timing table
+// turns consecutive checkpoints into per-block durations.
 function s4Capture(key, text) {
   if (STATE.selectedStage !== 4) return;
   if (!STATE.s4State[key]) STATE.s4State[key] = {};
-  if (STATE.s4State[key].firstAttempt === undefined) {
-    STATE.s4State[key].firstAttempt = text;
-    // Record when this section was first saved (wall-clock + elapsed since the timer started)
-    STATE.s4State[key].firstSavedAt   = localDateTimeStamp();
+  if (STATE.s4State[key].firstSavedSecs === undefined) {
     STATE.s4State[key].firstSavedSecs = STATE.timerSeconds || 0;
   }
 }
@@ -678,41 +741,36 @@ function toggleIntro(prefix) {
   arrow.textContent   = open ? "▶" : "▼";
 }
 
-function togglePracTips() {
-  const wrap    = $("prac-tips-wrap");
-  const showBtn = $("btn-show-tips");
-  const visible = wrap.style.display !== "none";
-  if (visible) {
-    wrap.style.display    = "none";
-    showBtn.style.display = "";
-  } else {
-    wrap.style.display    = "";
-    showBtn.style.display = "none";
-  }
+
+// Collapsing is remembered. The panel explains the table below it, so leaving
+// it open on every entry pushes the question and the writing boxes off-screen —
+// the instructions end up hiding the thing they describe.
+function setIntroCollapsed(bodyId, chevronId, storeKey, collapsed) {
+  const body    = $(bodyId);
+  const chevron = $(chevronId);
+  if (body)    body.style.display = collapsed ? "none" : "";
+  if (chevron) chevron.style.transform = collapsed ? "rotate(-90deg)" : "rotate(0deg)";
+  try { localStorage.setItem(storeKey, collapsed ? "1" : "0"); } catch (e) {}
 }
 
 function toggleS0Intro() {
-  const body    = $("s0-intro-body");
-  const chevron = $("s0-intro-chevron");
-  const open    = body.style.display !== "none";
-  body.style.display      = open ? "none" : "";
-  chevron.style.transform = open ? "rotate(-90deg)" : "rotate(0deg)";
+  const open = $("s0-intro-body").style.display !== "none";
+  setIntroCollapsed("s0-intro-body", "s0-intro-chevron", "intro_hidden_s0", open);
 }
 
 function togglePracIntro() {
-  const body    = $("prac-instr-body");
-  const chevron = $("prac-instr-chevron");
-  const open    = body.style.display !== "none";
-  body.style.display      = open ? "none" : "";
-  chevron.style.transform = open ? "rotate(-90deg)" : "rotate(0deg)";
+  const open = $("prac-instr-body").style.display !== "none";
+  setIntroCollapsed("prac-instr-body", "prac-instr-chevron", "intro_hidden_s4", open);
 }
 
 function toggleS0Sample() {
   const cb   = $("toggle-s0-sample-cb");
-  const hide = cb && cb.checked;
-  // The sample text lives in .s0-sample-text inside td.s0-col-sample
+  const show = cb && cb.checked;   // ticked = show the sample
+  // The sample text lives in .s0-sample-text inside td.s0-col-sample.
+  // visibility (not display) keeps the fixed-layout column's width reserved,
+  // so the table doesn't reflow while the student is typing.
   document.querySelectorAll(".s0-sample-text").forEach(
-    el => el.style.visibility = hide ? "hidden" : "visible"
+    el => el.style.visibility = show ? "visible" : "hidden"
   );
 }
 
@@ -732,12 +790,7 @@ function esc(str) {
 // ── Per-block check label legend ("What each check means"), localized ──
 const CHECKS_LEGEND_ITEMS = [
   ["On-topic",          "Checks that this section is relevant to the task and covers what it should."],
-  ["Discourse Moves",   "Compares how many steps you use to develop this section with the sample."],
-  ["Syntactic Variety", "Compares the range of your sentence structures with the sample."]
-];
-const TOTAL_LEGEND_ITEMS = [
-  ["Total Discourse Moves",   "Compares how many distinct steps your whole email uses with the Band 5 sample."],
-  ["Total Syntactic Variety", "Compares the range of sentence structures across your whole email with the Band 5 sample."]
+  ["Discourse Moves",   "Compares how many steps you use to develop this section with the sample."]
 ];
 
 function legendHTML(items, title) {
@@ -822,21 +875,44 @@ async function warmUpTranslations() {
   if (!lang || lang.toLowerCase() === "english") return;
 
   const strings = [
-    // Before/after comparison
-    "Reviewing your first vs. final email…",
-    "Your Progress: First → Final",
-    "First", "Final", "First version", "Final version",
-    "Grammar issues in your first version:",
-    "Could not load the comparison. Please try again.",
+    // Redo comparison (first band → rewrite band)
+    "First", "Rewrite",
+    // Stage 0 grading (band + comparison against this question's sample)
+    "Band", "out of 5", "words", "Your email", "Sample answer", "The task",
+    "Sentence pattern analysis", "SECOND ATTEMPT — REWRITE", "Your rewrite",
+    "From a different scenario — for phrasing, not content.",
+    "Ideas", "Generate", "Thinking\u2026", "Could not get ideas. Please try again.",
+    "Loading questions…", "No questions available",
+    "Modify your answer to get a new analysis, or press End Practice to see your summary.",
+    "You haven't checked this email yet, so it won't have a score or feedback.\n\nPress Cancel to go back and press Save & Check first, or OK to end the session anyway.",
+    "Sample language:", "My language", "English",
+    "You haven't checked this question yet, so it won't have a score or feedback.\n\nPress Cancel to go back and press Save & Check first, or OK to end the session anyway.",
+    "Saving\u2026", "Saved.",
+    "Nothing written this session.",
+    "Please wait — saving your file\u2026", "Saving your results\u2026", "Results saved.",
+    "Could not save your results.",
+    "Rewrite your email \u270d",
+    "Look again at the analysis above, then rewrite your email to fix those issues. There is no timer. You will get a fresh score.",
+    "Score my rewrite \u2192", "Please write your rewrite first.", "Scoring\u2026",
+    "Scoring failed. Please try again.", "End Practice and See Summary",
+    "Modify your answer to get a new analysis, or try a different question from the list.",
+    "What you wrote", "The sample", "Band 5 sample", "How to reach Band 5",
+    "A Band 5 sample for a different scenario.",
+    // The closed pattern vocabulary — shared with the drills stage and the
+    // student checklist. These three lists must never diverge.
+    "Fronted subordinate clause", "Non-fronted subordinate clause", "Passive voice",
+    "Indirect question", "Relative clause", "Participial phrase", "Fronted gerund phrase",
+    "Compared with the sample", "Could not score this email.",
+    "Please write your email first.", "Check failed. Your writing has been saved.",
+    "Checking…", "Save & Check",
     // Analysis page
     "Writing Analysis", "Grammar Check",
     "Running analysis and grammar check…",
     "Analysis and grammar check complete.",
     "One or more checks encountered an error.",
     // Per-section check labels
-    "On-topic", "Discourse Moves", "Syntactic Variety", "Good",
-    "Discourse & Syntax", "Grammar",
-    "Total Discourse Moves & Syntax (whole email)",
+    "On-topic", "Discourse Moves", "Good",
+    "Discourse", "Grammar",
     "Please write this section first.", "Checking…",
     "Check failed. Please try again.",
     // Gating / exit
@@ -853,21 +929,21 @@ async function warmUpTranslations() {
     "Click the link below to open your last email. Read through it, then tick the box when you're done.",
     "I've reviewed it — take me to the practice",
     // How-to-use intro text (Stage 4 + 5)
-    "Goal: Write a complete email, one section at a time, using the samples as a guide.\n\n1. Write the first section (Opening).\n2. When a section is done, run its check(s): bullet sections need Discourse & Syntax and Grammar; Opening and Closing need Grammar. Only then does the next section unlock.\n3. Fix anything flagged. The explanation of each check appears above its feedback.\n4. When every section is checked, press End Practice & Check Analysis to see your email scored in Band 0–5, with a First → Final comparison.",
+    "Write a complete email, one section at a time.\n1. Write the Opening.\n2. \ud83d\udca1 Stuck? Press Generate above the Ideas column for a few short phrases per bullet \u2014 raw material, not sentences to copy.\n3. Run the section's checks: bullets need Discourse and Grammar; Opening and Closing need Grammar. The next section unlocks once the current one is checked.\n4. Fix anything flagged, then move on.\n5. When every section is checked, press End Practice & Check Analysis.\n\nYou get a band score, a comparison with a Band 5 sample, a grammar check and the sentence patterns you used. Below Band 5 you can rewrite for a fresh score. Aim for 100+ words.\n\nShow Sample starts unticked. What it shows is NOT an answer to your question \u2014 it is a model of that bullet type written for a different scenario. Open it to see how that kind of bullet is phrased, never for its content.",
     "This is exam mode. Use it once you are comfortable managing your time in the Full Email practice.\n\nRead the scenario and write your full email in one go. No samples or cues are shown.\n\n⏱ A countdown timer starts when you begin writing, just like the real exam. If your band is below 5, you can redo your email afterward.",
     STAGE0_INTRO,
     // Per-block check legend
     "What each check means",
-    "On-topic", "Discourse Moves", "Syntactic Variety",
-    "Total Discourse Moves", "Total Syntactic Variety",
+    "On-topic", "Discourse Moves",
     "Checks that this section is relevant to the task and covers what it should.",
     "Compares how many steps you use to develop this section with the sample.",
     "Compares the range of your sentence structures with the sample.",
     "Compares how many distinct steps your whole email uses with the Band 5 sample.",
     "Compares the range of sentence structures across your whole email with the Band 5 sample.",
-    // Timing summary
-    "Timing", "first saved at", "Total time spent",
-    "Opening", "Bullet 1", "Bullet 2", "Bullet 3", "Closing",
+    // Timing summary — table headers and block names stay in English on purpose
+    // (they are short fixed labels; "Block" mistranslates badly).
+    "Timing",
+    "WPM is words ÷ time spent, so it includes thinking and editing — an output rate, not typing speed.",
     // Answer back-translation
     "What you wrote, in your language",
     // Grammar summary
@@ -975,6 +1051,32 @@ function markWords(sentence, idxSet) {
   });
 }
 
+// Update the existing attempt for this stage + question, or add one if there
+// isn't one yet. Re-checking the same question replaces the previous attempt
+// rather than stacking up duplicate cards, timing rows and Doc sections.
+//
+// The carry-forward matters: a check saves TWICE — once immediately with nulls
+// (so the student's writing survives an API failure) and again once the results
+// arrive. Without carrying the old values through, that first save would blank
+// a band the student could already see, and a failed call would leave them with
+// nothing where they previously had a score.
+function upsertAttempt(entry) {
+  const i = STATE.attempts.findIndex(
+    a => a.stage === entry.stage && a.question_id === entry.question_id
+  );
+  if (i < 0) { STATE.attempts.push(entry); return; }
+  const prev = STATE.attempts[i];
+  ["band", "gap", "grammar", "variety", "feedback", "sampleText", "question_data",
+   "blocks", "redoText", "redoBand"].forEach(k => {
+    const incoming = entry[k];
+    if ((incoming === undefined || incoming === null || incoming === "") &&
+        prev[k] != null && prev[k] !== "") {
+      entry[k] = prev[k];
+    }
+  });
+  STATE.attempts[i] = entry;
+}
+
 function countWords(text) {
   if (!text || !text.trim()) return 0;
   return text.trim().split(/\s+/).length;
@@ -1004,7 +1106,13 @@ async function apiFetch(params) {
   const key = sessionStorage.getItem("access_key") || "";
   const qs  = new URLSearchParams({ ...params, key }).toString();
   const res = await fetch(`/.netlify/functions/api?${qs}`);
-  if (!res.ok) throw new Error("API " + res.status);
+  if (!res.ok) {
+    // Pull the server's own explanation into the error rather than showing a
+    // bare status code — the api returns { error, file, tried } on a 404.
+    let detail = "";
+    try { const j = await res.json(); detail = j.error ? ` — ${j.error}${j.tried ? ` (${j.tried})` : ""}` : ""; } catch (e) {}
+    throw new Error("API " + res.status + detail);
+  }
   return res.json();
 }
 
@@ -1109,13 +1217,57 @@ async function loadBulletTypes() {
   }
 }
 
+// Loads the question index once, at gate time. It is NOT awaited by the caller,
+// so a slow cold start can leave a student on the practice screen before the
+// list arrives — the dropdowns fill on screen entry and would never retry.
+// refreshQuestionSelectors() closes that race by filling whichever selector is
+// on screen the moment the data lands.
 async function loadEmailIndex() {
+  STATE.emailIndexLoading = true;
+  refreshQuestionSelectors();
   try {
     STATE.emailIndex = await apiFetch({ op: "list_email_sets" });
   } catch(e) {
     $("start-status").textContent = "⚠ Could not load question list.";
   }
-  // Question selectors inside practice/exam screens are populated when those screens open
+  STATE.emailIndexLoading = false;
+  refreshQuestionSelectors();
+}
+
+// Fill whichever question selector is currently on screen from STATE.emailIndex.
+// Safe to call at any time: before the index arrives it shows a loading note, so
+// an empty dropdown never looks the same as a broken one.
+function refreshQuestionSelectors() {
+  const loading = !!STATE.emailIndexLoading;
+  const n = (STATE.emailIndex || []).length;
+
+  const cat = $("prac-cat-selector");
+  if (cat) {
+    if (loading && !n) {
+      cat.innerHTML = '<option value="">' + esc(trCached("Loading questions…")) + '</option>';
+    } else if (!n) {
+      cat.innerHTML = '<option value="">' + esc(trCached("No questions available")) + '</option>';
+    } else if (cat.options.length <= 1) {
+      populatePracCategories();
+      fillPracQuestions(cat.value || "");
+    }
+  }
+
+  const exam = $("exam-q-selector");
+  if (exam && exam.offsetParent !== null) {
+    if (loading && !n) {
+      exam.innerHTML = '<option value="">' + esc(trCached("Loading questions…")) + '</option>';
+    } else if (n && exam.options.length <= 1) {
+      exam.innerHTML = '<option value="">— Select a question —</option>';
+      STATE.emailIndex.forEach(q => {
+        const opt = document.createElement("option");
+        opt.value = q.file;
+        const serial = q.serial || "";
+        opt.textContent = serial ? `${serial}. ${q.label}` : q.label;
+        exam.appendChild(opt);
+      });
+    }
+  }
 }
 
 function checkStartReady() {
@@ -1204,10 +1356,41 @@ let S0_CURRENT = null;
 let S0_TIMER_IV = null;
 let S0_SECS     = 0;
 let S0_STARTED  = false;
+let S0_SAMPLE_LANG = "native";   // sample text: "native" (default) or "en"
 
 async function startStage0() {
   showScreen("screen-stage0");
+
+  // Clear anything left from a previous session. New Session empties
+  // STATE.attempts, but this screen keeps its own state — the selected
+  // question, the text in the boxes, the feedback panel and the timer — so
+  // without this the student walks back in and finds their old answer still
+  // sitting there.
+  stopS0Timer();
+  S0_CURRENT = null;
+  S0_STARTED = false;
+  S0_SECS    = 0;
+  $("s0-timer").textContent = "00:00";
+  // The writing boxes live inside the table body, which is rebuilt per
+  // question — emptying it removes the old answer along with the old sample.
+  const s0tbody = $("s0-tbody");
+  if (s0tbody) s0tbody.innerHTML = "";
+  const s0fb = $("s0-feedback-box");
+  if (s0fb) { s0fb.innerHTML = ""; s0fb.style.display = "none"; }
+  const s0hint = $("s0-footer-hint");
+  if (s0hint) s0hint.style.display = "none";
+  // Each new sample starts in the student's own language again.
+  S0_SAMPLE_LANG = "native";
+  const s0label = $("s0-current-label");
+  if (s0label) s0label.textContent = "—";
+  const s0scenario = $("s0-scenario");
+  if (s0scenario) s0scenario.innerHTML = "";
+  if (typeof updateS0Words === "function") updateS0Words();
+
   // Stage 0 "how to use" text (modeled on AD), localized
+  // Open on first visit, collapsed thereafter.
+  setIntroCollapsed("s0-intro-body", "s0-intro-chevron", "intro_hidden_s0",
+                    localStorage.getItem("intro_hidden_s0") === "1");
   const s0Instr = $("s0-instr-text");
   if (s0Instr) {
     const t = STAGE0_INTRO;
@@ -1246,6 +1429,13 @@ async function loadS0Question(q, itemEl) {
 
   $("s0-current-label").textContent = q.label;
 
+  // Clear the previous question's band, comparison and grammar — they belong to
+  // a different question and reading them beside this one is misleading.
+  const s0fb = $("s0-feedback-box");
+  if (s0fb) { s0fb.innerHTML = ""; s0fb.style.display = "none"; }
+  const s0hint = $("s0-footer-hint");
+  if (s0hint) s0hint.style.display = "none";
+
   // Render scenario + bullet instructions (TOEFL-style)
   const bullets = [
     data.bullet1_q ? "\u2022 " + data.bullet1_q : null,
@@ -1272,6 +1462,116 @@ function autoExpand(ta) {
   ta.style.height = ta.scrollHeight + "px";
 }
 
+// ── Idea generator ────────────────────────────────────────────────────────
+// One call covers the whole email: the model sees the scenario and all three
+// bullet points at once, so bullet 2's ideas can follow from bullet 1's rather
+// than being three unrelated sets. The reply is split on the leading number and
+// each set dropped into its own row.
+//
+// Bullets only — Opening and Closing are formulaic and need no ideas.
+async function generateIdeas(q, prefix, btn) {
+  if (!q) return;
+  const bullets = [q.bullet1_q, q.bullet2_q, q.bullet3_q].filter(Boolean);
+  if (!bullets.length) return;
+
+  const cells = ["bullet1", "bullet2", "bullet3"].map(k => $(prefix + k));
+  const label = btn ? btn.textContent : "";
+  if (btn) { btn.disabled = true; btn.textContent = trCached("Thinking…"); }
+  cells.forEach(el => { if (el) el.textContent = "…"; });
+
+  try {
+    const res = await fetch("/.netlify/functions/email-idea", {
+      method: "POST", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ scenario: q.intro_q || "", bullets })
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || "Failed");
+    const ideas = data.ideas || {};
+    // If the parser found nothing, say so — do NOT dump the raw reply into a
+    // cell. When the model misreads the task it returns a finished email, and
+    // putting that in front of the student is worse than showing nothing: it is
+    // the one thing this column must never hand them.
+    if (!Object.keys(ideas).length) {
+      const first = cells.find(Boolean);
+      cells.forEach(el => { if (el) el.textContent = ""; });
+      if (first) first.textContent = trCached("Could not get ideas. Please try again.");
+      // The raw reply is logged, never shown: when the model misreads the task
+      // it returns a finished email, and putting that in front of the student
+      // is the one thing this column must never do.
+      console.warn("[ideas] unparsed reply:\n" + (data.raw || "(empty)"));
+    } else {
+      cells.forEach((el, i) => {
+        if (!el) return;
+        el.textContent = ideas[String(i + 1)] || "\u2014";
+      });
+    }
+  } catch (e) {
+    cells.forEach(el => { if (el) el.textContent = ""; });
+    const first = cells.find(Boolean);
+    if (first) first.textContent = trCached("Could not get ideas. Please try again.");
+  }
+  if (btn) { btn.disabled = false; btn.textContent = label || trCached("Generate"); }
+}
+
+{ const b = $("btn-s0-idea");
+  if (b) b.onclick = () => generateIdeas(S0_CURRENT, "s0-idea-", b); }
+{ const b = $("btn-prac-idea");
+  if (b) b.onclick = () => generateIdeas(STATE.currentQ, "prac-idea-", b); }
+
+// ── Stage 0 sample language toggle ──────────────────────────────────────
+// Ported from the Academic Discussion tool. The sample carries its English
+// source in dataset.en; the native version comes from the translation cache.
+// Defaults to NATIVE so a weak reader meets the logic of the model answer in
+// their own language first, then switches to English to study the sentences.
+function s0NativeAvailable() {
+  const lang = (localStorage.getItem("analysis_lang") || "").trim();
+  return !!lang && lang.toLowerCase() !== "english";
+}
+
+// Render one sample cell in the current language.
+function renderS0Sample(el) {
+  if (!el) return;
+  const en = el.dataset.en || "";
+  if (!en.trim()) { el.textContent = "\u2014"; return; }
+  if (S0_SAMPLE_LANG === "en" || !s0NativeAvailable()) {
+    // .s0-sample-text is white-space:pre-wrap, so real newlines already break
+    // lines — inserting <br> as well would double-space every break.
+    el.textContent = en;
+  } else {
+    // asHTML:false → textContent, so the cell's white-space:pre-wrap renders
+    // the line breaks. Passing true would add <br> on top and double-space them.
+    translateUI(en, el, false);
+  }
+}
+
+function updateS0LangToggle() {
+  const bar  = $("s0-lang-bar");
+  // Nothing to toggle between when the student's language IS English.
+  if (bar) bar.style.display = s0NativeAvailable() ? "flex" : "none";
+  const knob = $("s0-lang-knob");
+  const segN = $("s0-lang-seg-native");
+  const segE = $("s0-lang-seg-en");
+  const lbl  = $("s0-lang-label");
+  if (lbl)  translateUI("Sample language:", lbl, false);
+  if (segN) translateUI("My language", segN, false);
+  if (knob) knob.style.left = (S0_SAMPLE_LANG === "en") ? "115px" : "2px";
+  // Active side sits on the purple knob, so it needs white text.
+  if (segN) segN.style.color = (S0_SAMPLE_LANG === "native") ? "#fff" : "#8e44ad";
+  if (segE) segE.style.color = (S0_SAMPLE_LANG === "en")     ? "#fff" : "#8e44ad";
+}
+
+window.setS0SampleLang = function(lang) {
+  S0_SAMPLE_LANG = (lang === "en") ? "en" : "native";
+  ["opening","bullet1","bullet2","bullet3","closing"].forEach(k => {
+    renderS0Sample($(`s0-sample-${k}`));
+  });
+  updateS0LangToggle();
+};
+
+window.toggleS0SampleLang = function() {
+  setS0SampleLang(S0_SAMPLE_LANG === "native" ? "en" : "native");
+};
+
 function renderS0Table(data) {
   const s = data.sample || {};
   const rows = [
@@ -1290,10 +1590,16 @@ function renderS0Table(data) {
     tr.innerHTML = `
       <td>
         <div class="s0-part-label">${esc(row.label)}</div>
-        ${row.type ? `<div class="s0-part-type">${esc(row.type)}</div>` : ""}
+      </td>
+      <td class="s0-col-type">
+        <div class="s0-type-text">${esc(row.type || "—")}</div>
+        ${row.q ? `<div class="s0-type-q">${esc(row.q)}</div>` : ""}
+      </td>
+      <td class="s0-col-idea">
+        <div class="s0-idea-text" id="s0-idea-${row.key}"></div>
       </td>
       <td class="s0-col-sample">
-        <div class="s0-sample-text">${esc(row.sample || "—")}</div>
+        <div class="s0-sample-text" id="s0-sample-${row.key}" data-en="${esc(row.sample || "")}">${esc(row.sample || "—")}</div>
       </td>
       <td class="s0-col-variety">
         <div class="s0-variety-text">${esc(row.variety || "—")}</div>
@@ -1303,6 +1609,8 @@ function renderS0Table(data) {
         <div class="s0-wc"><span id="s0-wc-${row.key}">0</span> words</div>
       </td>`;
     tbody.appendChild(tr);
+    // Render this cell in whichever language the toggle is set to.
+    renderS0Sample($(`s0-sample-${row.key}`));
 
     const ta = $(`s0-ta-${row.key}`);
     ta.oninput = () => {
@@ -1313,8 +1621,26 @@ function renderS0Table(data) {
     };
   });
 
-  // Apply the current Hide Sample state to the freshly rendered rows
+  // Apply the current Show Sample state to the freshly rendered rows
   toggleS0Sample();
+  // Sync the language switch (and hide it when the student's language is English).
+  updateS0LangToggle();
+}
+
+// Per-section and total word counts for the practice screen.
+// (Was lost when the Tips panel was removed — its three call sites remained,
+// so Stage 4 threw on every question load.)
+function updatePracWords(sections) {
+  let total = 0;
+  (sections || []).forEach(k => {
+    const ta = $(`prac-ta-${k}`);
+    const n  = ta ? countWords(ta.value) : 0;
+    total += n;
+    const wc = $(`prac-wc-${k}`);
+    if (wc) wc.textContent = n;
+  });
+  const tot = $("prac-total-words");
+  if (tot) tot.textContent = total;
 }
 
 function updateS0Words() {
@@ -1342,6 +1668,178 @@ $("btn-s0-clear").onclick = () => {
   updateS0Words();
 };
 
+// The sentence-pattern check, displayed as it came back.
+//
+// The reply is NOT parsed or rebuilt — per the design of email-variety.js, every
+// attempt to impose a structure on it made the output worse. The only thing
+// touched is the grammar TERMS: wherever one of the closed list appears, in a
+// heading or in prose like "does not contain passive voice", it is translated so
+// the term reads the same everywhere the student meets it.
+//
+// Matching rules that matter:
+//   - case-insensitive, with an optional trailing "s" (Relative clauses)
+//   - longest name first, so "non-fronted subordinate clause" is not half-matched
+//   - never inside quoted spans — those hold the student's own words, and
+//     translating them rewrites their writing
+// There is deliberately no general singular/plural normaliser: with only seven
+// known terms, a rule like replace(/s\b/g,"") mangles ordinary words ("this").
+const VARIETY_PATTERNS = [
+  "Fronted subordinate clause",
+  "Non-fronted subordinate clause",
+  "Passive voice",
+  "Indirect question",
+  "Relative clause",
+  "Participial phrase",
+  "Fronted gerund phrase"
+];
+
+// The band, on its own. Shared by the practice screen and the results page.
+function bandNumberHTML(band) {
+  if (band == null || band === "") {
+    return '<div style="font-size:12px;color:#c0392b;margin-bottom:6px;">' +
+             esc(trCached("Could not score this email.")) + '</div>';
+  }
+  // A compact inline chip, not a giant centred number: the band is one fact
+  // among several on this card, and sizing it like a scoreboard pushes the
+  // feedback that actually helps the student below the fold.
+  return '<div style="display:inline-block;padding:5px 12px;border-radius:999px;background:#e8f5f4;border:1px solid #b2dbd8;">' +
+           '<span style="font-size:11px;color:#00736b;font-weight:700;text-transform:uppercase;letter-spacing:.05em;">' +
+             esc(trCached("Band")) + '</span> ' +
+           '<span style="font-size:18px;font-weight:800;color:#00736b;line-height:1;">' + esc(String(band)) + '</span>' +
+           '<span style="font-size:11px;color:#888;"> / 5</span>' +
+         '</div>';
+}
+
+// Grammar feedback, with the === Qn === scaffolding stripped for display.
+function grammarBlockHTML(grammarFb) {
+  if (!grammarFb) return "";
+  const parts = grammarFb.split(/={2,}\s*(Q\d+|PATTERNS)\s*={2,}/);
+  let shown = grammarFb;
+  if (parts.length >= 3) shown = (parts[2] || "").trim() || grammarFb;
+  return '<div style="padding:10px 12px;background:#f0f9f8;border:1px solid #b2dbd8;border-radius:8px;font-size:13px;line-height:1.6;color:#333;">' +
+           '<b style="color:#2980b9;">' + esc(trCached("Grammar Check")) + ':</b><br>' +
+           grammarSummaryHTML(shown) +
+           escWithLabels(highlightGrammarChanges(shown)).replace(/\n/g, "<br>") +
+         '</div>';
+}
+
+function varietyBlockHTML(raw) {
+  // Show the model's reply as it came back. The only thing touched is the grammar
+  // TERMS: wherever one of the seven appears — in a **bold heading** or in prose
+  // like "does not contain examples of passive voice" — it is translated, so the
+  // same term always reads the same way. Nothing is filtered or dropped.
+  const text = (typeof raw === "string" ? raw : "").trim();
+  if (!text) return "";
+
+  // Match regardless of case, and of singular vs plural ("phrase" / "phrases").
+  // Only these seven terms are matched — nothing else in the text is touched.
+  // Longest first, so "non-fronted subordinate clause" wins over "subordinate clause".
+  const terms = VARIETY_PATTERNS.slice().sort((a, b) => b.length - a.length);
+  // Find which of the seven a heading is, ignoring case and an optional plural "s".
+  const matchTerm = name => {
+    const n = (name || "").trim().toLowerCase().replace(/\s+/g, " ");
+    return VARIETY_PATTERNS.find(p => {
+      const q = p.toLowerCase();
+      return n === q || n === q + "s";
+    });
+  };
+
+  let html = esc(text);
+
+  // 1. **Bold headings** -> bold, translated when they are one of ours.
+  html = html.replace(/\*\*(.+?)\*\*/g, (_, name) => {
+    const hit = matchTerm(name);
+    return '<b style="color:#8e44ad;">' + esc(hit ? trCached(hit) : name) + '</b>';
+  });
+
+  // 2. The same terms in ordinary prose (singular or plural, any case) — but NOT
+  //    inside quoted spans, which hold the student's own words. Translating those
+  //    would rewrite their writing.
+  const quoted = [];
+  html = html.replace(/&quot;[\s\S]*?&quot;|&ldquo;[\s\S]*?&rdquo;|"[^"]*"/g, m => {
+    quoted.push(m);
+    return "\u0000Q" + (quoted.length - 1) + "\u0000";
+  });
+  terms.forEach(term => {
+    const escTerm = esc(term).replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    const re  = new RegExp("(?<!>)\\b" + escTerm + "(s)?\\b", "gi");
+    html = html.replace(re, () => esc(trCached(term)));
+  });
+  html = html.replace(/\u0000Q(\d+)\u0000/g, (_, i) => quoted[+i]);
+
+  html = html.replace(/\n/g, "<br>");
+
+  return '<div style="margin-top:10px;padding:10px 12px;background:#faf5fc;border:1px solid #e0cdf0;border-radius:8px;">' +
+         '<b style="color:#8e44ad;">' + esc(trCached("Sentence pattern analysis")) + '</b>' +
+         '<div style="font-size:12.5px;color:#444;margin-top:6px;line-height:1.7;">' + html + '</div>' +
+         '</div>';
+}
+
+// The practice screen's result panel: band, timing, the student's email beside
+// the sample, the comparison, grammar and the sentence-pattern analysis.
+//
+// The results page assembles the same pieces in its own card (matching the
+// Academic Discussion layout), sharing bandNumberHTML / blockTimesHTML /
+// grammarBlockHTML / varietyBlockHTML so the two can only differ in arrangement,
+// never in content. Built as a <table> with width attributes rather than
+// flexbox, because Google Docs ignores flex and stacks the columns vertically.
+function practiceResultHTML(band, gap, grammarFb, words, sampleText, studentText, question, bullets, attempt, variety) {
+  bullets = bullets || [];
+  const bandBlock = bandNumberHTML(band) +
+    ((band != null && band !== "") ? '<span style="font-size:12px;color:#888;margin-left:8px;">' + words + ' ' + esc(trCached("words")) + '</span>' : "");
+
+  // Side by side: the student's writing next to the model answer for the same
+  // task. Newlines become <br> — Docs ignores white-space:pre-wrap.
+  const col = (title, body, bg) =>
+    '<td width="50%" valign="top" style="padding:10px 12px;background:' + bg + ';border:1px solid #e3e3e3;font-size:13px;line-height:1.6;color:#333;">' +
+      '<div style="font-weight:700;color:#00736b;margin-bottom:5px;font-size:12px;text-transform:uppercase;letter-spacing:.04em;">' + esc(title) + '</div>' +
+      esc(body).replace(/\n/g, "<br>") +
+    '</td>';
+
+  // The task is repeated here: by the time the student reads this, the question
+  // at the top of the page has scrolled out of view, and both columns below are
+  // answers to it.
+  const taskBlock = (question || bullets.length)
+    ? '<div style="margin-top:12px;padding:10px 12px;background:#fffdf5;border:1px solid #ecdca8;border-radius:8px;font-size:12px;line-height:1.6;color:#555;">' +
+        '<div style="font-weight:700;color:#8a6d1f;margin-bottom:4px;text-transform:uppercase;letter-spacing:.04em;font-size:11px;">' +
+          esc(trCached("The task")) + '</div>' +
+        (question ? '<div>' + esc(question) + '</div>' : "") +
+        (bullets.length
+          ? '<ul style="margin:4px 0 0;padding-left:18px;">' +
+              bullets.map(b => '<li style="margin:1px 0;">' + esc(b) + '</li>').join("") +
+            '</ul>'
+          : "") +
+      '</div>'
+    : "";
+
+  const sideBySide = sampleText
+    ? taskBlock +
+      '<table width="100%" cellspacing="0" cellpadding="0" style="border-collapse:collapse;margin-top:8px;">' +
+        '<tr>' +
+          col(trCached("Your email"), studentText, "#ffffff") +
+          col(trCached("Sample answer"), sampleText, "#f7fbfb") +
+        '</tr>' +
+      '</table>'
+    : "";
+
+  const gapBlock = gap
+    ? '<div style="margin-top:10px;padding:10px 12px;background:#f0f9f8;border:1px solid #b2dbd8;border-radius:8px;font-size:13px;line-height:1.6;color:#333;">' +
+        '<b style="color:#8e44ad;">' + esc(trCached("Compared with the sample")) + ':</b><br>' +
+        escWithLabels(gap).replace(/\n/g, "<br>") +
+      '</div>'
+    : "";
+
+  const grammarBlock = grammarFb ? '<div style="margin-top:10px;">' + grammarBlockHTML(grammarFb) + '</div>' : "";
+
+  const varietyBlock = varietyBlockHTML(variety);
+
+  // Timing, shown in the practice screen where the student has just finished.
+  // The results page prints its own copy inside each card instead.
+  const timingBlock = attempt ? blockTimesHTML(attempt) : "";
+
+  return bandBlock + timingBlock + sideBySide + gapBlock + grammarBlock + varietyBlock;
+}
+
 $("btn-s0-save").onclick = async () => {
   if (!S0_CURRENT) return;
   stopS0Timer();
@@ -1352,58 +1850,132 @@ $("btn-s0-save").onclick = async () => {
   keys.forEach(k => { const el = $(`s0-ta-${k}`); texts[k] = el ? el.value.trim() : ""; });
   const combined = keys.map(k => texts[k]).filter(Boolean).join("\n\n");
 
-  // Save attempt
-  STATE.attempts.push({
+  const fb  = $("s0-feedback-box");
+  const btn = $("btn-s0-save");
+
+  if (!combined) {
+    fb.innerHTML = "<span style='color:#c0392b;'>" + esc(trCached("Please write your email first.")) + "</span>";
+    fb.style.display = "";
+    return;
+  }
+
+  // This question's own model answer — Stage 0 is compared against the sample
+  // for the SAME task, so content can be compared directly.
+  const sampleText = keys.map(k => sample[k] || "").filter(Boolean).join("\n\n");
+  const lang  = localStorage.getItem("analysis_lang") || "";
+  const words = countWords(combined);
+
+  // The attempt this check belongs to. Built fresh each time; upsertAttempt
+  // replaces the previous check of this question rather than adding a copy.
+  const baseEntry = () => ({
     date: localDateTimeStamp(),
     stage: 0, stage_name: "Stage 0 — Learn from Samples",
+    question_id: S0_CURRENT.id || "s0",
     theme: S0_CURRENT.theme || "", scenario: S0_CURRENT.intro_q || "",
-    text: combined, words: countWords(combined), time_fmt: fmt(S0_SECS)
+    question_data: S0_CURRENT,
+    text: combined, words, time_fmt: fmt(S0_SECS),
+    totalSecs: S0_SECS || 0,
+    sampleText
   });
 
-  // Build parts payload for check
-  const parts = {};
-  keys.forEach(k => {
-    parts[k] = { model: sample[k] || "", student: texts[k] };
-  });
+  // Save BEFORE grading, so the writing survives even if every call below fails.
+  // upsertAttempt carries forward any band/gap/grammar already stored, so this
+  // does not blank a score the student can currently see.
+  upsertAttempt(baseEntry());
 
-  // Show checking state
-  const btn = $("btn-s0-save");
-  btn.disabled = true; btn.textContent = "Checking…";
-  const fb = $("s0-feedback-box");
-  fb.style.display = "none";
+  btn.disabled = true; btn.textContent = trCached("Checking…");
+  fb.innerHTML = "<span style='color:#888;'>" + esc(trCached("Scoring your email…")) + "</span>";
+  fb.style.display = "";
+
+  let band = null, gap = "", grammarFb = "", variety = "";
 
   try {
-    const res  = await fetch("/.netlify/functions/email-stage0-check", {
-      method: "POST", headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ parts })
-    });
-    const data = await res.json();
-    if (data.feedback) {
-      fb.textContent  = data.feedback;
-      fb.style.display = "";
-      // Scroll feedback into view
-      fb.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    const prompt = buildEmailPrompt(
+      { scenario: S0_CURRENT.intro_q || "", question_data: S0_CURRENT },
+      combined, words
+    );
+
+    // Band and grammar depend on nothing else, so they run together.
+    const [bandRes, grammarRes, varietyRes] = await Promise.all([
+      fetch("/.netlify/functions/email-analyze", {
+        method: "POST", headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ user_prompt: prompt, language: lang, mode: "band_only" })
+      }).then(r => r.json()).catch(() => null),
+      fetch("/.netlify/functions/grammar", {
+        method: "POST", headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ questions: [{ question: S0_CURRENT.intro_q || "", transcript: combined }], language: lang })
+      }).then(r => r.json()).catch(() => null),
+      // Which sentence patterns the email uses. Depends on nothing else, so it
+      // runs alongside the others.
+      fetch("/.netlify/functions/email-variety", {
+        method: "POST", headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ answer: combined })
+      }).then(r => r.json()).catch(() => null)
+    ]);
+
+    band      = bandRes ? extractBand(bandRes.feedback || "") : null;
+    grammarFb = (grammarRes && grammarRes.grammar) || "";
+    variety   = (varietyRes && typeof varietyRes.raw === "string") ? varietyRes.raw : "";
+
+    // The comparison only runs below Band 5 — there is no gap to explain to a
+    // student who already reached the top band.
+    const b = parseInt(band, 10);
+    if (!isNaN(b) && b < 5 && sampleText) {
+      const gapRes = await fetch("/.netlify/functions/email-why-not-5", {
+        method: "POST", headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          question: S0_CURRENT.intro_q || "", answer: combined,
+          sample: sampleText, band: b, language: lang, same_topic: true
+        })
+      }).then(r => r.json()).catch(() => null);
+      gap = (gapRes && gapRes.explanation) || "";
     }
+
+    // Save again, now with the results, so the summary can replay them.
+    upsertAttempt(Object.assign(baseEntry(), { band, gap, grammar: grammarFb, variety }));
+    const savedAttempt = STATE.attempts.find(
+      x => x.stage === 0 && x.question_id === (S0_CURRENT.id || "s0")
+    );
+    fb.innerHTML = practiceResultHTML(
+      band, gap, grammarFb, words, sampleText, combined,
+      S0_CURRENT.intro_q || "",
+      [S0_CURRENT.bullet1_q, S0_CURRENT.bullet2_q, S0_CURRENT.bullet3_q].filter(Boolean),
+      savedAttempt, variety
+    );
+    fb.scrollIntoView({ behavior: "smooth", block: "nearest" });
   } catch(e) {
-    fb.textContent   = "Check failed. Your attempt has been saved.";
-    fb.style.display = "";
+    fb.innerHTML = "<span style='color:#c0392b;'>" +
+      esc(trCached("Check failed. Your writing has been saved.")) + "</span>";
   }
 
-  btn.disabled = false; btn.textContent = "Save & Check";
-  $("btn-s0-next").style.display = "";  // reveal Next Question button
+  btn.disabled = false; btn.textContent = trCached("Save & Check");
+  // Only now is there an analysis to act on — reveal the next-step reminder.
+  const hintEl = $("s0-footer-hint");
+  if (hintEl) hintEl.style.display = "";
 };
-$("btn-s0-next").onclick = () => {
-  if (!S0_CURRENT) return;
-  const idx  = S0_LIST.findIndex(q => q.set_id === S0_CURRENT.id);
-  const next = S0_LIST[idx + 1];
-  if (next) {
-    const items = document.querySelectorAll(".s0-item");
-    loadS0Question(next, items[idx + 1] || null);
+function endStage0Session() {
+  // Warn if the question on screen has been written but never checked.
+  //
+  // The text itself is autosaved below, so nothing is lost from the record —
+  // but an unchecked question reaches the summary with no band, no comparison
+  // and no grammar feedback, and there is no way to run those from there. Most
+  // students who do this simply forgot to press the button.
+  if (S0_CURRENT) {
+    const typed = ["opening","bullet1","bullet2","bullet3","closing"]
+      .map(k => { const el = $(`s0-ta-${k}`); return el ? el.value.trim() : ""; })
+      .filter(Boolean).join("");
+    const graded = STATE.attempts.some(
+      a => a.stage === 0 && a.question_id === (S0_CURRENT.id || "s0") && a.band != null
+    );
+    if (typed && !graded) {
+      const ok = confirm(trCached(
+        "You haven't checked this question yet, so it won't have a score or feedback.\n\n" +
+        "Press Cancel to go back and press Save & Check first, or OK to end the session anyway."
+      ));
+      if (!ok) return;
+    }
   }
-  $("btn-s0-next").style.display = "none";
-  $("s0-feedback-box").style.display = "none";
-};
-$("btn-s0-end").onclick = () => {
+
   stopS0Timer();
   // Auto-save current question if anything was typed
   if (S0_CURRENT) {
@@ -1412,16 +1984,31 @@ $("btn-s0-end").onclick = () => {
     keys.forEach(k => { const el = $(`s0-ta-${k}`); texts[k] = el ? el.value.trim() : ""; });
     const combined = keys.map(k => texts[k]).filter(Boolean).join("\n\n");
     if (combined) {
-      STATE.attempts.push({
+      // Upsert, not push: if this question was already checked, this autosave
+      // updates that attempt (keeping its band/gap/grammar) instead of adding
+      // a second copy of the same writing.
+      const s0keys = ["opening","bullet1","bullet2","bullet3","closing"];
+      const s0sample = S0_CURRENT.sample || {};
+      upsertAttempt({
         date: localDateTimeStamp(),
         stage: 0, stage_name: "Stage 0 — Learn from Samples",
+        question_id: S0_CURRENT.id || "s0",
         theme: S0_CURRENT.theme || "", scenario: S0_CURRENT.intro_q || "",
-        text: combined, words: countWords(combined), time_fmt: fmt(S0_SECS)
+        // Without these the results page loses the bullet points and the sample:
+        // this autosave REPLACES the graded attempt, so anything omitted here is
+        // dropped from a question that was already checked.
+        question_data: S0_CURRENT,
+        sampleText: s0keys.map(k => s0sample[k] || "").filter(Boolean).join("\n\n"),
+        text: combined, words: countWords(combined), time_fmt: fmt(S0_SECS),
+        totalSecs: S0_SECS || 0
       });
     }
   }
   showEndScreen();
-};
+}
+// Both the top-bar button and the footer button end the session.
+// Ending the session lives in the footer, beside Save & Check.
+$("btn-s0-end-footer").onclick = endStage0Session;
 
 // ═══════════════════════════════════════════════════
 // PRACTICE (Stages 1–4)
@@ -1430,9 +2017,6 @@ $("btn-s0-end").onclick = () => {
 async function startPracticeScreen(stage) {
   const meta = STAGE_META[stage];
   showScreen("screen-practice");
-  // Stage 4: one question per session — hide "Save & Next" (matches AD).
-  const saveBtn = $("btn-prac-save");
-  if (saveBtn) saveBtn.style.display = stage === 4 ? "none" : "";
   $("prac-badge").textContent = meta.badge;
   $("prac-timer").textContent = "00:00";
   $("prac-timer").classList.remove("over");
@@ -1444,7 +2028,7 @@ async function startPracticeScreen(stage) {
     1: 'Focus on writing the opening and your first bullet point. Read the scenario and the sample, then hide it and write your own version. Timer counts up — target: 2 min 30 sec.',
     2: 'Focus on writing the second bullet point. Read the sample, hide it, then write. Timer counts up — target: 2 min.',
     3: 'Focus on writing the third bullet point and closing. Once done, check your grammar before saving. Timer counts up — target: 2 min 30 sec.',
-    4: 'Goal: Write a complete email, one section at a time, using the samples as a guide.\n\n1. Write the first section (Opening).\n2. When a section is done, run its check(s): bullet sections need Discourse & Syntax and Grammar; Opening and Closing need Grammar. Only then does the next section unlock.\n3. Fix anything flagged. The explanation of each check appears above its feedback.\n4. When every section is checked, press End Practice & Check Analysis to see your email scored in Band 0–5, with a First → Final comparison.',
+    4: 'Write a complete email, one section at a time.\n1. Write the Opening.\n2. \ud83d\udca1 Stuck? Press Generate above the Ideas column for a few short phrases per bullet \u2014 raw material, not sentences to copy.\n3. Run the section\'s checks: bullets need Discourse and Grammar; Opening and Closing need Grammar. The next section unlocks once the current one is checked.\n4. Fix anything flagged, then move on.\n5. When every section is checked, press End Practice & Check Analysis.\n\nYou get a band score, a comparison with a Band 5 sample, a grammar check and the sentence patterns you used. Below Band 5 you can rewrite for a fresh score. Aim for 100+ words.\n\nShow Sample starts unticked. What it shows is NOT an answer to your question \u2014 it is a model of that bullet type written for a different scenario. Open it to see how that kind of bullet is phrased, never for its content.',
     5: 'This is exam mode. Use it once you are comfortable managing your time in the Full Email practice.\n\nRead the scenario and write your full email in one go. No samples or cues are shown.\n\n⏱ A countdown timer starts when you begin writing, just like the real exam. If your band is below 5, you can redo your email afterward.'
   };
   if (instrText) {
@@ -1452,10 +2036,9 @@ async function startPracticeScreen(stage) {
     instrText.textContent = t;
     translateUI(t, instrText, false);
   }
-  const instrBody = $("prac-instr-body");
-  if (instrBody) instrBody.style.display = "";
-  const instrChevron = $("prac-instr-chevron");
-  if (instrChevron) instrChevron.style.transform = "rotate(0deg)";
+  // Open on first visit, collapsed thereafter — see setIntroCollapsed.
+  setIntroCollapsed("prac-instr-body", "prac-instr-chevron", "intro_hidden_s4",
+                    localStorage.getItem("intro_hidden_s4") === "1");
 
   // Populate category + question dropdowns (cascading)
   populatePracCategories();
@@ -1478,16 +2061,10 @@ async function startExamScreen() {
   $("exam-textarea").disabled = true;
   $("exam-wc").textContent    = "0";
 
-  // Populate question dropdown
-  const sel = $("exam-q-selector");
-  sel.innerHTML = '<option value="">— Select a question —</option>';
-  STATE.emailIndex.forEach(q => {
-    const opt = document.createElement("option");
-    opt.value = q.file;
-    const serial = q.serial || "";
-    opt.textContent = serial ? `${serial}. ${q.label}` : q.label;
-    sel.appendChild(opt);
-  });
+  // Populate question dropdown. Reset to one option first so the shared
+  // refresh helper knows it still needs filling.
+  $("exam-q-selector").innerHTML = '<option value=""></option>';
+  refreshQuestionSelectors();
 
   $("exam-no-question").style.display = "";
   $("exam-question-content").style.display = "none";
@@ -1559,29 +2136,28 @@ function startPractice(stage, data) {
     card.innerHTML = `
       <div class="sec-card-hd">
         <span class="sec-label">${esc(sm.label)}</span>
-        ${typeVal ? `<span class="sec-type">— ${esc(typeVal)}</span>` : ""}
-        ${qVal    ? `<span class="sec-instr">${esc(qVal)}</span>` : ""}
+        ${typeVal ? `<span class="sec-type">${esc(typeVal)}</span>` : ""}
+        ${qVal ? `<span class="sec-instr">${esc(qVal)}</span>` : ""}
       </div>
       <div class="sec-body">
-        <div class="sec-left" id="prac-left-${key}" style="visibility:visible;">
-          <div class="sec-sample-txt" id="prac-sample-${key}">${esc(stxt)}</div>
-        </div>
-        <div class="sec-variety" id="prac-variety-${key}">${esc(vtxt)}</div>
         <div class="sec-right">
           <textarea class="sec-textarea ${(key === "opening" || key === "closing") ? "short" : ""}" id="prac-ta-${key}" placeholder="Write your ${sm.label.toLowerCase()}…"></textarea>
           <div class="sec-foot-row">
             <div class="sec-wc"><span id="prac-wc-${key}">0</span> words</div>
             ${stage === 4 ? `
             <div class="sec-btn-row">
-              ${(key === "bullet1" || key === "bullet2" || key === "bullet3")
-                ? `<button class="btn-block-check" data-check="block" data-key="${key}">Discourse &amp; Syntax</button>` : ""}
-              ${key === "closing"
-                ? `<button class="btn-block-check total" data-check="total" data-key="${key}">Total Discourse Moves &amp; Syntax Check</button>` : ""}
+              ${S4_BULLETS.includes(key)
+                ? `<button class="btn-block-check" data-check="block" data-key="${key}">Discourse</button>` : ""}
               <button class="btn-block-check grammar" data-check="grammar" data-key="${key}">Grammar</button>
             </div>` : ""}
           </div>
-          ${stage === 4 ? `<div class="sec-gate-hint" id="prac-hint-${key}" style="font-size:11px;color:#b9770a;margin-top:4px;text-align:right;">→ ${(key === "bullet1" || key === "bullet2" || key === "bullet3") ? "Run Discourse &amp; Syntax and Grammar" : "Run Grammar"} to unlock the next section</div>` : ""}
+          ${stage === 4 ? `<div class="sec-gate-hint" id="prac-hint-${key}" style="font-size:11px;color:#b9770a;margin-top:4px;text-align:right;">→ ${(key === "bullet1" || key === "bullet2" || key === "bullet3") ? "Run Discourse and Grammar" : "Run Grammar"} to unlock the next section</div>` : ""}
         </div>
+        <div class="sec-idea" id="prac-idea-${key}"></div>
+        <div class="sec-left" id="prac-left-${key}">
+          <div class="sec-sample-txt" id="prac-sample-${key}">${esc(stxt)}</div>
+        </div>
+        <div class="sec-variety" id="prac-variety-${key}">${esc(vtxt)}</div>
       </div>
       ${stage === 4 ? `<div class="sec-comment" id="prac-check-${key}" style="display:none;"></div>` : ""}`;
     container.appendChild(card);
@@ -1603,13 +2179,29 @@ function startPractice(stage, data) {
           const k    = btn.getAttribute("data-key");
           if (kind === "block")   runBlockCheck(k, btn);
           if (kind === "grammar") runSectionGrammar(k, btn);
-          if (kind === "total")   runTotalCheck(btn);
         };
       });
     }
   });
 
+  // Clear the previous question's ideas and analysis — both belong to
+  // different writing.
+  ["bullet1","bullet2","bullet3"].forEach(k => {
+    const el = $(`prac-idea-${k}`); if (el) el.textContent = "";
+  });
+  const pfb = $("prac-feedback-box");
+  if (pfb) { pfb.innerHTML = ""; pfb.style.display = "none"; }
+  const phint = $("prac-footer-hint");
+  if (phint) phint.style.display = "none";
+  const pend = $("btn-prac-end");
+  if (pend) { pend.disabled = false; pend.textContent = trCached("Save & Check"); }
+
   updatePracWords(meta.sections);
+  // Every new question starts with the sample collapsed, whatever the student
+  // left it on last time — so they never meet a sample from a different
+  // scenario sitting beside a fresh question.
+  const sampleCb = $("toggle-prac-sample");
+  if (sampleCb) sampleCb.checked = false;
   applyPracToggles(meta.sections);
   updateS4Gating();
   stopTimer();
@@ -1617,38 +2209,19 @@ function startPractice(stage, data) {
   $("prac-timer").classList.remove("over");
 
   // Render tips panel
-  renderPracTips(data);
 }
 
-function renderPracTips(data) {
-  const body = $("prac-tips-body");
-  if (!body) return;
-  const tips = (data && data.tips || "").trim();
-  if (tips) {
-    body.style.whiteSpace = "pre-wrap";
-    body.textContent = tips;
-  } else {
-    body.style.color = "var(--faint)";
-    body.textContent = "(No tips for this question)";
-  }
-}
-
-function updatePracWords(sections) {
-  const total = sections.reduce((sum, k) => {
-    const el = $(`prac-ta-${k}`); return sum + (el ? countWords(el.value) : 0);
-  }, 0);
-  $("prac-total-words").textContent = total;
-}
 
 // Format the four-line discourse output into clean labeled lines (ported from AD)
 function beautifyEmailDiscourse(raw) {
   if (!raw) return "";
   const LABELS = {
     "ON-TOPIC":    "On-topic",
-    "MOVES":       "Discourse Moves",
-    "SYNTAX":      "Syntactic Variety"
+    "MOVES":       "Discourse Moves"
   };
-  // Split on the known labels even when they run together on one line
+  // Split on the known labels even when they run together on one line.
+  // SYNTAX is still matched so older stored feedback renders, but the check no
+  // longer produces it — sentence patterns are reported by the variety check.
   const re = /(ON-TOPIC|MOVES|SYNTAX)\s*:\s*/gi;
   const parts = [];
   let m, lastKey = null, lastIdx = 0;
@@ -1683,7 +2256,7 @@ function buildScenarioText(d) {
   return (d.intro_q || "") + (bullets.length ? "\n\n" + bullets.join("\n") : "");
 }
 
-// Discourse & Syntax check for one bullet (bullet1/2/3)
+// Discourse check for one bullet (bullet1/2/3)
 async function runBlockCheck(key, btn) {
   const ta   = $(`prac-ta-${key}`);
   const text = ta ? ta.value.trim() : "";
@@ -1721,12 +2294,8 @@ async function runBlockCheck(key, btn) {
     const data = await res.json();
     if (!res.ok) throw new Error(data.error || "Check failed");
     const fb = (data.feedback || "No feedback returned.").trim();
-    // Freeze the first discourse result for this section (for repeating-pattern analysis)
-    if (STATE.s4State[key] && STATE.s4State[key].firstDiscourse === undefined) {
-      STATE.s4State[key].firstDiscourse = fb;
-    }
     box.innerHTML =
-      "<div style='font-weight:700;color:#00736b;margin-bottom:6px;'>Discourse &amp; Syntax</div>" +
+      "<div style='font-weight:700;color:#00736b;margin-bottom:6px;'>Discourse</div>" +
       legendHTML(CHECKS_LEGEND_ITEMS, "What each check means") +
       beautifyEmailDiscourse(fb);
   } catch(e) {
@@ -1771,44 +2340,6 @@ async function runSectionGrammar(key, btn) {
       "<div style='font-weight:700;color:#2980b9;margin-bottom:6px;'>Grammar Check</div>" +
       grammarSummaryHTML(shown) +
       "<div>" + escWithLabels(highlightGrammarChanges(shown)).replace(/\n/g, "<br>") + "</div>";
-  } catch(e) {
-    box.innerHTML = "<span style='color:#c0392b;'>Check failed. Please try again.</span>";
-  }
-  btn.disabled = false; btn.textContent = orig;
-}
-
-// Whole-email MOVES + SYNTAX check (button on Closing). Results render in Closing's strip.
-async function runTotalCheck(btn) {
-  const sections = ["opening", "bullet1", "bullet2", "bullet3", "closing"];
-  // Student's full email = all sections concatenated in order
-  const studentEmail = sections
-    .map(k => { const ta = $(`prac-ta-${k}`); return ta ? ta.value.trim() : ""; })
-    .filter(Boolean).join("\n\n");
-
-  const box = $(`prac-check-closing`);
-  if (!studentEmail) {
-    box.style.display = "";
-    box.innerHTML = "<div style='color:#666;'>Please write your email first.</div>";
-    return;
-  }
-  btn.disabled = true; const orig = btn.textContent; btn.textContent = "Checking…";
-  box.style.display = "";
-  box.innerHTML = "<div style='color:#666;'>Checking the whole email…</div>";
-  try {
-    const res = await fetch("/.netlify/functions/email-total-check", {
-      method: "POST", headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        student_email: studentEmail,
-        language:      STATE.analysisLang || ""
-      })
-    });
-    const data = await res.json();
-    if (!res.ok) throw new Error(data.error || "Check failed");
-    const fb = (data.feedback || "No feedback returned.").trim();
-    box.innerHTML =
-      "<div style='font-weight:700;color:#00736b;margin-bottom:6px;'>Total Discourse Moves &amp; Syntax (whole email)</div>" +
-      legendHTML(TOTAL_LEGEND_ITEMS, "What each check means") +
-      beautifyEmailDiscourse(fb);
   } catch(e) {
     box.innerHTML = "<span style='color:#c0392b;'>Check failed. Please try again.</span>";
   }
@@ -1862,13 +2393,24 @@ $("prac-q-selector").onchange = async () => {
     $("prac-question-content").style.display = "none";
     return;
   }
+  // Only the FETCH is guarded. Wrapping startPractice() too meant any rendering
+  // error surfaced as "Could not load question." even though the question had
+  // loaded fine and was already on screen — a misleading alert for a problem
+  // somewhere else entirely.
+  let data;
   try {
-    const data = await apiFetch({ op: "get_email_sets", file });
-    STATE.currentQ = data;
-    $("prac-no-question").style.display = "none";
-    $("prac-question-content").style.display = "flex";
-    startPractice(STATE.selectedStage, data);
-  } catch(e) { alert("Could not load question."); }
+    data = await apiFetch({ op: "get_email_sets", file });
+  } catch (e) {
+    // Show what actually failed. A bare "Could not load question." gives no
+    // clue whether the file is missing, the key expired, or the server is down.
+    console.error("[load question]", file, e);
+    alert(trCached("Could not load question.") + "\n\n" + (e.message || e));
+    return;
+  }
+  STATE.currentQ = data;
+  $("prac-no-question").style.display = "none";
+  $("prac-question-content").style.display = "flex";
+  startPractice(STATE.selectedStage, data);
 };
 
 // Exam question selector
@@ -1893,11 +2435,15 @@ $("toggle-prac-sample").onchange  = () => applyPracToggles(STAGE_META[STATE.sele
 
 function applyPracToggles(sections) {
   const cb   = $("toggle-prac-sample");
-  const hide = cb && cb.checked;
+  const show = cb && cb.checked;   // ticked = show the sample
   sections.forEach(k => {
     const left = $(`prac-left-${k}`);
-    if (left) left.style.visibility = hide ? "hidden" : "visible";
-    // textarea stays in place — visibility:hidden keeps column width
+    if (!left) return;
+    // Hide the TEXT, not the cell. display:none removes the cell from the grid
+    // entirely, so every column after it slides one slot to the left and the
+    // Syntactic Variety column ends up under the Sample header.
+    const txt = $(`prac-sample-${k}`);
+    if (txt) txt.style.visibility = show ? "visible" : "hidden";
   });
 }
 
@@ -1912,7 +2458,10 @@ $("btn-prac-clear").onclick = () => {
   updatePracWords(sections);
 };
 
-$("btn-prac-save").onclick = async () => {
+// "Save & Next" was removed from the footer (one question per session), so this
+// handler is only bound if some other screen re-adds the button.
+const _pracSaveBtn = $("btn-prac-save");
+if (_pracSaveBtn) _pracSaveBtn.onclick = async () => {
   stopTimer();
   const stage    = STATE.selectedStage;
   const sections = STAGE_META[stage].sections;
@@ -1960,7 +2509,7 @@ $("btn-prac-end").onclick = () => {
     if (missing.length) {
       const names = { opening: "Opening", bullet1: "Bullet 1", bullet2: "Bullet 2", bullet3: "Bullet 3", closing: "Closing" };
       const list = missing.map(k => {
-        if (S4_BULLETS.includes(k)) return "• " + names[k] + " — run Discourse & Syntax AND Grammar";
+        if (S4_BULLETS.includes(k)) return "• " + names[k] + " — run Discourse AND Grammar";
         return "• " + names[k] + " — run Grammar";
       }).join("\n");
       alert("These sections still need their check(s):\n" + list);
@@ -1989,29 +2538,121 @@ $("btn-prac-end").onclick = () => {
           bullet3_type: data.bullet3_type, bullet3_q: data.bullet3_q
         }
       };
-      // Stage 4: capture per-section first (frozen) vs final for the before/after page
+      // Stage 4: per-section final text plus the time checkpoint the timing table uses.
       if (stage === 4) {
         const blocks = {};
         sections.forEach(k => {
-          const st    = STATE.s4State[k] || {};
-          const first = st.firstAttempt;
+          const st = STATE.s4State[k] || {};
           blocks[k] = {
-            before:        (first !== undefined && first !== null ? first : "").trim(),
-            after:         texts[k] || "",
-            firstSavedAt:  st.firstSavedAt   || "",
-            firstSavedSecs: st.firstSavedSecs != null ? st.firstSavedSecs : null,
-            firstDiscourse: st.firstDiscourse || ""
+            after:          texts[k] || "",
+            firstSavedSecs: st.firstSavedSecs != null ? st.firstSavedSecs : null
           };
         });
         attempt.blocks = blocks;
       }
       // Total time spent on this attempt (final)
       attempt.totalSecs = STATE.timerSeconds || 0;
-      STATE.attempts.push(attempt);
+      // Keyed so re-ending the same question replaces its attempt rather than
+      // stacking a second copy. Without the key every stage-4 attempt would
+      // look like the same question and overwrite the previous one.
+      attempt.question_id = data.id || data.set_id || ("s" + stage);
+      upsertAttempt(attempt);
+      // Grade here, in the practice screen, exactly as Stage 0 does. The
+      // summary then replays what this produced rather than scoring again.
+      gradeStage4Attempt(attempt);
     }
   }
+};
+
+// Leave the practice and see the summary. Everything has already been graded
+// in place, so this only navigates — no scoring happens here.
+$("btn-prac-summary").onclick = () => {
+  const sections = (STAGE_META[STATE.selectedStage] || {}).sections || [];
+  const typed = sections.some(k => { const ta = $(`prac-ta-${k}`); return ta && ta.value.trim(); });
+  const graded = STATE.attempts.some(
+    a => a.stage === STATE.selectedStage && a.band != null
+  );
+  // The writing is saved either way, but an unchecked email reaches the summary
+  // with no score or feedback, and there is no way to run those from there.
+  if (typed && !graded && !confirm(trCached(
+        "You haven't checked this email yet, so it won't have a score or feedback.\n\n" +
+        "Press Cancel to go back and press Save & Check first, or OK to end the session anyway."))) return;
+  stopTimer();
   showEndScreen();
 };
+
+// Score the finished email in place: band, grammar and sentence patterns in
+// parallel, then the Band 5 comparison if it came in below 5. Everything is
+// stored on the attempt, so the results page replays it without re-running.
+async function gradeStage4Attempt(attempt) {
+  // Results render in the practice screen, not on the summary — the student
+  // stays on the page they wrote on and can revise and re-check, exactly as
+  // Stage 0 works.
+  const box = $("prac-feedback-box");
+  const btn = $("btn-prac-end");
+  if (btn) { btn.disabled = true; btn.textContent = trCached("Checking…"); }
+  if (box) {
+    box.style.display = "";
+    box.innerHTML = "<span style='color:#888;'>" + esc(trCached("Scoring your email…")) + "</span>";
+  }
+
+  const lang = STATE.analysisLang || "";
+  try {
+    const prompt = buildEmailPrompt(attempt, attempt.text, attempt.words);
+    const [bandRes, grammarRes, varietyRes] = await Promise.all([
+      fetch("/.netlify/functions/email-analyze", {
+        method: "POST", headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ user_prompt: prompt, language: lang, mode: "band_only" })
+      }).then(r => r.json()).catch(() => null),
+      fetch("/.netlify/functions/grammar", {
+        method: "POST", headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ questions: [{ question: attempt.scenario || "", transcript: attempt.text }], language: lang })
+      }).then(r => r.json()).catch(() => null),
+      fetch("/.netlify/functions/email-variety", {
+        method: "POST", headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ answer: attempt.text })
+      }).then(r => r.json()).catch(() => null)
+    ]);
+
+    attempt.band    = bandRes ? extractBand(bandRes.feedback || "") : null;
+    attempt.grammar = (grammarRes && grammarRes.grammar) || "";
+    attempt.variety = (varietyRes && typeof varietyRes.raw === "string") ? varietyRes.raw : "";
+
+    // Stage 4 is measured against the universal Band 5 reference, which answers
+    // a DIFFERENT scenario — hence same_topic: false.
+    if (attempt.band !== null && attempt.band < 5) {
+      const gapRes = await fetch("/.netlify/functions/email-why-not-5", {
+        method: "POST", headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          question: attempt.scenario || "", answer: attempt.text,
+          sample: BAND5_REFERENCE.answer, band: attempt.band,
+          language: lang, same_topic: false
+        })
+      }).then(r => r.json()).catch(() => null);
+      attempt.gap = (gapRes && gapRes.explanation) || "";
+    }
+    attempt.sampleText = BAND5_REFERENCE.answer;
+    if (box) {
+      box.innerHTML = practiceResultHTML(
+        attempt.band, attempt.gap || "", attempt.grammar || "", attempt.words,
+        attempt.sampleText, attempt.text,
+        attempt.scenario || "",
+        [ (attempt.question_data || {}).bullet1_q,
+          (attempt.question_data || {}).bullet2_q,
+          (attempt.question_data || {}).bullet3_q ].filter(Boolean),
+        attempt, attempt.variety || ""
+      );
+      box.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    }
+  } catch (e) {
+    if (box) box.innerHTML = "<span style='color:#c0392b;'>" +
+      esc(trCached("Check failed. Your writing has been saved.")) + "</span>";
+  }
+  if (btn) { btn.disabled = false; btn.textContent = trCached("Save & Check"); }
+  // Only now is there an analysis to act on — reveal the next-step reminder.
+  const hint = $("prac-footer-hint");
+  if (hint) hint.style.display = "";
+}
 
 // Ungated escape hatch — leave practice without saving or analysis.
 $("btn-prac-exit").onclick = () => {
@@ -2110,12 +2751,12 @@ function slugify(s) {
   return (s || "").toLowerCase().replace(/[^a-z0-9]+/g, "_").replace(/^_+|_+$/g, "");
 }
 
-async function uploadToDrive(filename, content, mimeType, studentKey, isBase64 = false, convertToDoc = false) {
+async function uploadToDrive(filename, content, mimeType, studentKey, isBase64 = false, convertToDoc = false, fileId = null) {
   try {
     const res = await fetch("/.netlify/functions/upload-to-drive", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ filename, content, mimeType, studentKey, isBase64, convertToDoc })
+      body: JSON.stringify({ filename, content, mimeType, studentKey, isBase64, convertToDoc, fileId })
     });
     const data = await res.json();
     if (!res.ok || !data.success) {
@@ -2163,9 +2804,20 @@ async function uploadAnalysisHTML(isRedo) {
     headerHtml + wrap.innerHTML +
     '</body></html>';
 
-  const up = await uploadToDrive(fname, doc, "text/html;charset=utf-8", keyPrefix, false, true);
-  // Bank stages 4 and 5 (full email + exam) — the original-writing stages
-  if (up && up.link && (STATE.selectedStage === 4 || STATE.selectedStage === 5)) {
+  // One file per session. The first upload creates it and we keep its id; every
+  // later save (a redo, or ending the session again after more practice)
+  // REPLACES that same file. So a student who just closes the tab still leaves
+  // exactly one Doc holding their latest work, and repeated saves never litter
+  // Drive with supersets of the same session.
+  const up = await uploadToDrive(fname, doc, "text/html;charset=utf-8", keyPrefix, false, true,
+                                 STATE._sessionFileId || null);
+  if (up && up.fileId) STATE._sessionFileId = up.fileId;
+  // Bank stages 4 and 5 (full email + exam) — the original-writing stages.
+  // Only on the first upload: re-banking the same link on every redo would add
+  // duplicate rows for one piece of work.
+  if (up && up.link && !STATE._sessionBanked &&
+      (STATE.selectedStage === 4 || STATE.selectedStage === 5)) {
+    STATE._sessionBanked = true;
     await recordToBank(up.link, STATE.selectedStage);
   }
 }
@@ -2206,8 +2858,18 @@ async function uploadPasteHTML(question, answer, isRedo) {
     headerHtml + qaHtml + resultsClone.innerHTML +
     '</body></html>';
 
-  const up = await uploadToDrive(fname, doc, "text/html;charset=utf-8", keyPrefix, false, true);
-  if (up && up.link) await recordToBank(up.link, "paste");
+  // One file per pasted email, same as a practice session: the first evaluation
+  // creates it, a redo REPLACES it. Without this a student who rewrites twice
+  // leaves three near-identical documents in Drive.
+  const up = await uploadToDrive(fname, doc, "text/html;charset=utf-8", keyPrefix, false, true,
+                                 STATE._pasteFileId || null);
+  if (up && up.fileId) STATE._pasteFileId = up.fileId;
+  // Bank once — the link doesn't change when the file is updated, so re-banking
+  // on every redo would add duplicate rows pointing at the same document.
+  if (up && up.link && !STATE._pasteBanked) {
+    STATE._pasteBanked = true;
+    await recordToBank(up.link, "paste");
+  }
 }
 
 // Record an analysis Doc link into the per-student email writing bank.
@@ -2229,45 +2891,94 @@ async function recordToBank(link, stage) {
 
 
 
-function renderTimingSummary(list) {
-  const timed = STATE.attempts
-    .map((a, i) => ({ a, i }))
-    .filter(({ a }) => a.stage === 4 || a.stage === 5);
-  if (!timed.length) return;
+// Time / words / rate per attempt.
+//
+// Stage 4 records a checkpoint (firstSavedSecs) the moment each block is first
+// checked. That value is elapsed time SINCE THE SESSION STARTED, so a block's
+// own duration is the GAP between its checkpoint and the previous block's —
+// never the checkpoint itself, which would read as the whole session.
+//
+// Stage 0 and Stage 5 have no per-block checks, so they get a single Total row
+// and the Block column is dropped (there is nothing to name).
+//
+// Built as a real <table> with width attributes: Google Docs ignores flexbox,
+// so the old flex rows collapsed into one line per cell in the uploaded Doc.
+// One attempt's time / words / rate, as a table.
+//
+// Shared by the practice screens and the results page: the practice screen shows
+// it when the student checks their work, and the results page replays the SAME
+// markup from the stored attempt. The results page is a collector — it must not
+// compute anything the practice screen didn't already show.
+//
+// Stage 4 records a checkpoint (firstSavedSecs) the moment each block is first
+// checked. That value is elapsed time SINCE THE SESSION STARTED, so a block's
+// own duration is the GAP between its checkpoint and the previous block's —
+// never the checkpoint itself, which would read as the whole session.
+//
+// Stage 0 and Stage 5 have no per-block checks, so they get a single Total row
+// and the Block column is dropped (there is nothing to name).
+//
+// Built as a real <table> with width attributes: Google Docs ignores flexbox,
+// so flex rows collapse into one line per cell in the uploaded Doc.
+const TIMING_SECTION_LABELS = { opening: "Opening", bullet1: "Bullet 1", bullet2: "Bullet 2", bullet3: "Bullet 3", closing: "Closing" };
 
-  const sectionLabels = { opening: "Opening", bullet1: "Bullet 1", bullet2: "Bullet 2", bullet3: "Bullet 3", closing: "Closing" };
+function blockTimesHTML(a) {
+  if (!a) return "";
+  const totalSecs = (a.totalSecs != null) ? a.totalSecs : 0;
+  const totalFmt  = (a.totalSecs != null) ? fmt(a.totalSecs) : (a.time_fmt || "");
+  if (!totalFmt && !totalSecs) return "";
 
-  let html = '<div style="margin-top:20px;border:1px solid #e0e0e0;border-radius:10px;padding:14px 16px;background:#fafafa;">' +
-    '<div style="font-weight:700;color:#00736b;font-size:14px;margin-bottom:8px;">' + esc(trCached("Timing")) + '</div>';
+  // Words per minute over time SPENT, which includes thinking and editing.
+  // That makes it an output rate, not raw typing speed — labelled as such below.
+  const wpm = (words, secs) => (secs > 0 && words > 0)
+    ? Math.round(words / (secs / 60))
+    : "\u2014";
 
-  timed.forEach(({ a }) => {
-    html += '<div style="margin-top:8px;font-size:12px;color:#444;">';
-    html += '<div style="font-weight:600;color:#333;margin-bottom:3px;">' + esc(a.stage_name) + '</div>';
-    if (a.blocks) {
-      // Stage 4: per-section first-saved time
-      S4_SECTIONS.forEach(k => {
-        const b = a.blocks[k];
-        if (!b) return;
-        const secs = (b.firstSavedSecs != null) ? fmt(b.firstSavedSecs) : "—";
-        html += '<div style="display:flex;justify-content:space-between;max-width:340px;padding:1px 0;">' +
-                  '<span>' + esc(trCached(sectionLabels[k] || k)) + '</span>' +
-                  '<span style="color:#666;">' + esc(trCached("first saved at")) + ' ' + secs + '</span>' +
-                '</div>';
-      });
-    }
-    const total = (a.totalSecs != null) ? fmt(a.totalSecs) : (a.time_fmt || "—");
-    html += '<div style="display:flex;justify-content:space-between;max-width:340px;padding:3px 0 0;border-top:1px solid #eee;margin-top:3px;font-weight:600;">' +
-              '<span>' + esc(trCached("Total time spent")) + '</span>' +
-              '<span style="color:#00736b;">' + total + '</span>' +
-            '</div>';
-    html += '</div>';
-  });
-  html += '</div>';
+  const body = [];
+  let prev = 0, lastAt = 0, covered = 0;
 
-  const div = document.createElement("div");
-  div.innerHTML = html;
-  list.appendChild(div);
+  if (a.blocks) {
+    S4_SECTIONS.forEach(k => {
+      const b  = a.blocks[k];
+      const at = (b && b.firstSavedSecs != null) ? b.firstSavedSecs : null;
+      if (at === null) return;
+      const secs = Math.max(0, at - prev);       // gap, not the checkpoint
+      const w    = countWords((b && b.after) || "");
+      prev = at; lastAt = at; covered += w;
+      body.push([TIMING_SECTION_LABELS[k] || k, fmt(secs), w, wpm(w, secs)]);
+    });
+  }
+
+  const perBlock = body.length > 0;
+  if (perBlock) {
+    // Time outside any block: reading before typing, editing after the last check.
+    // Without this the parts don't sum to the total and the numbers look wrong.
+    if (totalSecs > lastAt) body.push(["Other", fmt(totalSecs - lastAt), "", ""]);
+    body.push(["Total", totalFmt, a.words || covered, wpm(a.words || covered, totalSecs)]);
+  } else {
+    body.push(["Total", totalFmt, a.words || 0, wpm(a.words || 0, totalSecs)]);
+  }
+
+  const th = (t, w) => '<th align="left"' + (w ? ' width="' + w + '"' : '') +
+    ' style="text-align:left;padding:3px 10px 3px 0;font-weight:700;color:#555;">' + esc(t) + '</th>';
+  const td = (t, i, isLast) => '<td style="padding:3px 10px 3px 0;color:' +
+    (i === 0 ? '#333' : '#666') + (isLast ? ';font-weight:700' : '') + ';">' + esc(String(t)) + '</td>';
+
+  return '<table width="100%" cellspacing="0" cellpadding="0" style="border-collapse:collapse;font-size:12px;max-width:420px;margin-top:8px;">' +
+           '<tr>' + (perBlock ? th("Block", "34%") : "") +
+             th("Time spent", perBlock ? "22%" : "34%") +
+             th("Words", "22%") + th("WPM", "22%") + '</tr>' +
+           body.map((r, ri) => {
+             const isTotal = ri === body.length - 1;
+             return '<tr>' + (perBlock ? r : r.slice(1)).map((c, ci) => td(c, ci, isTotal)).join("") + '</tr>';
+           }).join("") +
+         '</table>' +
+         '<div style="font-size:11px;color:#888;margin-top:4px;">' +
+           esc(trCached("WPM is words \u00f7 time spent, so it includes thinking and editing \u2014 an output rate, not typing speed.")) +
+         '</div>';
 }
+
+
 
 // Render the full question on the analysis page: scenario line + the three bullet points.
 function fullQuestionHTML(a) {
@@ -2327,29 +3038,76 @@ function showEndScreen() {
   $("end-summary").textContent = `${STATE.attempts.length} attempt${STATE.attempts.length !== 1 ? "s" : ""} saved.`;
   $("end-status").classList.add("hidden");
 
+  // Nothing was written this session — there is no page worth analysing or
+  // uploading, and claiming to save one would put an empty file in Drive.
+  if (!STATE.attempts.length) {
+    list.innerHTML = '<p style="color:#888;padding:12px 0;">' +
+      esc(trCached("Nothing written this session.")) + '</p>';
+    return;
+  }
+
   const hasWriting   = STATE.attempts.some(a => a.stage >= 1);
   const hasFullEmail = STATE.attempts.some(a => a.stage === 4 || a.stage === 5);
 
-  // Build the result cards FIRST so the analysis/grammar/beforeafter containers exist
+  // Build the result cards FIRST so the analysis/grammar containers exist
   // before the async tasks try to fill them.
+  //
+  // Layout follows the Academic Discussion tool: label, question, the answer
+  // SIDE BY SIDE with the sample, word count, timing table, then the analysis
+  // boxes. The side-by-side and the timing live in the card itself; the replay
+  // only fills in band, comparison, grammar and pattern analysis.
   STATE.attempts.forEach((a, i) => {
     const card = document.createElement("div");
     card.className = "result-item";
     card.id = `result-${i}`;
-    card.innerHTML = `
-      <div class="result-hd">${esc(a.stage_name)} — ${esc(a.theme)}</div>
-      <div class="result-scenario">${fullQuestionHTML(a)}</div>
-      <div class="result-text-lbl">Your Writing</div>
-      <div class="result-text">${esc(a.text || "(empty)")}</div>
-      <div id="attempt-tr-wrap-${i}" style="display:none;margin-top:6px;padding:8px 10px;background:#f7f7f7;border-radius:6px;">
-        <div id="attempt-tr-label-${i}" style="font-size:11px;color:#888;font-weight:600;margin-bottom:3px;">What you wrote, in your language</div>
-        <div id="attempt-tr-${i}" style="font-size:13px;color:#444;line-height:1.6;"></div>
-      </div>
-      <div class="result-meta">${a.words} words &nbsp;·&nbsp; <span style="color:#555;">100 words or above is recommended</span> · ${a.time_fmt} · ${a.date}</div>
-      <div class="result-analysis-block hidden" id="analysis-${i}"></div>
-      <div class="result-analysis-block hidden" id="grammar-${i}"></div>
-      ${a.blocks ? `<div id="beforeafter-${i}" style="margin-top:10px;"></div>` : ""}
-      ${(a.stage === 4 || a.stage === 5) ? `<div id="exam-redo-${i}" style="margin-top:10px;"></div>` : ""}`;
+
+    const colLabel = (txt, colour) =>
+      '<div style="font-size:11px;text-transform:uppercase;letter-spacing:.04em;color:' + colour + ';margin-bottom:4px;">' + txt + '</div>';
+
+    // Left: what the student wrote. Right: the sample it was measured against,
+    // or — when there is no sample — the native-language translation slot.
+    const bilingual = a.text
+      ? '<div style="display:flex;gap:12px;flex-wrap:wrap;align-items:stretch;margin-top:6px;">' +
+          '<div style="flex:1;min-width:240px;">' +
+            colLabel(esc(trCached("What you wrote")), "#999") +
+            '<div class="result-text" style="margin:0;">' + esc(a.text).replace(/\n/g, "<br>") + '</div>' +
+          '</div>' +
+          (a.sampleText
+            ? '<div style="flex:1;min-width:240px;">' +
+                colLabel(esc(trCached(a.stage === 0 ? "The sample" : "Band 5 sample")) +
+                  ' <span style="text-transform:none;letter-spacing:0;color:#999;">(' + countWords(a.sampleText) + ' ' + esc(trCached("words")) + ')</span>', "#8e44ad") +
+                // Stage 0's sample answers the SAME question, so it needs no caveat.
+                // Any other stage is measured against a different scenario, and a
+                // student who isn't told that concludes the tool is broken.
+                (a.stage !== 0
+                  ? '<div style="font-size:11px;color:#c0392b;background:#fdf2f2;border-radius:4px;padding:5px 8px;margin-bottom:4px;line-height:1.45;">' +
+                      esc(trCached("A Band 5 sample for a different scenario.")) + '</div>'
+                  : "") +
+                '<div class="result-text" style="margin:0;color:#444;background:#faf5fc;">' +
+                  esc(a.sampleText).replace(/\n/g, "<br>") +
+                '</div>' +
+              '</div>'
+            : '<div style="flex:1;min-width:240px;" id="attempt-tr-wrap-' + i + '">' +
+                colLabel('<span id="attempt-tr-label-' + i + '">' + esc(trCached("What you wrote, in your language")) + '</span>', "#999") +
+                '<div class="result-text" id="attempt-tr-' + i + '" style="margin:0;color:#444;background:#fafafa;"></div>' +
+              '</div>') +
+        '</div>'
+      : '<div class="result-text">(empty)</div>';
+
+    card.innerHTML =
+      '<div class="result-hd">' + esc(a.stage_name) + ' — ' + esc(a.theme) + '</div>' +
+      '<div class="result-scenario">' + fullQuestionHTML(a) + '</div>' +
+      bilingual +
+      '<div class="result-meta">' + a.words + ' ' + esc(trCached("words")) +
+        ' &nbsp;·&nbsp; <span style="color:#555;">100 words or above is recommended</span> · ' +
+        esc(a.time_fmt || "") + ' · ' + esc(a.date || "") + '</div>' +
+      // Timing sits BELOW the stats line: .result-meta is a flex row, so a table
+      // inside it would be squashed beside the word count.
+      blockTimesHTML(a) +
+      '<div class="result-analysis-block hidden" id="analysis-' + i + '"></div>' +
+      '<div class="result-analysis-block hidden" id="grammar-' + i + '"></div>' +
+      ((a.stage === 4 || a.stage === 5) ? '<div id="exam-redo-' + i + '" style="margin-top:10px;"></div>' : "") +
+      (a.stage === 0 ? '<div id="stage-redo-' + i + '" style="margin-top:10px;"></div>' : "");
     list.appendChild(card);
   });
 
@@ -2362,14 +3120,15 @@ function showEndScreen() {
       const trEl  = $(`attempt-tr-${i}`);
       const lblEl = $(`attempt-tr-label-${i}`);
       if (!wrap || !trEl) return;
-      wrap.style.display = "";
       if (lblEl) translateUI("What you wrote, in your language", lblEl, false);
       translateUI(a.text, trEl, true); // whole-answer translation, <br> for line breaks
     });
   }
 
-  // Timing summary at the very bottom of the page (Stage 4: per-section first-saved + total)
-  renderTimingSummary(list);
+  // Each card prints its own timing table (see blockTimesHTML in the card build
+  // above), so there is no separate summary at the bottom — it would repeat the
+  // same numbers with no way to tell which question each belonged to.
+  replayGradedAttempts();
 
   if (hasWriting || hasFullEmail) {
     $("end-status").classList.remove("hidden");
@@ -2380,139 +3139,217 @@ function showEndScreen() {
         // Main analysis + grammar (each loops over its own targets internally)
         if (hasFullEmail) await runEmailAnalysis();
         if (hasWriting)   await runGrammarCheck();
-        // Then the Stage 4 before/after comparisons, one at a time (AD-style, avoids
-        // firing many LLM calls in parallel).
-        for (let i = 0; i < STATE.attempts.length; i++) {
-          if (STATE.attempts[i].blocks) await renderBeforeAfter(i);
-        }
         $("end-status").textContent = trCached("Analysis and grammar check complete.");
-        // Save a single HTML→Google-Doc snapshot of the analysis and record it in the bank
-        await uploadAnalysisHTML();
       } catch(e) {
         $("end-status").textContent = trCached("One or more checks encountered an error.");
       }
+      // Snapshot the finished page to Drive. Outside the try/catch above so a
+      // failed check still saves whatever did render. The status keeps saying
+      // "saving" until it lands — announcing "complete" while an upload is
+      // still running invites the student to navigate away mid-save.
+      $("end-status").textContent = trCached("Saving your results…");
+      try {
+        await uploadAnalysisHTML();
+        $("end-status").textContent = trCached("Results saved.");
+      } catch (e) {
+        $("end-status").textContent = trCached("Could not save your results.");
+      }
     })();
+  } else {
+    // Nothing to analyse here (a Stage 0-only session grades in the practice
+    // screen), but the page still needs uploading — otherwise that session
+    // never reaches Drive at all. Say so while it happens: a silent multi-second
+    // pause reads as a broken page.
+    $("end-status").classList.remove("hidden");
+    $("end-status").textContent = trCached("Saving your results…");
+    uploadAnalysisHTML()
+      .then(() => { $("end-status").textContent = trCached("Results saved."); })
+      .catch(() => { $("end-status").textContent = trCached("Could not save your results."); });
   }
 }
 
 // ═══════════════════════════════════════════════════
 // STAGE 4 BEFORE → AFTER COMPARISON (dual scoring)
 // ═══════════════════════════════════════════════════
+// Pull the band out of a grader reply. Returns a NUMBER, or null when there
+// isn't one.
+//
+// It used to return the string "–" on failure, which broke every `band != null`
+// test downstream: a failed scoring still looked like a real result, so the
+// summary rendered "Band –", the comparison was skipped (parseInt("–") is NaN),
+// and "have you checked this yet?" could never fire. Returning null makes a
+// failure a failure.
 function extractBand(fb) {
-  if (!fb) return "–";
+  if (!fb) return null;
   const m = String(fb).match(/BAND\s*[:：]?\s*(\d+)/i);
-  return m ? m[1] : "–";
+  return m ? parseInt(m[1], 10) : null;
 }
 
 function buildEmailPrompt(a, emailText, wordCount) {
   const qd = a.question_data || {};
-  return `Email Writing Task:\n${a.scenario}\n\nRequired content:\n1. ${qd.bullet1_q} (${qd.bullet1_type})\n2. ${qd.bullet2_q} (${qd.bullet2_type})\n3. ${qd.bullet3_q} (${qd.bullet3_type})\n\nStudent's email (${wordCount} words):\n${emailText}`;
+  // Only include bullets that actually exist. A missing question_data used to
+  // produce "1. undefined (undefined)" in the prompt, which reads as gibberish
+  // to the model — and a garbled task is a plausible reason for it to refuse
+  // the request outright rather than analyse the email.
+  const bullets = [
+    [qd.bullet1_q, qd.bullet1_type],
+    [qd.bullet2_q, qd.bullet2_type],
+    [qd.bullet3_q, qd.bullet3_type]
+  ].filter(b => b[0]);
+  const required = bullets.length
+    ? "\n\nRequired content:\n" + bullets
+        .map(([q, t], i) => `${i + 1}. ${q}${t ? ` (${t})` : ""}`)
+        .join("\n")
+    : "";
+  return `Email Writing Task:\n${a.scenario || ""}${required}\n\nStudent's email (${wordCount} words):\n${emailText}`;
 }
 
 
 
-async function renderBeforeAfter(idx) {
-  const a   = STATE.attempts[idx];
-  const box = $(`beforeafter-${idx}`);
-  if (!a || !a.blocks || !box) return;
-  const lang = STATE.analysisLang || "";
-
-  const beforeText = S4_SECTIONS.map(k => a.blocks[k]?.before || "").filter(Boolean).join("\n\n");
-  const afterText  = S4_SECTIONS.map(k => a.blocks[k]?.after  || "").filter(Boolean).join("\n\n");
-  if (!beforeText && !afterText) return;
-
-  box.innerHTML = '<div style="padding:8px;color:#888;font-size:12px;">' + esc(trCached("Reviewing your first vs. final email…")) + '</div>';
-
-  const beforeWords = countWords(beforeText);
-  const afterWords  = countWords(afterText);
-
-  // Grammar: send each before-section as a separate item so results come back
-  // labeled per section (=== Q1/Q2/Q3 ===). Scoring stays whole-email; grammar is per section.
-  const presentBlocks = S4_SECTIONS.filter(k => (a.blocks[k]?.before || "").trim());
-  const grammarItems  = presentBlocks.map(k => ({
-    question: (SECTION_META[k] && SECTION_META[k].label) || k,
-    transcript: a.blocks[k].before
-  }));
-
-  try {
-    const callAnalyze = (txt, wc) => txt
-      ? fetch("/.netlify/functions/email-analyze", {
-          method: "POST", headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ user_prompt: buildEmailPrompt(a, txt, wc), language: lang })
-        }).then(r => r.json())
-      : Promise.resolve({});
-
-    const [beforeRes, afterRes, beforeGrammarRes] = await Promise.all([
-      callAnalyze(beforeText, beforeWords),
-      callAnalyze(afterText,  afterWords),
-      grammarItems.length
-        ? fetch("/.netlify/functions/grammar", {
-            method: "POST", headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ questions: grammarItems, language: lang })
-          }).then(r => r.json())
-        : Promise.resolve({})
-    ]);
-
-    const beforeBand    = extractBand(beforeRes.feedback);
-    const afterBand     = extractBand(afterRes.feedback);
-    const beforeGrammar = (beforeGrammarRes.grammar || "").trim();
-
-    // Parse grammar output into per-section by === Qn === markers.
-    const grammarByBlock = {};
-    if (beforeGrammar) {
-      const sections = beforeGrammar.split(/===\s*Q(\d+)\s*===/i);
-      for (let s = 1; s < sections.length; s += 2) {
-        const qn   = parseInt(sections[s], 10);
-        const body = (sections[s + 1] || "")
-          .split(/===\s*PATTERNS\s*===/i)[0]
-          .replace(/===\s*Q\d+\s*===/gi, "")
-          .trim();
-        const blockKey = presentBlocks[qn - 1];
-        if (blockKey) grammarByBlock[blockKey] = body;
-      }
-    }
-
-    let html =
-      '<div style="border:1px solid #b2dbd8;border-radius:8px;overflow:hidden;">' +
-      '<div style="background:#00736b;color:#fff;padding:8px 12px;font-weight:700;font-size:13px;">' + esc(trCached("Your Progress: First → Final")) + '</div>' +
-      '<div style="display:flex;padding:12px;align-items:center;justify-content:center;font-size:14px;">' +
-        '<div style="text-align:center;flex:1;"><div style="font-size:11px;color:#888;text-transform:uppercase;letter-spacing:.05em;">' + esc(trCached("First")) + '</div><div style="font-size:28px;font-weight:800;color:#c0392b;">' + beforeBand + '</div></div>' +
-        '<div style="font-size:24px;color:#888;padding:0 16px;">→</div>' +
-        '<div style="text-align:center;flex:1;"><div style="font-size:11px;color:#888;text-transform:uppercase;letter-spacing:.05em;">' + esc(trCached("Final")) + '</div><div style="font-size:28px;font-weight:800;color:#00736b;">' + afterBand + '</div></div>' +
-      '</div>';
-
-    html += '<div style="padding:0 12px 12px;">';
-    for (const k of S4_SECTIONS) {
-      const b = a.blocks[k];
-      if (!b || (!b.before && !b.after)) continue;
-      const label = (SECTION_META[k] && SECTION_META[k].label) || k;
-      html += '<div style="margin-top:10px;border-top:1px solid #eee;padding-top:10px;">' +
-        '<div style="font-weight:700;color:#00736b;font-size:12px;margin-bottom:6px;">' + esc(label) + '</div>' +
-        '<div style="display:flex;gap:10px;flex-wrap:wrap;">' +
-          '<div style="flex:1;min-width:200px;"><div style="font-size:11px;color:#c0392b;font-weight:600;margin-bottom:3px;">' + esc(trCached("First version")) + '</div>' +
-            '<div style="font-size:12px;line-height:1.5;color:#444;background:#fdf3f2;border-radius:6px;padding:8px;">' + (b.before ? esc(b.before).replace(/\n/g,"<br>") : '<i>(not recorded)</i>') + '</div></div>' +
-          '<div style="flex:1;min-width:200px;"><div style="font-size:11px;color:#00736b;font-weight:600;margin-bottom:3px;">' + esc(trCached("Final version")) + '</div>' +
-            '<div style="font-size:12px;line-height:1.5;color:#444;background:#f0f9f8;border-radius:6px;padding:8px;">' + (b.after ? esc(b.after).replace(/\n/g,"<br>") : '<i>(empty)</i>') + '</div></div>' +
-        '</div>';
-      const g = grammarByBlock[k];
-      if (g && /revised:/i.test(g)) {
-        html += '<div style="margin-top:6px;font-size:12px;color:#555;"><b style="color:#2980b9;">' + esc(trCached("Grammar issues in your first version:")) + '</b><br>' + escWithLabels(highlightGrammarChanges(g)).replace(/\n/g,"<br>") + '</div>';
-      }
-      html += '</div>';
-    }
-    html += '</div></div>';
-
-    box.innerHTML = html;
-    STATE.attempts[idx].beforeBand    = beforeBand;
-    STATE.attempts[idx].afterBand     = afterBand;
-    STATE.attempts[idx].beforeGrammar = beforeGrammar;
-  } catch(e) {
-    box.innerHTML = '<div style="padding:8px;color:#c0392b;font-size:12px;">' + esc(trCached("Could not load the comparison. Please try again.")) + '</div>';
-  }
-}
 
 // ═══════════════════════════════════════════════════
 // STAGE 5 (EXAM) REDO — untimed rewrite when band < 5 (ported from AD)
+// ═══════════════════════════════════════════════════
+// STAGE 0 REDO — untimed rewrite, scored against the same sample
+// ═══════════════════════════════════════════════════
+function renderStageRedo(idx) {
+  const a   = STATE.attempts[idx];
+  const box = $(`stage-redo-${idx}`);
+  if (!a || !box) return;
+
+  box.innerHTML =
+    // Google Docs ignores borders, border-radius and background tints, so the
+    // on-screen dashed box vanishes in the upload. A solid <hr> and a large
+    // heading survive the converter and keep the rewrite clearly separated
+    // from the first attempt above it.
+    '<hr style="border:none;border-top:2px solid #00736b;margin:18px 0 10px;">' +
+    '<div style="font-size:16px;font-weight:800;color:#00736b;margin-bottom:8px;">' +
+      esc(trCached("SECOND ATTEMPT — REWRITE")) + '</div>' +
+    '<div style="border:1px dashed #b2dbd8;border-radius:8px;padding:12px;background:#fafffe;">' +
+      '<div style="font-weight:700;color:#00736b;font-size:13px;margin-bottom:6px;">' + esc(trCached("Rewrite your email ✍")) + '</div>' +
+      '<div style="font-size:12px;color:#666;margin-bottom:8px;">' + esc(trCached("Look again at the analysis above, then rewrite your email to fix those issues. There is no timer. You will get a fresh score.")) + '</div>' +
+      '<textarea id="stage-redo-ta-' + idx + '" style="width:100%;min-height:160px;border:1px solid #ddd;border-radius:8px;padding:10px;font-size:14px;font-family:inherit;line-height:1.7;resize:vertical;">' + esc(a.redoText || a.text || "") + '</textarea>' +
+      '<div style="display:flex;align-items:center;gap:10px;margin-top:8px;">' +
+        '<button id="stage-redo-btn-' + idx + '" class="btn-primary" style="width:auto;padding:8px 18px;">' + esc(trCached("Score my rewrite →")) + '</button>' +
+        '<span id="stage-redo-status-' + idx + '" style="font-size:12px;color:#888;"></span>' +
+      '</div>' +
+      '<div id="stage-redo-result-' + idx + '" style="margin-top:10px;"></div>' +
+    '</div>';
+  $(`stage-redo-btn-${idx}`).onclick = () => runStageRedo(idx);
+}
+
+async function runStageRedo(idx) {
+  const a        = STATE.attempts[idx];
+  const ta       = $(`stage-redo-ta-${idx}`);
+  const statusEl = $(`stage-redo-status-${idx}`);
+  const resultEl = $(`stage-redo-result-${idx}`);
+  const btn      = $(`stage-redo-btn-${idx}`);
+  if (!a || !ta) return;
+
+  const text = ta.value.trim();
+  if (!text) { statusEl.textContent = trCached("Please write your rewrite first."); return; }
+
+  btn.disabled = true;
+  statusEl.textContent = trCached("Scoring…");
+  resultEl.innerHTML = "";
+
+  const firstBand = a.band;
+  const lang      = STATE.analysisLang || "";
+  const question  = a.scenario || "";
+  const words     = countWords(text);
+
+  try {
+    const prompt = buildEmailPrompt({ scenario: question, question_data: a.question_data || {} }, text, words);
+    const [bandRes, grammarRes, varietyRes] = await Promise.all([
+      fetch("/.netlify/functions/email-analyze", {
+        method: "POST", headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ user_prompt: prompt, language: lang, mode: "band_only" })
+      }).then(r => r.json()).catch(() => null),
+      fetch("/.netlify/functions/grammar", {
+        method: "POST", headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ questions: [{ question, transcript: text }], language: lang })
+      }).then(r => r.json()).catch(() => null),
+      fetch("/.netlify/functions/email-variety", {
+        method: "POST", headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ answer: text })
+      }).then(r => r.json()).catch(() => null)
+    ]);
+
+    const redoBand  = bandRes ? extractBand(bandRes.feedback || "") : null;
+    const grammarFb = (grammarRes && grammarRes.grammar) || "";
+    const variety   = (varietyRes && typeof varietyRes.raw === "string") ? varietyRes.raw : "";
+
+    let gap = "";
+    const b = parseInt(redoBand, 10);
+    if (!isNaN(b) && b < 5 && a.sampleText) {
+      const gapRes = await fetch("/.netlify/functions/email-why-not-5", {
+        method: "POST", headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          question, answer: text, sample: a.sampleText,
+          band: b, language: lang, same_topic: true
+        })
+      }).then(r => r.json()).catch(() => null);
+      gap = (gapRes && gapRes.explanation) || "";
+    }
+
+    // Just the new result. The first attempt and its band are directly above,
+    // so a before/after pair would only repeat what is already on screen.
+    resultEl.innerHTML =
+      bandNumberHTML(redoBand) +
+      '<div style="height:8px;"></div>' +
+      (gap
+        ? '<div style="padding:10px 12px;background:#f0f9f8;border:1px solid #b2dbd8;border-radius:8px;font-size:13px;line-height:1.6;color:#333;margin-bottom:8px;">' +
+            '<b style="color:#8e44ad;">' + esc(trCached("Compared with the sample")) + ':</b><br>' +
+            escWithLabels(gap).replace(/\n/g, "<br>") + '</div>'
+        : "") +
+      grammarBlockHTML(grammarFb) +
+      varietyBlockHTML(variety);
+
+    // Replace the stored attempt rather than stacking another: a rewrite is a
+    // second try at the SAME answer, so only the latest version is kept.
+    a.text     = text;
+    a.words    = words;
+    a.band     = redoBand;
+    a.gap      = gap;
+    a.grammar  = grammarFb;
+    a.variety  = variety;
+    a.redoText = text;
+    a._attempts = (a._attempts || 1) + 1;
+
+    // Show the rewritten email inside the redo box, as rendered text.
+    //
+    // Two reasons this must exist. On screen it is what the new score refers to.
+    // In the uploaded Doc it is the ONLY copy: the upload clones the live DOM
+    // and strips <textarea>, so without this the document shows a fresh band
+    // with no writing under it — which is exactly what happened before.
+    const rewriteShown =
+      '<div style="margin-bottom:10px;">' +
+        '<div style="font-size:11px;text-transform:uppercase;letter-spacing:.04em;color:#999;margin-bottom:4px;">' +
+          esc(trCached("Your rewrite")) + ' <span style="text-transform:none;letter-spacing:0;">(' + words + ' ' + esc(trCached("words")) + ')</span></div>' +
+        '<div class="result-text" style="margin:0;">' + esc(text).replace(/\n/g, "<br>") + '</div>' +
+      '</div>';
+    resultEl.innerHTML = rewriteShown + resultEl.innerHTML;
+
+    // Clear the status BEFORE uploading, or the Doc captures "Scoring…" frozen
+    // mid-flight.
+    statusEl.textContent = "";
+
+    // Await the save and report it. Fire-and-forget hid two problems: a failed
+    // upload passed silently, and the student could close the tab before it
+    // finished, leaving Drive holding the pre-redo snapshot.
+    statusEl.textContent = trCached("Saving…");
+    try {
+      await uploadAnalysisHTML(true);
+      statusEl.textContent = trCached("Saved.");
+    } catch (err) {
+      statusEl.textContent = trCached("Could not save your results.");
+    }
+  } catch(e) {
+    statusEl.textContent = trCached("Scoring failed. Please try again.");
+  }
+  btn.disabled = false;
+}
+
 // ═══════════════════════════════════════════════════
 function renderExamRedo(idx) {
   const a   = STATE.attempts[idx];
@@ -2520,6 +3357,11 @@ function renderExamRedo(idx) {
   if (!a || !box) return;
 
   box.innerHTML =
+    // See renderStageRedo: an <hr> and a heading survive the Google Docs
+    // converter, where the dashed box below does not.
+    '<hr style="border:none;border-top:2px solid #00736b;margin:18px 0 10px;">' +
+    '<div style="font-size:16px;font-weight:800;color:#00736b;margin-bottom:8px;">' +
+      esc(trCached("SECOND ATTEMPT — REWRITE")) + '</div>' +
     '<div style="border:1px dashed #b2dbd8;border-radius:8px;padding:12px;background:#fafffe;">' +
       '<div style="font-weight:700;color:#00736b;font-size:13px;margin-bottom:6px;">' + esc(trCached("Redo this email ✍")) + '</div>' +
       '<div style="font-size:12px;color:#666;margin-bottom:8px;">' + esc(trCached("Look again at the analysis above and what each check means, then rewrite your email to fix those issues. There is no timer. You will get a fresh score.")) + '</div>' +
@@ -2569,14 +3411,34 @@ async function runExamRedo(idx) {
     const wm        = writingFb.match(/^BAND:(\d+)(\s+WORDS:\d+)?/);
     const writingRest = wm ? writingFb.slice(wm[0].length).trim() : writingFb;
 
+    // Below Band 5, explain the gap against the universal Band 5 reference.
+    let redoGap = "";
+    if (redoBand !== null && redoBand < 5) {
+      const gapRes = await fetch("/.netlify/functions/email-why-not-5", {
+        method: "POST", headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          question: a.scenario || "", answer: text,
+          sample: BAND5_REFERENCE.answer, band: redoBand,
+          language: lang, same_topic: false
+        })
+      }).then(r => r.json()).catch(() => null);
+      redoGap = (gapRes && gapRes.explanation) || "";
+    }
+
     resultEl.innerHTML =
-      '<div style="display:flex;padding:8px 0;align-items:center;justify-content:center;">' +
-        '<div style="text-align:center;flex:1;"><div style="font-size:11px;color:#888;text-transform:uppercase;">' + esc(trCached("First")) + '</div><div style="font-size:24px;font-weight:800;color:#c0392b;">' + firstBand + '</div></div>' +
-        '<div style="font-size:20px;color:#888;padding:0 14px;">→</div>' +
-        '<div style="text-align:center;flex:1;"><div style="font-size:11px;color:#888;text-transform:uppercase;">' + esc(trCached("Rewrite")) + '</div><div style="font-size:24px;font-weight:800;color:#00736b;">' + redoBand + '</div></div>' +
-      '</div>' +
+      // The first attempt and its band are directly above; only the new result
+      // is shown here.
+      bandNumberHTML(redoBand) +
+      '<div style="height:8px;"></div>' +
       '<div class="result-text-lbl">' + esc(trCached("Writing Analysis")) + '</div>' +
       '<div class="result-analysis">' + escWithLabels(writingRest) + '</div>' +
+      '<div style="height:8px;"></div>' +
+      (redoGap
+        ? '<div style="height:8px;"></div>' +
+          '<div style="padding:10px 12px;background:#f0f9f8;border:1px solid #b2dbd8;border-radius:8px;font-size:13px;line-height:1.6;color:#333;">' +
+            '<b style="color:#8e44ad;">' + esc(trCached("How to reach Band 5")) + ':</b><br>' +
+            escWithLabels(redoGap).replace(/\n/g, "<br>") + '</div>'
+        : "") +
       '<div style="height:8px;"></div>' +
       '<div class="result-text-lbl">' + esc(trCached("Grammar Check")) + '</div>' +
       grammarSummaryHTML(grammarFb) +
@@ -2586,9 +3448,30 @@ async function runExamRedo(idx) {
     STATE.attempts[idx].redoBand     = redoBand;
     STATE.attempts[idx].redoAnalysis = writingFb;
     STATE.attempts[idx].redoGrammar  = grammarFb;
+
+    // The rewrite as rendered text. The upload strips <textarea>, so this is the
+    // only copy that reaches the Doc — without it the document shows a new band
+    // with no writing under it.
+    resultEl.innerHTML =
+      '<div style="margin-bottom:10px;">' +
+        '<div style="font-size:11px;text-transform:uppercase;letter-spacing:.04em;color:#999;margin-bottom:4px;">' +
+          esc(trCached("Your rewrite")) + ' <span style="text-transform:none;letter-spacing:0;">(' + countWords(text) + ' ' + esc(trCached("words")) + ')</span></div>' +
+        '<div class="result-text" style="margin:0;">' + esc(text).replace(/\n/g, "<br>") + '</div>' +
+      '</div>' + resultEl.innerHTML;
+
+    // Cleared BEFORE the upload, or the Doc captures "Scoring…" mid-flight.
     statusEl.textContent = "";
-    // Save an updated snapshot (now including this redo) to Drive + bank
-    await uploadAnalysisHTML(true);
+    // Save straight away. The upload REPLACES the session's file rather than
+    // adding one, so redoing repeatedly still leaves a single Doc — and nothing
+    // depends on catching the student as they leave, which is the common exit
+    // (they close the tab rather than pressing New Session).
+    statusEl.textContent = trCached("Saving…");
+    try {
+      await uploadAnalysisHTML(true);
+      statusEl.textContent = trCached("Saved.");
+    } catch (err) {
+      statusEl.textContent = trCached("Could not save your results.");
+    }
   } catch(e) {
     statusEl.textContent = trCached("Scoring failed. Please try again.");
   } finally {
@@ -2650,8 +3533,62 @@ $("btn-grammar").onclick = () => {
 // ═══════════════════════════════════════════════════
 // EMAIL ANALYSIS
 // ═══════════════════════════════════════════════════
+// Replay every attempt that was already graded in its practice screen.
+//
+// Runs unconditionally, before any API call: the results page is a collector, so
+// a session that never touched stage 4 or 5 (a Stage 0-only session, say) must
+// still show everything the practice screen produced.
+function replayGradedAttempts() {
+  STATE.attempts.forEach((a, i) => {
+    if (a.band == null) return;
+    const writingBox = $(`analysis-${i}`);
+    const grammarBox = $(`grammar-${i}`);
+
+    // Band + how to reach it. The answer, the sample and the timing are already
+    // in the card above, so they are NOT repeated here.
+    if (writingBox) {
+      writingBox.innerHTML =
+        bandNumberHTML(a.band) +
+        (a.gap
+          ? '<div style="margin-top:8px;padding:10px 12px;background:#f0f9f8;border:1px solid #b2dbd8;border-radius:8px;font-size:13px;line-height:1.6;color:#333;">' +
+              '<b style="color:#8e44ad;">' +
+                esc(trCached(a.stage === 0 ? "Compared with the sample" : "How to reach Band 5")) + ':</b><br>' +
+              escWithLabels(a.gap).replace(/\n/g, "<br>") +
+            '</div>'
+          : "");
+      writingBox.classList.remove("hidden");
+    }
+
+    // Grammar and the sentence-pattern analysis share the lower box.
+    if (grammarBox) {
+      const g = a.grammar ? grammarBlockHTML(a.grammar) : "";
+      const v = varietyBlockHTML(a.variety || "");
+      if (g || v) {
+        grammarBox.innerHTML = g + v;
+        grammarBox.classList.remove("hidden");
+      }
+    }
+
+    // Below Band 5, offer an untimed rewrite. A student already at 5 has nothing
+    // to fix, so the box would only be noise.
+    const bandNum = parseInt(a.band, 10);
+    // Below Band 5, offer an untimed rewrite. Stage 0 and Stage 4 grade in the
+    // practice screen, so their redo is wired here on replay; Stage 5 is still
+    // scored on this page and renders its own box there.
+    if (!isNaN(bandNum) && bandNum < 5) {
+      if (a.stage === 0) renderStageRedo(i);
+      else if (a.stage === 4) renderExamRedo(i);
+    }
+  });
+}
+
+
 async function runEmailAnalysis() {
-  const targets = STATE.attempts.filter(a => (a.stage === 4 || a.stage === 5) && a.text && a.text.trim());
+  // Anything already graded in the practice screen replays here — the results
+  // page is a collector, so it renders what was stored rather than re-scoring.
+  // Ungraded stage 4 / 5 attempts only — anything already graded was replayed
+  // by replayGradedAttempts() before this ran.
+  const targets = STATE.attempts.filter(a => (a.stage === 4 || a.stage === 5) && a.band == null && a.text && a.text.trim());
   if (!targets.length) return;
 
   const lang = STATE.analysisLang || "";
@@ -2663,32 +3600,63 @@ async function runEmailAnalysis() {
       loadingBlock.innerHTML = `<div class="result-text-lbl">Writing Analysis</div><div class="result-analysis" style="color:#888;">${esc(trCached("Scoring your email…"))}</div>`;
       loadingBlock.classList.remove("hidden");
     }
-    const qd = a.question_data || {};
-    const prompt = `Email Writing Task:\n${a.scenario}\n\nRequired content:\n1. ${qd.bullet1_q} (${qd.bullet1_type})\n2. ${qd.bullet2_q} (${qd.bullet2_type})\n3. ${qd.bullet3_q} (${qd.bullet3_type})\n\nStudent's email (${a.words} words):\n${a.text}`;
-    const res = await fetch("/.netlify/functions/email-analyze", {
-      method: "POST", headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ user_prompt: prompt, language: lang })
-    });
+    const prompt = buildEmailPrompt(a, a.text, a.words);
+
+    // Analysis and the sentence-pattern check depend on nothing else, so they
+    // run together.
+    const [res, varietyRes] = await Promise.all([
+      fetch("/.netlify/functions/email-analyze", {
+        method: "POST", headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ user_prompt: prompt, language: lang })
+      }),
+      fetch("/.netlify/functions/email-variety", {
+        method: "POST", headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ answer: a.text })
+      }).then(r => r.json()).catch(() => null)
+    ]);
     if (!res.ok) throw new Error("Lambda error " + res.status);
     const data = await res.json();
     const fb   = data.feedback || "";
+    a.variety  = (varietyRes && typeof varietyRes.raw === "string") ? varietyRes.raw : "";
     // Strip the leading BAND:X (and optional WORDS:) line, tolerant of spacing/case/fullwidth colon
     const rest = fb.replace(/^\s*BAND\s*[:：]?\s*\d+(\s+WORDS\s*[:：]?\s*\d+)?\s*/i, "").trim();
     // Persist band + feedback on the attempt (used by the Stage 5 redo gate).
     // Use the lenient extractBand so "BAND: 3", leading whitespace, or fullwidth colon still parse.
-    const bandStr = extractBand(fb);
-    a.band     = /^\d+$/.test(bandStr) ? parseInt(bandStr, 10) : null;
+    a.band     = extractBand(fb);   // number, or null when unparseable
     a.analysis = fb;
+
+    // Below Band 5, explain the gap against the universal Band 5 reference.
+    // same_topic is false here: that sample answers a DIFFERENT scenario, so
+    // the student must not be faulted for not covering its content.
+    if (a.band !== null && a.band < 5) {
+      const gapRes = await fetch("/.netlify/functions/email-why-not-5", {
+        method: "POST", headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          question: a.scenario || "", answer: a.text,
+          sample: BAND5_REFERENCE.answer, band: a.band,
+          language: lang, same_topic: false
+        })
+      }).then(r => r.json()).catch(() => null);
+      a.gap = (gapRes && gapRes.explanation) || "";
+    }
+
     const block = $(`analysis-${i}`);
     if (block) {
-      block.innerHTML = `
-        <div class="result-text-lbl">Writing Analysis</div>
-        ${a.band !== null ? `<div class="result-band">Band ${a.band} · ${a.words} words</div>` : ""}
-        <div class="result-analysis">${escWithLabels(rest)}</div>`;
+      block.innerHTML =
+        '<div class="result-text-lbl">' + esc(trCached("Writing Analysis")) + '</div>' +
+        (a.band !== null ? '<div class="result-band">Band ' + a.band + ' · ' + a.words + ' ' + esc(trCached("words")) + '</div>' : "") +
+        '<div class="result-analysis">' + escWithLabels(rest) + '</div>' +
+        (a.gap
+          ? '<div style="margin-top:8px;padding:10px 12px;background:#f0f9f8;border:1px solid #b2dbd8;border-radius:8px;font-size:13px;line-height:1.6;color:#333;">' +
+              '<b style="color:#8e44ad;">' + esc(trCached("How to reach Band 5")) + ':</b><br>' +
+              escWithLabels(a.gap).replace(/\n/g, "<br>") + '</div>'
+          : "") +
+        varietyBlockHTML(a.variety);
       block.classList.remove("hidden");
     }
-    // Full Email (Stage 4) and Exam (Stage 5): offer an untimed redo when the band is below 5
-    if ((a.stage === 4 || a.stage === 5) && a.band !== null && a.band < 5) {
+    // Exam (Stage 5) only: it is still scored on this page. Stage 4 grades in
+    // the practice screen and gets its redo box from replayGradedAttempts().
+    if (a.stage === 5 && a.band !== null && a.band < 5) {
       renderExamRedo(i);
     }
   }
@@ -2723,6 +3691,13 @@ $("btn-evaluate").onclick = async () => {
   if (!answer)   { $("eval-status").textContent = "Please paste your email.";          return; }
 
   const btn = $("btn-evaluate");
+  // A different email means a different document. Reset so this evaluation
+  // creates its own file instead of overwriting the previous one.
+  if (answer !== STATE._pasteLastAnswer) {
+    STATE._pasteFileId = null;
+    STATE._pasteBanked = false;
+    STATE._pasteLastAnswer = answer;
+  }
   btn.disabled = true;
   $("eval-status").textContent = "Analyzing…";
   $("eval-writing-result").style.display = "none";
@@ -2734,7 +3709,7 @@ $("btn-evaluate").onclick = async () => {
   const userPrompt = `Email Writing Task:\n${question}\n\nStudent's email (${wordCount} words):\n${answer}`;
 
   try {
-    const [writingRes, grammarRes] = await Promise.all([
+    const [writingRes, grammarRes, varietyRes] = await Promise.all([
       fetch("/.netlify/functions/email-analyze", {
         method: "POST", headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ user_prompt: userPrompt, language: lang })
@@ -2742,13 +3717,16 @@ $("btn-evaluate").onclick = async () => {
       fetch("/.netlify/functions/grammar", {
         method: "POST", headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ questions: [{ question, transcript: answer }], language: lang })
-      }).then(r => r.json())
+      }).then(r => r.json()),
+      fetch("/.netlify/functions/email-variety", {
+        method: "POST", headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ answer })
+      }).then(r => r.json()).catch(() => null)
     ]);
 
     let writingFb = writingRes.feedback || writingRes.error || "No analysis returned.";
     // Lenient band parse (tolerant of spacing/case/fullwidth colon)
-    const bandStr  = extractBand(writingFb);
-    const bandNum  = /^\d+$/.test(bandStr) ? parseInt(bandStr, 10) : null;
+    const bandNum  = extractBand(writingFb);
     // Strip the leading BAND:X marker into a heading line, like the practice flow
     writingFb = writingFb.replace(/^\s*BAND\s*[:：]?\s*\d+(\s+WORDS\s*[:：]?\s*\d+)?\s*/i, "").trim();
     if (bandNum !== null) writingFb = `Band ${bandNum} · ${wordCount} words\n\n` + writingFb;
@@ -2763,12 +3741,30 @@ $("btn-evaluate").onclick = async () => {
     }
     const grammarFb = gParsed["Q1"] || grammarRaw;
 
+    // Below Band 5, explain the gap against the universal Band 5 reference.
+    // same_topic is false: it answers a different scenario from the pasted task.
+    let gapFb = "";
+    if (bandNum !== null && bandNum < 5) {
+      const gapRes = await fetch("/.netlify/functions/email-why-not-5", {
+        method: "POST", headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          question, answer, sample: BAND5_REFERENCE.answer,
+          band: bandNum, language: lang, same_topic: false
+        })
+      }).then(r => r.json()).catch(() => null);
+      gapFb = (gapRes && gapRes.explanation) || "";
+    }
+
     const writingEl = $("eval-writing-result");
-    writingEl.innerHTML = formatFeedbackBlock("Writing Analysis", writingFb, "#00736b");
+    writingEl.innerHTML =
+      formatFeedbackBlock("Writing Analysis", writingFb, "#00736b") +
+      (gapFb ? '<div style="height:8px;"></div>' + formatFeedbackBlock("How to reach Band 5", gapFb, "#8e44ad") : "");
     writingEl.style.display = "";
 
     const grammarEl = $("eval-grammar-result");
-    grammarEl.innerHTML = grammarSummaryHTML(grammarFb) + formatFeedbackBlock("Grammar Check", highlightGrammarChanges(grammarFb), "#2980b9");
+    grammarEl.innerHTML = grammarSummaryHTML(grammarFb) +
+      formatFeedbackBlock("Grammar Check", highlightGrammarChanges(grammarFb), "#2980b9") +
+      varietyBlockHTML((varietyRes && typeof varietyRes.raw === "string") ? varietyRes.raw : "");
     grammarEl.style.display = "";
 
     // Redo box (band < 5): rewrite + rescore, mirroring the exam redo
@@ -2808,6 +3804,11 @@ function renderPasteRedo(question, firstAnswer, firstBand, lang) {
   wrap.id = "paste-redo-wrap";
   wrap.style.cssText = "margin-top:16px;border:1px solid #b2dbd8;border-radius:10px;padding:14px 16px;background:#f0f9f8;";
   wrap.innerHTML =
+    // See renderStageRedo: the wrapper's border and tint are dropped by the
+    // Google Docs converter, so the separation is carried by an <hr> + heading.
+    '<hr style="border:none;border-top:2px solid #00736b;margin:4px 0 10px;">' +
+    '<div style="font-size:16px;font-weight:800;color:#00736b;margin-bottom:8px;">' +
+      esc(trCached("SECOND ATTEMPT — REWRITE")) + '</div>' +
     '<div style="font-weight:700;color:#00736b;font-size:14px;margin-bottom:6px;">' + esc(trCached("Redo this email ✍")) + '</div>' +
     '<div style="font-size:12px;color:#666;margin-bottom:8px;">' + esc(trCached("Look again at the analysis above and what each check means, then rewrite your email to fix those issues. There is no timer. You will get a fresh score.")) + '</div>' +
     '<textarea id="paste-redo-ta" placeholder="' + esc(trCached("Rewrite your email here…")) + '" style="width:100%;min-height:160px;border:1px solid #ddd;border-radius:8px;padding:10px;font-size:14px;font-family:inherit;line-height:1.7;resize:vertical;">' + esc(firstAnswer) + '</textarea>' +
@@ -2859,19 +3860,44 @@ async function runPasteRedo(question, firstBand, lang) {
     }
     const grammarFb = gParsed["Q1"] || grammarRaw;
 
+    // Below Band 5, explain the gap against the universal Band 5 reference.
+    let redoGap = "";
+    if (redoBand !== null && redoBand < 5) {
+      const gapRes = await fetch("/.netlify/functions/email-why-not-5", {
+        method: "POST", headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          question, answer: text, sample: BAND5_REFERENCE.answer,
+          band: redoBand, language: lang, same_topic: false
+        })
+      }).then(r => r.json()).catch(() => null);
+      redoGap = (gapRes && gapRes.explanation) || "";
+    }
+
     resultEl.innerHTML =
-      '<div style="display:flex;padding:8px 0;align-items:center;justify-content:center;">' +
-        '<div style="text-align:center;flex:1;"><div style="font-size:11px;color:#888;text-transform:uppercase;">' + esc(trCached("First")) + '</div><div style="font-size:24px;font-weight:800;color:#c0392b;">' + firstBand + '</div></div>' +
-        '<div style="font-size:20px;color:#888;padding:0 14px;">→</div>' +
-        '<div style="text-align:center;flex:1;"><div style="font-size:11px;color:#888;text-transform:uppercase;">' + esc(trCached("Rewrite")) + '</div><div style="font-size:24px;font-weight:800;color:#00736b;">' + redoBand + '</div></div>' +
-      '</div>' +
+      // The first attempt and its band are directly above; only the new result
+      // is shown here.
+      bandNumberHTML(redoBand) +
+      '<div style="height:8px;"></div>' +
       formatFeedbackBlock("Writing Analysis", writingFb, "#00736b") +
+      (redoGap ? '<div style="height:8px;"></div>' + formatFeedbackBlock("How to reach Band 5", redoGap, "#8e44ad") : "") +
       '<div style="height:8px;"></div>' +
       grammarSummaryHTML(grammarFb) +
       formatFeedbackBlock("Grammar Check", highlightGrammarChanges(grammarFb), "#2980b9");
+
+    // The rewrite as rendered text — the upload strips <textarea>, so this is
+    // the only copy that reaches the Doc.
+    resultEl.innerHTML =
+      '<div style="margin-bottom:10px;">' +
+        '<div style="font-size:11px;text-transform:uppercase;letter-spacing:.04em;color:#999;margin-bottom:4px;">' +
+          esc(trCached("Your rewrite")) + ' <span style="text-transform:none;letter-spacing:0;">(' + countWords(text) + ' ' + esc(trCached("words")) + ')</span></div>' +
+        '<div class="result-text" style="margin:0;">' + esc(text).replace(/\n/g, "<br>") + '</div>' +
+      '</div>' + resultEl.innerHTML;
+
+    // Cleared BEFORE the upload, or the Doc captures "Scoring…" mid-flight.
     statusEl.textContent = "";
-    // Save updated paste snapshot (now including the rewrite) to Drive + bank
-    await uploadPasteHTML(question, ($("eval-answer") ? $("eval-answer").value.trim() : ""), true);
+    // Save the updated snapshot. Pass the REWRITE, not the original textarea
+    // contents — otherwise the Doc pairs the new score with the old answer.
+    await uploadPasteHTML(question, text, true);
   } catch(e) {
     statusEl.textContent = trCached("Scoring failed. Please try again.");
   } finally {
@@ -2889,8 +3915,22 @@ function resetToStart() {
   checkStartReady(); $("start-status").textContent = "";
   showScreen("screen-start");
 }
-$("btn-new-session").onclick = () => {
+$("btn-new-session").onclick = async () => {
+  const btn = $("btn-new-session");
+  if (btn.disabled) return;   // a second press while saving would upload twice
+
+  // Nothing to flush here: every save (including a redo) has already replaced
+  // the session's file at the moment it happened. This just clears state.
+  const wait = $("new-session-wait");
+  btn.disabled = true;
+  if (wait) wait.style.display = "";
+  await new Promise(r => setTimeout(r, 60));   // let the notice paint
+  if (wait) wait.style.display = "none";
+  btn.disabled = false;
   STATE.attempts = [];
+  // A new session gets its own file rather than overwriting the last one.
+  STATE._sessionFileId = null;
+  STATE._sessionBanked = false;
   $("btn-grammar").classList.add("hidden");
   $("btn-analyze").classList.add("hidden");
   $("end-status").classList.add("hidden");

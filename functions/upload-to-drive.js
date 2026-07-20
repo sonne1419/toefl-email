@@ -100,7 +100,12 @@ async function findOrCreateFolder(token, name, parentId) {
   return existing || createFolder(token, name, parentId);
 }
 
-async function uploadFile(token, filename, content, mimeType, parentId, isBase64, convertToDoc) {
+// When fileId is supplied the existing file is REPLACED in place (Drive PATCH)
+// instead of a new one being created. That is what keeps a session to a single
+// document: the first upload creates it, and every later save — a redo, say —
+// updates that same file, so a student who closes the tab still leaves exactly
+// one Doc holding their latest work.
+async function uploadFile(token, filename, content, mimeType, parentId, isBase64, convertToDoc, fileId) {
   // Detect binary files by MIME type — don't rely solely on isBase64 flag
   const isTextMime = !mimeType ||
     mimeType.startsWith("text/") ||
@@ -113,7 +118,9 @@ async function uploadFile(token, filename, content, mimeType, parentId, isBase64
 
   // When convertToDoc is set, tell Drive to convert the uploaded HTML into a
   // native Google Doc (so the link opens a rendered Doc, not raw HTML source).
-  const metaObj = { name: filename, parents: [parentId] };
+  // On update, Drive rejects `parents` in the metadata (moving a file needs the
+  // separate addParents/removeParents params), so it is only sent on create.
+  const metaObj = fileId ? { name: filename } : { name: filename, parents: [parentId] };
   if (convertToDoc) metaObj.mimeType = "application/vnd.google-apps.document";
   const meta      = JSON.stringify(metaObj);
   const boundary  = "boundary_" + Date.now();
@@ -130,8 +137,9 @@ async function uploadFile(token, filename, content, mimeType, parentId, isBase64
   const res = await new Promise((resolve, reject) => {
     const req = https.request({
       hostname: "www.googleapis.com",
-      path:     "/upload/drive/v3/files?uploadType=multipart&supportsAllDrives=true&fields=id,name,webViewLink",
-      method:   "POST",
+      path:     "/upload/drive/v3/files" + (fileId ? "/" + fileId : "") +
+                "?uploadType=multipart&supportsAllDrives=true&fields=id,name,webViewLink",
+      method:   fileId ? "PATCH" : "POST",
       headers:  {
         Authorization:    `Bearer ${token}`,
         "Content-Type":   `multipart/related; boundary=${boundary}`,
@@ -160,7 +168,7 @@ exports.handler = async (event) => {
   try { body = JSON.parse(event.body); }
   catch(e) { return { statusCode: 400, body: JSON.stringify({ error: "Invalid request body" }) }; }
 
-  const { filename, content, mimeType = "text/plain", studentKey, isBase64 = false, convertToDoc = false } = body;
+  const { filename, content, mimeType = "text/plain", studentKey, isBase64 = false, convertToDoc = false, fileId } = body;
   if (!filename || !content)
     return { statusCode: 400, body: JSON.stringify({ error: "filename and content required" }) };
 
@@ -168,14 +176,27 @@ exports.handler = async (event) => {
     const credentials = JSON.parse(process.env.GOOGLE_SERVICE_ACCOUNT_JSON);
     const token       = await getAccessToken(credentials);
 
+    // Updating an existing file needs no folder lookup — it stays where it is.
     let parentId = ROOT_FOLDER_ID;
-    if (studentKey) {
+    if (studentKey && !fileId) {
       const studentFolder = await findOrCreateFolder(token, studentKey, ROOT_FOLDER_ID);
       // Organize all email-tool files under 03_writing_email inside the student's folder
       parentId = await findOrCreateFolder(token, "03_writing_email", studentFolder);
     }
 
-    const uploaded = await uploadFile(token, filename, content, mimeType, parentId, isBase64, convertToDoc);
+    let uploaded;
+    try {
+      uploaded = await uploadFile(token, filename, content, mimeType, parentId, isBase64, convertToDoc, fileId);
+    } catch (e) {
+      // The file may have been deleted or moved out of reach since it was
+      // created. Fall back to creating a fresh one rather than losing the work.
+      if (!fileId) throw e;
+      if (studentKey) {
+        const sf = await findOrCreateFolder(token, studentKey, ROOT_FOLDER_ID);
+        parentId = await findOrCreateFolder(token, "03_writing_email", sf);
+      }
+      uploaded = await uploadFile(token, filename, content, mimeType, parentId, isBase64, convertToDoc);
+    }
 
     return {
       statusCode: 200,
