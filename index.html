@@ -1074,6 +1074,27 @@ function upsertAttempt(entry) {
       entry[k] = prev[k];
     }
   });
+
+  // The carry-forward above cannot tell "not computed this time" from
+  // "deliberately empty", and treats both as missing. That is right for a plain
+  // re-save, but wrong wherever empty is itself the ANSWER.
+  //
+  // At Band 5 the gap analysis is skipped on purpose and returns "". Without
+  // this, the previous attempt's explanation is restored over it and a student
+  // who has just reached Band 5 is still shown "How to reach Band 5" — using
+  // feedback written about the weaker answer they already replaced.
+  //
+  // Only applied when this save actually produced a band: a null-band save (the
+  // save-before-grading step) must still keep whatever was there.
+  if (entry.band != null && parseInt(entry.band, 10) >= 5) {
+    entry.gap = "";
+    entry.similarity = "";   // legacy field name, still read as a fallback
+  }
+  // Audited the other fields on the same rule: `grammar` and `variety` are only
+  // ever "" when their CALL FAILED — a clean check still returns prose ("no
+  // errors found"), not an empty string. So for those, empty really does mean
+  // "not computed" and carrying the previous value forward is correct. `gap` is
+  // the only field here where empty is a deliberate result.
   STATE.attempts[i] = entry;
 }
 
@@ -2630,6 +2651,11 @@ async function gradeStage4Attempt(attempt) {
         })
       }).then(r => r.json()).catch(() => null);
       attempt.gap = (gapRes && gapRes.explanation) || "";
+    } else {
+      // Band 5 (or unscored): clear any explanation from a previous check of
+      // this same attempt, or the student sees "How to reach Band 5" on an
+      // answer that already reached it.
+      attempt.gap = "";
     }
     attempt.sampleText = BAND5_REFERENCE.answer;
     if (box) {
@@ -3638,6 +3664,8 @@ async function runEmailAnalysis() {
         })
       }).then(r => r.json()).catch(() => null);
       a.gap = (gapRes && gapRes.explanation) || "";
+    } else {
+      a.gap = "";   // see gradeStage4Attempt: never leave a stale explanation
     }
 
     const block = $(`analysis-${i}`);
