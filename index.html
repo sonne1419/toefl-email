@@ -82,6 +82,13 @@ textarea:focus { border-color: var(--green); outline: none; }
   display: flex; align-items: center; gap: 10px; padding: 9px 18px;
   background: var(--card); border-bottom: 1px solid var(--border); flex-shrink: 0;
 }
+@keyframes startTimerBlink {
+  0%, 100% { background: #fff; color: #00736b; border-color: #00736b; }
+  50%      { background: #c0392b; color: #fff;  border-color: #c0392b; }
+}
+#btn-prac-start-timer.blinking {
+  animation: startTimerBlink 1s ease-in-out infinite;
+}
 .bar-title { font-size: 13px; font-weight: 600; flex: 1; }
 .badge {
   background: var(--green-light); color: var(--green);
@@ -445,7 +452,7 @@ textarea:focus { border-color: var(--green); outline: none; }
           <tr>
             <th style="width:92px;">Part</th>
             <th class="s0-col-type">Type</th>
-            <th class="s0-col-idea"><div style="display:flex;align-items:center;justify-content:space-between;gap:6px;">💡 Ideas <button id="btn-s0-idea" style="font-size:11px;padding:4px 10px;text-transform:none;letter-spacing:0;font-weight:700;background:#faf5fc;color:#8e44ad;border:1px solid #8e44ad;border-radius:6px;cursor:pointer;font-family:inherit;white-space:nowrap;">Generate</button></div></th>
+            <th class="s0-col-idea"><div style="display:flex;align-items:center;justify-content:space-between;gap:6px;">💡 Ideas <button id="btn-s0-idea" style="font-size:11px;padding:4px 10px;text-transform:none;letter-spacing:0;font-weight:700;background:#faf5fc;color:#8e44ad;border:1px solid #8e44ad;border-radius:6px;cursor:pointer;font-family:inherit;white-space:nowrap;">Generate</button></div><label style="display:flex;align-items:center;gap:5px;cursor:pointer;margin-top:5px;font-weight:normal;text-transform:none;letter-spacing:0;color:#8e44ad;font-size:11px;"><input type="checkbox" id="toggle-s0-manual" onchange="setManualNotes('s0-idea-', this.checked)" style="accent-color:#8e44ad;width:auto;margin:0;"> My notes (manual input)</label></th>
             <th class="s0-col-sample"><label style="display:flex;align-items:center;gap:5px;cursor:pointer;"><input type="checkbox" id="toggle-s0-sample-cb" checked onchange="toggleS0Sample()" style="accent-color:var(--green);width:auto;margin:0;"> Show Sample</label></th>
             <th class="s0-col-variety">Variety</th>
             <th><div style="display:flex;align-items:center;justify-content:space-between;gap:8px;">Your Text <button id="btn-s0-clear" style="font-size:11px;padding:3px 10px;text-transform:none;letter-spacing:0;font-weight:600;background:#fff;color:var(--red);border:1px solid var(--red);border-radius:6px;cursor:pointer;font-family:inherit;opacity:.75;">🗑 Clear All</button></div></th>
@@ -478,11 +485,7 @@ textarea:focus { border-color: var(--green); outline: none; }
     </select>
 
 
-    <div style="display:flex;flex-direction:column;align-items:flex-end;gap:1px;margin-left:auto;">
-      <div class="timer-up" id="prac-timer">00:00</div>
-      <div class="timer-target" id="prac-target"></div>
-    </div>
-    <button id="btn-prac-exit" style="margin-left:10px;font-size:13px;font-weight:700;color:#c0392b;background:#fff;border:1.5px solid #c0392b;border-radius:6px;padding:6px 12px;cursor:pointer;white-space:nowrap;font-family:inherit;">Exit Without Saving</button>
+    <button id="btn-prac-exit" style="margin-left:auto;font-size:13px;font-weight:700;color:#c0392b;background:#fff;border:1.5px solid #c0392b;border-radius:6px;padding:6px 12px;cursor:pointer;white-space:nowrap;font-family:inherit;">Exit Without Saving</button>
   </div>
   <div id="prac-instructions">
     <div id="prac-instr-bar" onclick="togglePracIntro()">
@@ -502,11 +505,26 @@ textarea:focus { border-color: var(--green); outline: none; }
       <div class="scenario-box" id="prac-scenario"></div>
       <div style="display:flex;gap:14px;align-items:flex-start;">
         <div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:0;">
-          <!-- Column header row above sections -->
-          <div style="display:grid;grid-template-columns:1fr 17% 23% 17%;margin-bottom:6px;">
-            <div style="padding:5px 13px;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);display:flex;align-items:center;justify-content:space-between;gap:8px;">YOUR TEXT <button id="btn-prac-clear" style="font-size:11px;padding:3px 10px;text-transform:none;letter-spacing:0;font-weight:600;background:#fff;color:var(--red);border:1px solid var(--red);border-radius:6px;cursor:pointer;font-family:inherit;opacity:.75;">🗑 Clear All</button></div>
-            <div style="padding:5px 13px;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);display:flex;align-items:center;gap:6px;">💡 IDEAS
+          <!-- Column header row above sections. Sticky: the Start Timer button
+               and word/time display live here now, not the fixed top bar, so
+               sticky keeps them visible while scrolling down to later sections. -->
+          <div style="display:grid;grid-template-columns:1fr 17% 23% 17%;margin-bottom:6px;position:sticky;top:0;z-index:2;background:var(--page,#f5f5f3);">
+            <div style="padding:5px 13px;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;">
+              <span style="display:flex;align-items:center;gap:8px;">YOUR TEXT
+                <button id="btn-prac-start-timer" class="blinking" onclick="startPracIdeationTimer()"
+                  style="font-size:10px;font-weight:700;padding:3px 8px;text-transform:none;letter-spacing:0;border-radius:6px;border:1.5px solid #00736b;background:#fff;color:#00736b;cursor:pointer;white-space:nowrap;display:none;">
+                  ⏱ <span data-tr="Start Timer">Start Timer</span>
+                </button>
+                <span style="font-weight:400;text-transform:none;letter-spacing:0;color:#00736b;font-size:11px;white-space:nowrap;">
+                  <span class="timer-up" id="prac-timer">00:00</span>
+                  <span class="timer-target" id="prac-target"></span>
+                </span>
+              </span>
+              <button id="btn-prac-clear" style="font-size:11px;padding:3px 10px;text-transform:none;letter-spacing:0;font-weight:600;background:#fff;color:var(--red);border:1px solid var(--red);border-radius:6px;cursor:pointer;font-family:inherit;opacity:.75;">🗑 Clear All</button>
+            </div>
+            <div style="padding:5px 13px;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);display:flex;align-items:center;flex-wrap:wrap;gap:6px;">💡 IDEAS
               <button id="btn-prac-idea" style="font-size:10px;padding:3px 9px;text-transform:none;letter-spacing:0;font-weight:700;background:#faf5fc;color:#8e44ad;border:1px solid #8e44ad;border-radius:5px;cursor:pointer;font-family:inherit;white-space:nowrap;">Generate</button>
+              <label style="display:flex;align-items:center;gap:4px;cursor:pointer;font-weight:normal;text-transform:none;letter-spacing:0;color:#8e44ad;font-size:11px;"><input type="checkbox" id="toggle-prac-manual" onchange="setManualNotes('prac-idea-', this.checked)" style="accent-color:#8e44ad;width:auto;margin:0;"> My notes (manual input)</label>
             </div>
             <div style="padding:5px 13px;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);">
               <div style="display:flex;align-items:center;gap:8px;">
@@ -881,6 +899,7 @@ async function warmUpTranslations() {
     "Band", "out of 5", "words", "Your email", "Sample answer", "The task",
     "Sentence pattern analysis", "SECOND ATTEMPT — REWRITE", "Your rewrite",
     "From a different scenario — for phrasing, not content.",
+    "Start Timer", "Ideation",
     "Ideas", "Generate", "Thinking\u2026", "Could not get ideas. Please try again.",
     "Loading questions…", "No questions available",
     "Modify your answer to get a new analysis, or press End Practice to see your summary.",
@@ -1066,8 +1085,8 @@ function upsertAttempt(entry) {
   );
   if (i < 0) { STATE.attempts.push(entry); return; }
   const prev = STATE.attempts[i];
-  ["band", "gap", "grammar", "variety", "feedback", "sampleText", "question_data",
-   "blocks", "redoText", "redoBand"].forEach(k => {
+  ["band", "bandReasoning", "gap", "grammar", "variety", "feedback", "sampleText", "question_data",
+   "blocks", "redoText", "redoBand", "ideation_secs"].forEach(k => {
     const incoming = entry[k];
     if ((incoming === undefined || incoming === null || incoming === "") &&
         prev[k] != null && prev[k] !== "") {
@@ -1152,6 +1171,37 @@ function startTimerUp(displayId, targetSec, targetId) {
     el.textContent = fmt(STATE.timerSeconds);
     if (targetSec && STATE.timerSeconds > targetSec) el.classList.add("over");
   }, 1000);
+}
+
+// "Start Timer" (Stage 4 / Full Answer only) — optional, additive. Pressing it
+// marks the start of ideation time and starts the visible clock immediately,
+// instead of waiting for the first keystroke like it normally does. If never
+// pressed, nothing changes: the clock still starts on first keystroke.
+//
+// PRAC_TYPING_STARTED tracks "has the student typed yet" — separate from
+// STATE._timerRunning, since that alone used to mean both "clock running" and
+// "typing started" together. Now the clock can start earlier, so these need
+// to be tracked independently: PRAC_TYPING_STARTED gates the one-time
+// "first keystroke" logic below, same role AD's PRACTICE_STARTED plays.
+let PRAC_IDEATION_START = null;
+let PRAC_IDEATION_MS    = null;
+let PRAC_TYPING_STARTED = false;
+
+function setPracStartTimerEnabled(on) {
+  const btn = $("btn-prac-start-timer");
+  if (!btn) return;
+  btn.disabled = !on;
+  btn.style.cursor = on ? "pointer" : "default";
+  btn.style.opacity = on ? "" : ".5";
+  btn.classList.toggle("blinking", on);
+}
+
+function startPracIdeationTimer() {
+  PRAC_IDEATION_START = Date.now();
+  PRAC_IDEATION_MS    = null;
+  setPracStartTimerEnabled(false);
+  const meta = STAGE_META[STATE.selectedStage] || {};
+  startTimerUp("prac-timer", meta.targetSec || null, "prac-target");
 }
 
 function stopTimer() {
@@ -1539,6 +1589,54 @@ async function generateIdeas(q, prefix, btn) {
 { const b = $("btn-prac-idea");
   if (b) b.onclick = () => generateIdeas(STATE.currentQ, "prac-idea-", b); }
 
+// ── Manual notes mode ──────────────────────────────────────────────────────
+// A toggle beside each "Generate" button. When ON, the Ideas cells become pure
+// input boxes the student types their own notes into; the generator is switched
+// off. Those notes are saved with the attempt (getManualNotes) and shown on the
+// results page next to the time record. Keyed by column prefix so Stage 0 and
+// the Practice screen keep independent state.
+// Which rows carry an Ideas cell in each column.
+const NOTE_KEYS = {
+  "s0-idea-":   ["opening", "bullet1", "bullet2", "bullet3", "closing"],
+  "prac-idea-": ["opening", "bullet1", "bullet2", "bullet3", "closing"]
+};
+const MANUAL_NOTES = { "s0-idea-": false, "prac-idea-": false };
+
+function setManualNotes(prefix, on) {
+  MANUAL_NOTES[prefix] = !!on;
+  // Disable the matching Generate button — generated ideas would overwrite notes.
+  const btn = $(prefix === "s0-idea-" ? "btn-s0-idea" : "btn-prac-idea");
+  if (btn) { btn.disabled = !!on; btn.style.opacity = on ? ".4" : ""; btn.style.cursor = on ? "default" : "pointer"; }
+  (NOTE_KEYS[prefix] || []).forEach(k => {
+    const cell = $(prefix + k);
+    if (!cell) return;
+    if (on) {
+      const prev = (cell.querySelector("textarea") ? cell.querySelector("textarea").value : cell.textContent) || "";
+      cell.innerHTML = '<textarea class="note-ta" ' +
+        'style="width:100%;min-height:60px;border:1px solid #d9c2ec;border-radius:6px;padding:6px;' +
+        'font-size:12px;font-family:inherit;line-height:1.5;resize:vertical;background:#fff;color:#333;" ' +
+        'placeholder="' + esc(trCached("Write your own notes…")) + '"></textarea>';
+      cell.querySelector("textarea").value = (prev === "\u2026") ? "" : prev;
+    } else if (cell.querySelector("textarea")) {
+      cell.innerHTML = "";
+    }
+  });
+}
+
+// Reads the current Ideas-column content (generated ideas OR manual notes) as an
+// object keyed by row, for saving with an attempt. `keys` limits which rows.
+function getManualNotes(prefix, keys) {
+  const out = {};
+  (keys || NOTE_KEYS[prefix] || []).forEach(k => {
+    const cell = $(prefix + k);
+    if (!cell) return;
+    const ta = cell.querySelector("textarea");
+    const txt = (ta ? ta.value : cell.textContent || "").trim();
+    if (txt && txt !== "\u2026") out[k] = txt;
+  });
+  return out;
+}
+
 // ── Stage 0 sample language toggle ──────────────────────────────────────
 // Ported from the Academic Discussion tool. The sample carries its English
 // source in dataset.en; the native version comes from the translation cache.
@@ -1644,6 +1742,9 @@ function renderS0Table(data) {
 
   // Apply the current Show Sample state to the freshly rendered rows
   toggleS0Sample();
+  // Re-apply manual-notes mode: the toggle lives in the header (persists across
+  // questions) but the cells were just rebuilt, so convert them again if it's on.
+  { const cb = $("toggle-s0-manual"); if (cb && cb.checked) setManualNotes("s0-idea-", true); }
   // Sync the language switch (and hide it when the student's language is English).
   updateS0LangToggle();
 }
@@ -1715,15 +1816,19 @@ const VARIETY_PATTERNS = [
 ];
 
 // The band, on its own. Shared by the practice screen and the results page.
-function bandNumberHTML(band) {
+function bandNumberHTML(band, reasoning) {
   if (band == null || band === "") {
     return '<div style="font-size:12px;color:#c0392b;margin-bottom:6px;">' +
              esc(trCached("Could not score this email.")) + '</div>';
   }
+  const think = (reasoning || "").trim();
+  const thinkHTML = think
+    ? '<div style="font-size:11.5px;color:#888;font-style:italic;margin-bottom:4px;">THINKING: ' + esc(think) + '</div>'
+    : '';
   // A compact inline chip, not a giant centred number: the band is one fact
   // among several on this card, and sizing it like a scoreboard pushes the
   // feedback that actually helps the student below the fold.
-  return '<div style="display:inline-block;padding:5px 12px;border-radius:999px;background:#e8f5f4;border:1px solid #b2dbd8;">' +
+  return thinkHTML + '<div style="display:inline-block;padding:5px 12px;border-radius:999px;background:#e8f5f4;border:1px solid #b2dbd8;">' +
            '<span style="font-size:11px;color:#00736b;font-weight:700;text-transform:uppercase;letter-spacing:.05em;">' +
              esc(trCached("Band")) + '</span> ' +
            '<span style="font-size:18px;font-weight:800;color:#00736b;line-height:1;">' + esc(String(band)) + '</span>' +
@@ -1804,9 +1909,9 @@ function varietyBlockHTML(raw) {
 // grammarBlockHTML / varietyBlockHTML so the two can only differ in arrangement,
 // never in content. Built as a <table> with width attributes rather than
 // flexbox, because Google Docs ignores flex and stacks the columns vertically.
-function practiceResultHTML(band, gap, grammarFb, words, sampleText, studentText, question, bullets, attempt, variety) {
+function practiceResultHTML(band, gap, grammarFb, words, sampleText, studentText, question, bullets, attempt, variety, bandReasoning) {
   bullets = bullets || [];
-  const bandBlock = bandNumberHTML(band) +
+  const bandBlock = bandNumberHTML(band, bandReasoning) +
     ((band != null && band !== "") ? '<span style="font-size:12px;color:#888;margin-left:8px;">' + words + ' ' + esc(trCached("words")) + '</span>' : "");
 
   // Side by side: the student's writing next to the model answer for the same
@@ -1896,6 +2001,10 @@ $("btn-s0-save").onclick = async () => {
     question_data: S0_CURRENT,
     text: combined, words, time_fmt: fmt(S0_SECS),
     totalSecs: S0_SECS || 0,
+    // Ideas-column content (generated ideas or the student's own manual notes),
+    // shown on the results page next to the time record.
+    notes: getManualNotes("s0-idea-"),
+    notes_manual: !!MANUAL_NOTES["s0-idea-"],
     sampleText
   });
 
@@ -1935,6 +2044,7 @@ $("btn-s0-save").onclick = async () => {
     ]);
 
     band      = bandRes ? extractBand(bandRes.feedback || "") : null;
+    const bandReasoning = bandRes ? extractReasoning(bandRes.feedback || "") : "";
     grammarFb = (grammarRes && grammarRes.grammar) || "";
     variety   = (varietyRes && typeof varietyRes.raw === "string") ? varietyRes.raw : "";
 
@@ -1953,7 +2063,7 @@ $("btn-s0-save").onclick = async () => {
     }
 
     // Save again, now with the results, so the summary can replay them.
-    upsertAttempt(Object.assign(baseEntry(), { band, gap, grammar: grammarFb, variety }));
+    upsertAttempt(Object.assign(baseEntry(), { band, bandReasoning, gap, grammar: grammarFb, variety }));
     const savedAttempt = STATE.attempts.find(
       x => x.stage === 0 && x.question_id === (S0_CURRENT.id || "s0")
     );
@@ -1961,7 +2071,7 @@ $("btn-s0-save").onclick = async () => {
       band, gap, grammarFb, words, sampleText, combined,
       S0_CURRENT.intro_q || "",
       [S0_CURRENT.bullet1_q, S0_CURRENT.bullet2_q, S0_CURRENT.bullet3_q].filter(Boolean),
-      savedAttempt, variety
+      savedAttempt, variety, bandReasoning
     );
     fb.scrollIntoView({ behavior: "smooth", block: "nearest" });
   } catch(e) {
@@ -2042,6 +2152,12 @@ async function startPracticeScreen(stage) {
   $("prac-timer").textContent = "00:00";
   $("prac-timer").classList.remove("over");
   $("prac-target").textContent = meta.targetLabel || "";
+  PRAC_IDEATION_START = null;
+  PRAC_IDEATION_MS    = null;
+  PRAC_TYPING_STARTED = false;
+  { const btn = $("btn-prac-start-timer");
+    if (btn) { btn.style.display = (stage === 4) ? "" : "none"; setPracStartTimerEnabled(true); }
+  }
 
   // Set intro text and reset to expanded state
   const instrText = $("prac-instr-text");
@@ -2117,6 +2233,18 @@ function startPractice(stage, data) {
   const meta = STAGE_META[stage];
   // Reset Stage 4 before/after capture + gate for this question
   STATE.s4State = {};
+  // Reset ideation tracking for the new question. Only Stage 4 (Full Answer)
+  // shows the Start Timer button at all — everywhere else it stays hidden and
+  // PRAC_IDEATION_START simply never gets set, so nothing else changes.
+  PRAC_IDEATION_START = null;
+  PRAC_IDEATION_MS    = null;
+  PRAC_TYPING_STARTED = false;
+  { const btn = $("btn-prac-start-timer");
+    if (btn) {
+      btn.style.display = (stage === 4) ? "" : "none";
+      setPracStartTimerEnabled(true);
+    }
+  }
   $("prac-badge").textContent  = meta.badge;
   $("prac-target").textContent = meta.targetLabel || "";
   // Scenario + bullet instructions (TOEFL-style)
@@ -2188,8 +2316,20 @@ function startPractice(stage, data) {
       autoExpand(pracTa);
       $(`prac-wc-${key}`).textContent = countWords(pracTa.value);
       updatePracWords(meta.sections);
-      if (!STATE._timerRunning)
-        startTimerUp("prac-timer", meta.targetSec || null, "prac-target");
+      // First keystroke marks the end of ideation (if "Start Timer" was
+      // pressed, the clock is already running from that moment — this only
+      // records the gap, it never restarts it). If Start Timer was never
+      // pressed (or this isn't Stage 4), fall back to starting the clock
+      // right here, exactly as before this feature existed.
+      if (!PRAC_TYPING_STARTED) {
+        PRAC_TYPING_STARTED = true;
+        if (PRAC_IDEATION_START) {
+          PRAC_IDEATION_MS = Date.now() - PRAC_IDEATION_START;
+        } else if (!STATE._timerRunning) {
+          startTimerUp("prac-timer", meta.targetSec || null, "prac-target");
+        }
+        setPracStartTimerEnabled(false);
+      }
     };
 
     // Stage 4 per-section check buttons
@@ -2210,6 +2350,8 @@ function startPractice(stage, data) {
   ["bullet1","bullet2","bullet3"].forEach(k => {
     const el = $(`prac-idea-${k}`); if (el) el.textContent = "";
   });
+  // Re-apply manual-notes mode to the freshly built idea cells if the toggle is on.
+  { const cb = $("toggle-prac-manual"); if (cb && cb.checked) setManualNotes("prac-idea-", true); }
   const pfb = $("prac-feedback-box");
   if (pfb) { pfb.innerHTML = ""; pfb.style.display = "none"; }
   const phint = $("prac-footer-hint");
@@ -2233,16 +2375,64 @@ function startPractice(stage, data) {
 }
 
 
-// Format the four-line discourse output into clean labeled lines (ported from AD)
+// Renders email-block-check's reason-first JSON ({on_topic, moves}, each with
+// reasoning first) into clean labeled lines. Falls back to the old plain-text
+// ON-TOPIC:/MOVES: format for any older cached responses.
 function beautifyEmailDiscourse(raw) {
   if (!raw) return "";
-  const LABELS = {
-    "ON-TOPIC":    "On-topic",
-    "MOVES":       "Discourse Moves"
+
+  const LABELS = { "on_topic": "On-topic", "moves": "Discourse Moves" };
+  const ORDER  = ["on_topic", "moves"];
+
+  const renderRow = (label, reasoning, isPass, shown) => {
+    let out = "";
+    if (reasoning) {
+      out += "<div style='margin:6px 0 2px;font-size:11.5px;color:#888;font-style:italic;'>" +
+               "THINKING: " + esc(reasoning) +
+             "</div>";
+    }
+    const color = isPass ? "#00736b" : "#c0392b";
+    const mark  = isPass ? "✓ " : "⚠ ";
+    out += "<div style='margin:0 0 3px;'>" +
+             "<b style='color:" + color + ";'>" + mark + esc(label) + ":</b> " +
+             "<span style='color:#333;'>" + esc(shown) + "</span>" +
+           "</div>";
+    return out;
   };
-  // Split on the known labels even when they run together on one line.
-  // SYNTAX is still matched so older stored feedback renders, but the check no
-  // longer produces it — sentence patterns are reported by the variety check.
+
+  // ── Preferred path: parse the JSON object (reasoning-first schema). ──
+  let data = null;
+  try { data = JSON.parse(raw); } catch(e) { data = null; }
+
+  if (data && typeof data === "object") {
+    const out = [];
+    ORDER.forEach(key => {
+      const v = data[key];
+      if (!v || typeof v !== "object") return;
+      const reasoning = (v.reasoning || "").trim();
+      const label = LABELS[key] || key;
+
+      if (key === "moves") {
+        const verdict = (v.verdict || "").trim().toLowerCase();
+        const isPass = verdict === "more" || verdict === "roughly_same";
+        const note = (v.note || "").trim();
+        const verdictWord = verdict === "more" ? "MORE" : verdict === "less" ? "LESS" : "ROUGHLY THE SAME";
+        const shown = note ? (verdictWord + " — " + note) : verdictWord;
+        out.push(renderRow(label, reasoning, isPass, shown));
+        return;
+      }
+
+      const isPass = v.pass === true;
+      const note = (v.note || "").trim();
+      const shown = isPass ? (note || "Good") : (note || "Not met.");
+      out.push(renderRow(label, reasoning, isPass, shown));
+    });
+    if (out.length) return out.join("");
+    // Parsed but no recognizable keys — fall through to text-format handling.
+  }
+
+  // ── Fallback: old plain-text ON-TOPIC:/MOVES:/SYNTAX: format. ──
+  const TEXT_LABELS = { "ON-TOPIC": "On-topic", "MOVES": "Discourse Moves" };
   const re = /(ON-TOPIC|MOVES|SYNTAX)\s*:\s*/gi;
   const parts = [];
   let m, lastKey = null, lastIdx = 0;
@@ -2255,7 +2445,7 @@ function beautifyEmailDiscourse(raw) {
   if (!parts.length) return escWithLabels(raw);
 
   return parts.map(([key, body]) => {
-    const friendly = LABELS[key] || key;
+    const friendly = TEXT_LABELS[key] || key;
     const isPass = /^OK\b/i.test(body) || /ROUGHLY THE SAME/i.test(body) || /^MORE\b/i.test(body);
     const color  = isPass ? "#00736b" : "#c0392b";
     const mark   = isPass ? "✓ " : "⚠ ";
@@ -2496,6 +2686,8 @@ if (_pracSaveBtn) _pracSaveBtn.onclick = async () => {
     theme: data.theme || "", scenario: data.intro_q || "",
     sections: texts, text: combined, words: countWords(combined),
     time_fmt: fmt(STATE.timerSeconds),
+    notes: getManualNotes("prac-idea-"),
+    notes_manual: !!MANUAL_NOTES["prac-idea-"],
     question_data: {
       bullet1_type: data.bullet1_type, bullet1_q: data.bullet1_q,
       bullet2_type: data.bullet2_type, bullet2_q: data.bullet2_q,
@@ -2520,6 +2712,10 @@ if (_pracSaveBtn) _pracSaveBtn.onclick = async () => {
     $("prac-timer").classList.remove("over");
     $("prac-total-words").textContent = "0";
     STATE.currentQ = null;
+    PRAC_IDEATION_START = null;
+    PRAC_IDEATION_MS    = null;
+    PRAC_TYPING_STARTED = false;
+    { const btn = $("btn-prac-start-timer"); if (btn) { btn.style.display = "none"; } }
   }
 };
 $("btn-prac-end").onclick = () => {
@@ -2553,6 +2749,8 @@ $("btn-prac-end").onclick = () => {
         theme: data.theme || "", scenario: data.intro_q || "",
         sections: texts, text: combined, words: countWords(combined),
         time_fmt: fmt(STATE.timerSeconds),
+        notes: getManualNotes("prac-idea-"),
+        notes_manual: !!MANUAL_NOTES["prac-idea-"],
         question_data: {
           bullet1_type: data.bullet1_type, bullet1_q: data.bullet1_q,
           bullet2_type: data.bullet2_type, bullet2_q: data.bullet2_q,
@@ -2573,6 +2771,9 @@ $("btn-prac-end").onclick = () => {
       }
       // Total time spent on this attempt (final)
       attempt.totalSecs = STATE.timerSeconds || 0;
+      // Time between pressing "Start Timer" and the first keystroke, if the
+      // button was pressed at all — optional, so most attempts won't have it.
+      if (PRAC_IDEATION_MS != null) attempt.ideation_secs = Math.round(PRAC_IDEATION_MS / 1000);
       // Keyed so re-ending the same question replaces its attempt rather than
       // stacking a second copy. Without the key every stage-4 attempt would
       // look like the same question and overwrite the previous one.
@@ -2636,6 +2837,7 @@ async function gradeStage4Attempt(attempt) {
     ]);
 
     attempt.band    = bandRes ? extractBand(bandRes.feedback || "") : null;
+    attempt.bandReasoning = bandRes ? extractReasoning(bandRes.feedback || "") : "";
     attempt.grammar = (grammarRes && grammarRes.grammar) || "";
     attempt.variety = (varietyRes && typeof varietyRes.raw === "string") ? varietyRes.raw : "";
 
@@ -2666,7 +2868,7 @@ async function gradeStage4Attempt(attempt) {
         [ (attempt.question_data || {}).bullet1_q,
           (attempt.question_data || {}).bullet2_q,
           (attempt.question_data || {}).bullet3_q ].filter(Boolean),
-        attempt, attempt.variety || ""
+        attempt, attempt.variety || "", attempt.bandReasoning || ""
       );
       box.scrollIntoView({ behavior: "smooth", block: "nearest" });
     }
@@ -2686,6 +2888,9 @@ $("btn-prac-exit").onclick = () => {
   const hasText = sections.some(k => { const ta = $(`prac-ta-${k}`); return ta && ta.value.trim(); });
   if (hasText && !confirm("Leave practice? Your current answers won't be saved.")) return;
   stopTimer();
+  PRAC_IDEATION_START = null;
+  PRAC_IDEATION_MS    = null;
+  PRAC_TYPING_STARTED = false;
   resetToStart();
 };
 
@@ -2948,6 +3153,35 @@ async function recordToBank(link, stage) {
 // so flex rows collapse into one line per cell in the uploaded Doc.
 const TIMING_SECTION_LABELS = { opening: "Opening", bullet1: "Bullet 1", bullet2: "Bullet 2", bullet3: "Bullet 3", closing: "Closing" };
 
+// The Ideas-column content saved with an attempt (generated ideas OR the
+// student's own manual notes), shown beside the time record on the results page.
+// `a.notes` is an object keyed by row (opening/bullet1/…/closing).
+const EMAIL_NOTE_ORDER = ["opening", "bullet1", "bullet2", "bullet3", "closing"];
+function emailNotesHTML(a) {
+  if (!a || !a.notes || typeof a.notes !== "object") return "";
+  const keys = EMAIL_NOTE_ORDER.filter(k => (a.notes[k] || "").trim());
+  if (!keys.length) return "";
+  const heading = a.notes_manual
+    ? trCached("Your notes (manual input)")
+    : trCached("Ideas used");
+  const rows = keys.map(k => {
+    return '<div style="margin-bottom:6px;">' +
+      '<div style="font-size:10.5px;text-transform:uppercase;letter-spacing:.04em;color:#8e44ad;margin-bottom:2px;">' +
+        esc(trCached(TIMING_SECTION_LABELS[k] || k)) +
+      '</div>' +
+      '<div style="font-size:12px;color:#333;line-height:1.55;">' +
+        esc(a.notes[k].trim()).replace(/\n/g, "<br>") +
+      '</div>' +
+    '</div>';
+  }).join("");
+  return '<div style="min-width:220px;max-width:360px;flex:1;margin-top:8px;padding:8px 12px;' +
+           'background:#faf5fc;border:1px solid #e0cdf0;border-radius:8px;">' +
+           '<div style="font-size:11px;font-weight:700;color:#8e44ad;text-transform:uppercase;' +
+             'letter-spacing:.05em;margin-bottom:6px;">' + esc(heading) + '</div>' +
+           rows +
+         '</div>';
+}
+
 function blockTimesHTML(a) {
   if (!a) return "";
   const totalSecs = (a.totalSecs != null) ? a.totalSecs : 0;
@@ -2961,7 +3195,16 @@ function blockTimesHTML(a) {
     : "\u2014";
 
   const body = [];
-  let prev = 0, lastAt = 0, covered = 0;
+  // The clock now runs continuously from "Start Timer" (if pressed), through
+  // ideation, into the first section. So the first section's own duration
+  // must be measured from where ideation ENDED, not from zero — otherwise
+  // the ideation gap would be silently folded into its reported time.
+  const ideationSecs = (typeof a.ideation_secs === "number" && a.ideation_secs >= 0) ? a.ideation_secs : 0;
+  let prev = ideationSecs, lastAt = ideationSecs, covered = 0;
+
+  if (ideationSecs) {
+    body.push([trCached("Ideation"), fmt(ideationSecs), "", ""]);
+  }
 
   if (a.blocks) {
     S4_SECTIONS.forEach(k => {
@@ -3128,8 +3371,10 @@ function showEndScreen() {
         ' &nbsp;·&nbsp; <span style="color:#555;">100 words or above is recommended</span> · ' +
         esc(a.time_fmt || "") + ' · ' + esc(a.date || "") + '</div>' +
       // Timing sits BELOW the stats line: .result-meta is a flex row, so a table
-      // inside it would be squashed beside the word count.
-      blockTimesHTML(a) +
+      // inside it would be squashed beside the word count. Notes sit to its RIGHT.
+      '<div style="display:flex;gap:20px;flex-wrap:wrap;align-items:flex-start;">' +
+        blockTimesHTML(a) + emailNotesHTML(a) +
+      '</div>' +
       '<div class="result-analysis-block hidden" id="analysis-' + i + '"></div>' +
       '<div class="result-analysis-block hidden" id="grammar-' + i + '"></div>' +
       ((a.stage === 4 || a.stage === 5) ? '<div id="exam-redo-' + i + '" style="margin-top:10px;"></div>' : "") +
@@ -3209,6 +3454,15 @@ function extractBand(fb) {
   if (!fb) return null;
   const m = String(fb).match(/BAND\s*[:：]?\s*(\d+)/i);
   return m ? parseInt(m[1], 10) : null;
+}
+
+// Pulls the "REASONING: ..." line out of email-analyze's band_only response
+// (the brief comparison the model made before naming a band). "" if not
+// present — older cached responses (before this was added) won't have one.
+function extractReasoning(fb) {
+  if (!fb) return "";
+  const m = String(fb).match(/REASONING\s*[:：]\s*([\s\S]*?)(?:\n\s*BAND\s*[:：]|$)/i);
+  return m ? m[1].trim() : "";
 }
 
 function buildEmailPrompt(a, emailText, wordCount) {
@@ -3302,6 +3556,7 @@ async function runStageRedo(idx) {
     ]);
 
     const redoBand  = bandRes ? extractBand(bandRes.feedback || "") : null;
+    const redoReasoning = bandRes ? extractReasoning(bandRes.feedback || "") : "";
     const grammarFb = (grammarRes && grammarRes.grammar) || "";
     const variety   = (varietyRes && typeof varietyRes.raw === "string") ? varietyRes.raw : "";
 
@@ -3321,7 +3576,7 @@ async function runStageRedo(idx) {
     // Just the new result. The first attempt and its band are directly above,
     // so a before/after pair would only repeat what is already on screen.
     resultEl.innerHTML =
-      bandNumberHTML(redoBand) +
+      bandNumberHTML(redoBand, redoReasoning) +
       '<div style="height:8px;"></div>' +
       (gap
         ? '<div style="padding:10px 12px;background:#f0f9f8;border:1px solid #b2dbd8;border-radius:8px;font-size:13px;line-height:1.6;color:#333;margin-bottom:8px;">' +
@@ -3336,6 +3591,7 @@ async function runStageRedo(idx) {
     a.text     = text;
     a.words    = words;
     a.band     = redoBand;
+    a.bandReasoning = redoReasoning;
     a.gap      = gap;
     a.grammar  = grammarFb;
     a.variety  = variety;
@@ -3434,8 +3690,9 @@ async function runExamRedo(idx) {
     const grammarFb = grammarRes.grammar  || "No grammar feedback returned.";
     const firstBand = (a.band !== null && a.band !== undefined) ? a.band : extractBand(a.analysis);
     const redoBand  = extractBand(writingFb);
-    const wm        = writingFb.match(/^BAND:(\d+)(\s+WORDS:\d+)?/);
-    const writingRest = wm ? writingFb.slice(wm[0].length).trim() : writingFb;
+    // BAND:X now sits on its own line at the END of the response (reason
+    // before verdict), not the start — strip it wherever it lands.
+    const writingRest = writingFb.replace(/^\s*BAND\s*[:：]?\s*\d+(\s+WORDS\s*[:：]?\s*\d+)?\s*$/im, "").trim();
 
     // Below Band 5, explain the gap against the universal Band 5 reference.
     let redoGap = "";
@@ -3574,7 +3831,7 @@ function replayGradedAttempts() {
     // in the card above, so they are NOT repeated here.
     if (writingBox) {
       writingBox.innerHTML =
-        bandNumberHTML(a.band) +
+        bandNumberHTML(a.band, a.bandReasoning) +
         (a.gap
           ? '<div style="margin-top:8px;padding:10px 12px;background:#f0f9f8;border:1px solid #b2dbd8;border-radius:8px;font-size:13px;line-height:1.6;color:#333;">' +
               '<b style="color:#8e44ad;">' +
@@ -3644,8 +3901,10 @@ async function runEmailAnalysis() {
     const data = await res.json();
     const fb   = data.feedback || "";
     a.variety  = (varietyRes && typeof varietyRes.raw === "string") ? varietyRes.raw : "";
-    // Strip the leading BAND:X (and optional WORDS:) line, tolerant of spacing/case/fullwidth colon
-    const rest = fb.replace(/^\s*BAND\s*[:：]?\s*\d+(\s+WORDS\s*[:：]?\s*\d+)?\s*/i, "").trim();
+    // BAND:X now sits on its own line at the END of the response (reason
+    // before verdict), not the start — strip it wherever it lands, tolerant
+    // of spacing/case/fullwidth colon.
+    const rest = fb.replace(/^\s*BAND\s*[:：]?\s*\d+(\s+WORDS\s*[:：]?\s*\d+)?\s*$/im, "").trim();
     // Persist band + feedback on the attempt (used by the Stage 5 redo gate).
     // Use the lenient extractBand so "BAND: 3", leading whitespace, or fullwidth colon still parse.
     a.band     = extractBand(fb);   // number, or null when unparseable
@@ -3755,8 +4014,9 @@ $("btn-evaluate").onclick = async () => {
     let writingFb = writingRes.feedback || writingRes.error || "No analysis returned.";
     // Lenient band parse (tolerant of spacing/case/fullwidth colon)
     const bandNum  = extractBand(writingFb);
-    // Strip the leading BAND:X marker into a heading line, like the practice flow
-    writingFb = writingFb.replace(/^\s*BAND\s*[:：]?\s*\d+(\s+WORDS\s*[:：]?\s*\d+)?\s*/i, "").trim();
+    // BAND:X now sits on its own line at the END of the response (reason
+    // before verdict), not the start — strip it wherever it lands.
+    writingFb = writingFb.replace(/^\s*BAND\s*[:：]?\s*\d+(\s+WORDS\s*[:：]?\s*\d+)?\s*$/im, "").trim();
     if (bandNum !== null) writingFb = `Band ${bandNum} · ${wordCount} words\n\n` + writingFb;
 
     const grammarRaw = grammarRes.grammar || "No grammar feedback returned.";
@@ -3877,7 +4137,9 @@ async function runPasteRedo(question, firstBand, lang) {
 
     let writingFb = writingRes.feedback || writingRes.error || "No analysis returned.";
     const redoBand = extractBand(writingFb);
-    writingFb = writingFb.replace(/^\s*BAND\s*[:：]?\s*\d+(\s+WORDS\s*[:：]?\s*\d+)?\s*/i, "").trim();
+    // BAND:X now sits on its own line at the END of the response (reason
+    // before verdict), not the start — strip it wherever it lands.
+    writingFb = writingFb.replace(/^\s*BAND\s*[:：]?\s*\d+(\s+WORDS\s*[:：]?\s*\d+)?\s*$/im, "").trim();
 
     const grammarRaw = grammarRes.grammar || "No grammar feedback returned.";
     const gParts = grammarRaw.split(/={2,}\s*(Q\d+|PATTERNS)\s*={2,}/);

@@ -27,14 +27,18 @@ You receive:
 - THE SAMPLE: a model for this section, written for a DIFFERENT scenario. Use it ONLY to benchmark moves and syntax — NEVER for content. A different topic is fine and must never be flagged.
 - THE STUDENT'S SECTION: what the student wrote.
 
-Always output these two lines, in this order:
+For each check below, reason first, then decide. Every verdict must follow FROM its reasoning — never decide the verdict first and justify it afterwards.
 
-ON-TOPIC: Does the student's section cover the task point it must address? Output "OK", or briefly what is missing.
-MOVES: Compare the number of discourse moves (distinct developing steps) in the student's section vs THE SAMPLE. Verdict: MORE / LESS / ROUGHLY THE SAME, with a brief reason. ROUGHLY THE SAME is normal; say LESS only when clearly and substantially fewer. fewer details ≠ fewer moves.
+1. on_topic: Does the student's section cover the task point it must address?
+2. moves: Compare the number of discourse moves (distinct developing steps) in the student's section vs THE SAMPLE. "roughly_same" is normal; only report "less" when clearly and substantially fewer. Fewer details does not mean fewer moves.
 
 Do NOT comment on sentence structure or syntactic variety — a separate check reports the sentence patterns used, and duplicating it here gives the student two verdicts on the same thing.
 
-Keep each line to one sentence. Do not output a band or score. Keep the labels (ON-TOPIC:, MOVES:) and the words OK / MORE / LESS / ROUGHLY THE SAME in English exactly as written.`;
+Output ONLY a JSON object, no markdown fences (reasoning FIRST in each verdict):
+{"on_topic": {"reasoning": "one sentence, before deciding", "pass": true|false, "note": "empty if pass; briefly what is missing if fail"},
+ "moves": {"reasoning": "one sentence, before deciding", "verdict": "more"|"less"|"roughly_same", "note": "brief reason"}}
+
+Keep each field to one sentence. Do not output a band or score.`;
 
 function callOpenAI(apiKey, systemPrompt, userContent) {
   return new Promise((resolve, reject) => {
@@ -45,7 +49,10 @@ function callOpenAI(apiKey, systemPrompt, userContent) {
         { role: "user",   content: userContent  }
       ],
       temperature: 0,
-      max_tokens: 500
+      max_tokens: 700,
+      // Reasoning-first JSON schema — enforce it at the API level rather than
+      // relying on the model to follow the "no markdown fences" instruction.
+      response_format: { type: "json_object" }
     });
 
     const req = https.request(
@@ -111,9 +118,8 @@ exports.handler = async (event) => {
     return { statusCode: 400, body: JSON.stringify({ error: "Missing student_block" }) };
   }
 
-  const labelList = `ON-TOPIC:, MOVES:`;
   const systemPrompt = (language && language.trim().toLowerCase() !== "english")
-    ? BLOCK_SYSTEM + `\n\nWrite all your explanations in ${language.trim()}, but keep the format labels (${labelList}) and the words OK / MORE / LESS / ROUGHLY THE SAME in English exactly as written — these are required for parsing.`
+    ? BLOCK_SYSTEM + `\n\nWrite every "reasoning" and "note" value in ${language.trim()}, never in English. The ONLY things that stay in English are the JSON keys themselves (on_topic, moves, reasoning, pass, note, verdict) and the JSON literal values true/false/"more"/"less"/"roughly_same" — these are required for parsing.`
     : BLOCK_SYSTEM;
 
   // Build the user content
@@ -126,10 +132,11 @@ exports.handler = async (event) => {
 
   try {
     const feedback = await callOpenAI(apiKey, systemPrompt, userContent);
+    const clean = (feedback || "").trim().replace(/^```(?:json)?\s*/i, "").replace(/```\s*$/i, "").trim();
     return {
       statusCode: 200,
       headers: { "Content-Type": "application/json; charset=utf-8" },
-      body: JSON.stringify({ feedback: (feedback || "").trim() })
+      body: JSON.stringify({ feedback: clean })
     };
   } catch(e) {
     return { statusCode: 500, body: JSON.stringify({ error: e.message }) };

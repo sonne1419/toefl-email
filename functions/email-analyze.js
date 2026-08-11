@@ -4,12 +4,10 @@
 
 const https = require("https");
 
-const SCORING_RULES = `You are a TOEFL teacher evaluating a student's email writing response.
-Compare the student's email to the band samples provided below.
+const SCORING_RULES = `Compare the student's email to the band samples provided below.
 The band samples use a DIFFERENT scenario — they illustrate writing quality only, not topic content. Evaluate the student's email on its own scenario.
 
-Start your response with exactly: BAND:X (e.g. BAND:3)
-where X is the band (0, 1, 2, 3, 4, or 5). Choose the band whose sample the student's email most closely resembles in overall effectiveness, development, and language.
+Choose the band whose sample the student's email most closely resembles in overall effectiveness, development, and language. The band is 0, 1, 2, 3, 4, or 5.
 
 Guard against responses that do not genuinely attempt the task. Compare honestly: if the email is blank, off-topic, not in English, or unconnected to the task, it matches the Band 0 sample. If it is only a few words or a single short sentence with no real development (for example "I like it" or "Wi-Fi is bad"), or is largely unintelligible, it matches the Band 0–1 samples. This is about relevance and real development, NOT originality — an email that fully and clearly addresses the task is strong even though it naturally covers the given bullet points.
 
@@ -21,9 +19,12 @@ Before evaluating register, determine what register is appropriate for this spec
 
 // The written feedback half. Omitted in band_only mode, where a separate call
 // (email-why-not-5) explains the gap instead — so this would only duplicate it.
+// REASON BEFORE VERDICT: these categories are evaluated and written FIRST; the
+// band is assigned only after, as the conclusion of this analysis (see the
+// closing instruction appended to SYSTEM_PROMPT below).
 const FEEDBACK_CATEGORIES = `
 
-After the band assignment, evaluate using these categories, each labelled on its own line:
+Before assigning a band, evaluate the email using these categories, each labelled on its own line:
    - Content & Task Completion: Did the student address all parts of the task with relevant, developed content?
    - Register & Tone: Is the register appropriate for this specific task context?
    - Syntactic/Lexical Variety: Does the student use varied sentence structures and vocabulary?
@@ -85,16 +86,27 @@ Hi Mr. Taylor,
 I started using co-working space and have experienced problems with the Wi-Fi connection. Wi-The issues affect my daily work. I request a repair and ask for a timeline.
 Thanks.`;
 
-// Full analysis: scoring rules + written feedback categories + band samples.
-const SYSTEM_PROMPT = SCORING_RULES + FEEDBACK_CATEGORIES + BAND_SAMPLES;
+// Full analysis: scoring rules + written feedback categories + band samples,
+// then a closing instruction that puts BAND:X LAST — the conclusion of the
+// four categories just written, not a pre-decided headline they're made to fit.
+const SYSTEM_PROMPT = SCORING_RULES + FEEDBACK_CATEGORIES + BAND_SAMPLES + `
+
+OUTPUT ORDER — REASON BEFORE VERDICT. Write the four categories above FIRST, in the order listed. Only AFTER that, on the LAST line of your response, output exactly: BAND:X (e.g. BAND:3) — where X is the band. The band must follow from the categories you just wrote, not be decided beforehand and justified afterwards.`;
 
 // Band only: the same scoring rules and the same samples, minus the written
 // feedback. Used where a separate call explains the gap, so the two would
 // otherwise say the same thing twice. Identical rules in, identical band out.
+// A brief REASONING line is still required before the band, so the model
+// weighs the comparison before committing to a number — the frontend only
+// parses the BAND:X token out of the response, so nothing else there changes.
 const SYSTEM_PROMPT_BAND_ONLY = SCORING_RULES + BAND_SAMPLES + `
 
-Respond with ONLY the band line, exactly: BAND:X
-Give no explanation, no categories, and no other text.`;
+Output exactly this, in this order:
+
+REASONING: <one or two sentences on which sample the email most resembles and why>
+BAND:X (where X is 0, 1, 2, 3, 4, or 5)
+
+Give no other text — no categories, no advice.`;
 
 function callOpenAI(userPrompt, systemPrompt) {
   const apiKey = process.env.ALT_OPENAI_KEY || "";
@@ -153,13 +165,15 @@ exports.handler = async (event) => {
   const base = bandOnly ? SYSTEM_PROMPT_BAND_ONLY : SYSTEM_PROMPT;
 
   // Inject language instruction if the student's language isn't English.
-  // Band-only output is a single "BAND:X" line with nothing to translate, so
-  // the instruction is skipped there — it would only invite stray prose.
+  // Band-only now carries a brief REASONING line, so it gets its own translation
+  // rule too — no longer skipped, but scoped to just that one line.
   const lang = (language || "").trim();
   const isEnglish = !lang || /^english$/i.test(lang);
-  const systemPrompt = (isEnglish || bandOnly)
+  const systemPrompt = isEnglish
     ? base
-    : base + `\n\nIMPORTANT: Write ALL of your feedback in ${lang}, including the text after each category label (Content & Task Completion, Register & Tone, Syntactic/Lexical Variety, Accuracy/Errors). Keep only the "BAND:X" line and the four category labels themselves in English exactly as written — translate everything else, including all explanations. Keep grammar terminology clear.`;
+    : base + (bandOnly
+        ? `\n\nIMPORTANT: Write the REASONING line in ${lang}. Keep the labels "REASONING:" and "BAND:" in English exactly as written.`
+        : `\n\nIMPORTANT: Write ALL of your feedback in ${lang}, including the text after each category label (Content & Task Completion, Register & Tone, Syntactic/Lexical Variety, Accuracy/Errors). Keep only the "BAND:X" line and the four category labels themselves in English exactly as written — translate everything else, including all explanations. Keep grammar terminology clear.`);
 
   try {
     const feedback = await callOpenAI(user_prompt, systemPrompt);
