@@ -3450,10 +3450,18 @@ function showEndScreen() {
 // summary rendered "Band –", the comparison was skipped (parseInt("–") is NaN),
 // and "have you checked this yet?" could never fire. Returning null makes a
 // failure a failure.
+//
+// Takes the LAST "Band X" match in the text, not the first. Both band_only and
+// full-mode prompts now reason BEFORE naming a band (reason-first), and that
+// reasoning often references band-numbered samples by name while comparing
+// ("...resembles the Band 1 sample..."). The one true verdict is always the
+// LAST line of the response by prompt design — grabbing the first match risked
+// picking up an early, incidental mention instead of the actual final band.
 function extractBand(fb) {
   if (!fb) return null;
-  const m = String(fb).match(/BAND\s*[:：]?\s*(\d+)/i);
-  return m ? parseInt(m[1], 10) : null;
+  const matches = [...String(fb).matchAll(/BAND\s*[:：]?\s*(\d+)/gi)];
+  if (!matches.length) return null;
+  return parseInt(matches[matches.length - 1][1], 10);
 }
 
 // Pulls the "REASONING: ..." line out of email-analyze's band_only response
@@ -3678,7 +3686,7 @@ async function runExamRedo(idx) {
     const [writingRes, grammarRes] = await Promise.all([
       fetch("/.netlify/functions/email-analyze", {
         method: "POST", headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ user_prompt: buildEmailPrompt(a, text, wc), language: lang })
+        body: JSON.stringify({ user_prompt: buildEmailPrompt(a, text, wc), language: lang, mode: "band_only" })
       }).then(r => r.json()),
       fetch("/.netlify/functions/grammar", {
         method: "POST", headers: { "Content-Type": "application/json" },
@@ -3690,9 +3698,7 @@ async function runExamRedo(idx) {
     const grammarFb = grammarRes.grammar  || "No grammar feedback returned.";
     const firstBand = (a.band !== null && a.band !== undefined) ? a.band : extractBand(a.analysis);
     const redoBand  = extractBand(writingFb);
-    // BAND:X now sits on its own line at the END of the response (reason
-    // before verdict), not the start — strip it wherever it lands.
-    const writingRest = writingFb.replace(/^\s*BAND\s*[:：]?\s*\d+(\s+WORDS\s*[:：]?\s*\d+)?\s*$/im, "").trim();
+    const redoReasoning = extractReasoning(writingFb);
 
     // Below Band 5, explain the gap against the universal Band 5 reference.
     let redoGap = "";
@@ -3711,14 +3717,10 @@ async function runExamRedo(idx) {
     resultEl.innerHTML =
       // The first attempt and its band are directly above; only the new result
       // is shown here.
-      bandNumberHTML(redoBand) +
-      '<div style="height:8px;"></div>' +
-      '<div class="result-text-lbl">' + esc(trCached("Writing Analysis")) + '</div>' +
-      '<div class="result-analysis">' + escWithLabels(writingRest) + '</div>' +
+      bandNumberHTML(redoBand, redoReasoning) +
       '<div style="height:8px;"></div>' +
       (redoGap
-        ? '<div style="height:8px;"></div>' +
-          '<div style="padding:10px 12px;background:#f0f9f8;border:1px solid #b2dbd8;border-radius:8px;font-size:13px;line-height:1.6;color:#333;">' +
+        ? '<div style="padding:10px 12px;background:#f0f9f8;border:1px solid #b2dbd8;border-radius:8px;font-size:13px;line-height:1.6;color:#333;">' +
             '<b style="color:#8e44ad;">' + esc(trCached("How to reach Band 5")) + ':</b><br>' +
             escWithLabels(redoGap).replace(/\n/g, "<br>") + '</div>'
         : "") +
@@ -3890,7 +3892,7 @@ async function runEmailAnalysis() {
     const [res, varietyRes] = await Promise.all([
       fetch("/.netlify/functions/email-analyze", {
         method: "POST", headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ user_prompt: prompt, language: lang })
+        body: JSON.stringify({ user_prompt: prompt, language: lang, mode: "band_only" })
       }),
       fetch("/.netlify/functions/email-variety", {
         method: "POST", headers: { "Content-Type": "application/json" },
@@ -3901,13 +3903,9 @@ async function runEmailAnalysis() {
     const data = await res.json();
     const fb   = data.feedback || "";
     a.variety  = (varietyRes && typeof varietyRes.raw === "string") ? varietyRes.raw : "";
-    // BAND:X now sits on its own line at the END of the response (reason
-    // before verdict), not the start — strip it wherever it lands, tolerant
-    // of spacing/case/fullwidth colon.
-    const rest = fb.replace(/^\s*BAND\s*[:：]?\s*\d+(\s+WORDS\s*[:：]?\s*\d+)?\s*$/im, "").trim();
-    // Persist band + feedback on the attempt (used by the Stage 5 redo gate).
-    // Use the lenient extractBand so "BAND: 3", leading whitespace, or fullwidth colon still parse.
+    // band_only mode: brief holistic REASONING then BAND:X, no category text.
     a.band     = extractBand(fb);   // number, or null when unparseable
+    a.bandReasoning = extractReasoning(fb);
     a.analysis = fb;
 
     // Below Band 5, explain the gap against the universal Band 5 reference.
@@ -3930,9 +3928,8 @@ async function runEmailAnalysis() {
     const block = $(`analysis-${i}`);
     if (block) {
       block.innerHTML =
-        '<div class="result-text-lbl">' + esc(trCached("Writing Analysis")) + '</div>' +
-        (a.band !== null ? '<div class="result-band">Band ' + a.band + ' · ' + a.words + ' ' + esc(trCached("words")) + '</div>' : "") +
-        '<div class="result-analysis">' + escWithLabels(rest) + '</div>' +
+        bandNumberHTML(a.band, a.bandReasoning) +
+        (a.band !== null ? '<div style="font-size:12px;color:#888;text-align:center;margin-top:-4px;margin-bottom:8px;">' + a.words + ' ' + esc(trCached("words")) + '</div>' : "") +
         (a.gap
           ? '<div style="margin-top:8px;padding:10px 12px;background:#f0f9f8;border:1px solid #b2dbd8;border-radius:8px;font-size:13px;line-height:1.6;color:#333;">' +
               '<b style="color:#8e44ad;">' + esc(trCached("How to reach Band 5")) + ':</b><br>' +
@@ -3999,7 +3996,7 @@ $("btn-evaluate").onclick = async () => {
     const [writingRes, grammarRes, varietyRes] = await Promise.all([
       fetch("/.netlify/functions/email-analyze", {
         method: "POST", headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ user_prompt: userPrompt, language: lang })
+        body: JSON.stringify({ user_prompt: userPrompt, language: lang, mode: "band_only" })
       }).then(r => r.json()),
       fetch("/.netlify/functions/grammar", {
         method: "POST", headers: { "Content-Type": "application/json" },
@@ -4011,13 +4008,13 @@ $("btn-evaluate").onclick = async () => {
       }).then(r => r.json()).catch(() => null)
     ]);
 
-    let writingFb = writingRes.feedback || writingRes.error || "No analysis returned.";
-    // Lenient band parse (tolerant of spacing/case/fullwidth colon)
-    const bandNum  = extractBand(writingFb);
-    // BAND:X now sits on its own line at the END of the response (reason
-    // before verdict), not the start — strip it wherever it lands.
-    writingFb = writingFb.replace(/^\s*BAND\s*[:：]?\s*\d+(\s+WORDS\s*[:：]?\s*\d+)?\s*$/im, "").trim();
-    if (bandNum !== null) writingFb = `Band ${bandNum} · ${wordCount} words\n\n` + writingFb;
+    const bandTxt   = writingRes.feedback || writingRes.error || "";
+    // band_only mode: a brief holistic REASONING line, then BAND:X. No
+    // per-category text — that used to duplicate the "How to reach Band 5"
+    // explanation below, and (now that categories were written before the
+    // band) risked nudging the holistic verdict the same way a rubric would.
+    const bandNum   = extractBand(bandTxt);
+    const reasoning = extractReasoning(bandTxt);
 
     const grammarRaw = grammarRes.grammar || "No grammar feedback returned.";
     // Pull just this single response's Q1 section out of the grammar output
@@ -4045,8 +4042,9 @@ $("btn-evaluate").onclick = async () => {
 
     const writingEl = $("eval-writing-result");
     writingEl.innerHTML =
-      formatFeedbackBlock("Writing Analysis", writingFb, "#00736b") +
-      (gapFb ? '<div style="height:8px;"></div>' + formatFeedbackBlock("How to reach Band 5", gapFb, "#8e44ad") : "");
+      bandNumberHTML(bandNum, reasoning) +
+      '<div style="font-size:12px;color:#888;text-align:center;margin-top:-4px;margin-bottom:8px;">' + wordCount + ' ' + esc(trCached("words")) + '</div>' +
+      (gapFb ? formatFeedbackBlock("How to reach Band 5", gapFb, "#8e44ad") : "");
     writingEl.style.display = "";
 
     const grammarEl = $("eval-grammar-result");
@@ -4127,7 +4125,7 @@ async function runPasteRedo(question, firstBand, lang) {
     const [writingRes, grammarRes] = await Promise.all([
       fetch("/.netlify/functions/email-analyze", {
         method: "POST", headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ user_prompt: userPrompt, language: lang })
+        body: JSON.stringify({ user_prompt: userPrompt, language: lang, mode: "band_only" })
       }).then(r => r.json()),
       fetch("/.netlify/functions/grammar", {
         method: "POST", headers: { "Content-Type": "application/json" },
@@ -4135,11 +4133,9 @@ async function runPasteRedo(question, firstBand, lang) {
       }).then(r => r.json())
     ]);
 
-    let writingFb = writingRes.feedback || writingRes.error || "No analysis returned.";
+    const writingFb = writingRes.feedback || writingRes.error || "No analysis returned.";
     const redoBand = extractBand(writingFb);
-    // BAND:X now sits on its own line at the END of the response (reason
-    // before verdict), not the start — strip it wherever it lands.
-    writingFb = writingFb.replace(/^\s*BAND\s*[:：]?\s*\d+(\s+WORDS\s*[:：]?\s*\d+)?\s*$/im, "").trim();
+    const redoReasoning = extractReasoning(writingFb);
 
     const grammarRaw = grammarRes.grammar || "No grammar feedback returned.";
     const gParts = grammarRaw.split(/={2,}\s*(Q\d+|PATTERNS)\s*={2,}/);
@@ -4166,11 +4162,9 @@ async function runPasteRedo(question, firstBand, lang) {
     resultEl.innerHTML =
       // The first attempt and its band are directly above; only the new result
       // is shown here.
-      bandNumberHTML(redoBand) +
+      bandNumberHTML(redoBand, redoReasoning) +
       '<div style="height:8px;"></div>' +
-      formatFeedbackBlock("Writing Analysis", writingFb, "#00736b") +
-      (redoGap ? '<div style="height:8px;"></div>' + formatFeedbackBlock("How to reach Band 5", redoGap, "#8e44ad") : "") +
-      '<div style="height:8px;"></div>' +
+      (redoGap ? formatFeedbackBlock("How to reach Band 5", redoGap, "#8e44ad") + '<div style="height:8px;"></div>' : "") +
       grammarSummaryHTML(grammarFb) +
       formatFeedbackBlock("Grammar Check", highlightGrammarChanges(grammarFb), "#2980b9");
 
