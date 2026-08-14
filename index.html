@@ -858,32 +858,48 @@ function trCached(text) {
   const lang = (STATE.analysisLang || "").trim();
   if (!lang || lang.toLowerCase() === "english") return text;
   try {
-    const c = localStorage.getItem("ui_tr::" + lang.toLowerCase() + "::" + text.trim());
+    const c = localStorage.getItem("ui_tr2::" + lang.toLowerCase() + "::" + text.trim());
     if (c !== null) return c;
   } catch(e) {}
   return text;
 }
 
 // translateUI: translate a single UI string, cache it, and write into an element (optional).
-async function translateUI(text, el, asHTML) {
+async function translateUI(text, el, asHTML, context, longText) {
   const raw = (text || "").trim();
+  const ctx = (context || "").trim();
+  const isLong = !!longText;
   const render = (t) => { if (!el) return; if (asHTML) el.innerHTML = esc(t).replace(/\n/g,"<br>"); else el.textContent = t; };
   if (!raw) { render(""); return ""; }
   const lang = (STATE.analysisLang || "").trim();
   if (!lang || lang.toLowerCase() === "english") { render(raw); return raw; }
-  const cacheKey = "ui_tr::" + lang.toLowerCase() + "::" + raw;
+  // Cache prefix bumped to "ui_tr2" when the translation prompt was upgraded to
+  // meaning-first + context-aware — old "ui_tr" entries are stale. Context and
+  // the long-text flag are folded into the key so they don't collide with the
+  // plain translation of the same string.
+  const cacheKey = "ui_tr2::" + lang.toLowerCase() + "::" + (isLong ? "L::" : "") + (ctx ? _ctxHash(ctx) + "::" : "") + raw;
   try { const cached = localStorage.getItem(cacheKey); if (cached !== null) { render(cached); return cached; } } catch(e) {}
   render(raw);
   try {
+    const reqBody = { text: raw, language: lang };
+    if (ctx) reqBody.context = ctx;
+    if (isLong) reqBody.long = true;
     const res = await fetch("/.netlify/functions/translate", {
       method: "POST", headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ text: raw, language: lang })
+      body: JSON.stringify(reqBody)
     });
     const data = await res.json();
     const tr = (data.translation || "").trim();
     if (tr) { render(tr); try { localStorage.setItem(cacheKey, tr); } catch(e) {} return tr; }
   } catch(e) { console.warn("UI translation failed:", e.message); }
   return raw;
+}
+
+// Short stable hash of a context string, to keep context-aware cache keys short.
+function _ctxHash(s) {
+  let h = 0;
+  for (let i = 0; i < s.length; i++) { h = (h * 31 + s.charCodeAt(i)) | 0; }
+  return "c" + (h >>> 0).toString(36);
 }
 
 // Warm the cache for ALL translatable UI strings, fire-and-forget after login,
@@ -971,7 +987,7 @@ async function warmUpTranslations() {
     "Checking grammar…", "Scoring your email…"
   ];
 
-  const ck = raw => "ui_tr::" + lang.toLowerCase() + "::" + raw.trim();
+  const ck = raw => "ui_tr2::" + lang.toLowerCase() + "::" + raw.trim();
 
   // 1) Collect only the strings not already cached (deduplicated)
   const seen = new Set();
@@ -1466,7 +1482,7 @@ async function startStage0() {
   if (s0Instr) {
     const t = STAGE0_INTRO;
     s0Instr.textContent = t;
-    translateUI(t, s0Instr, false);
+    translateUI(t, s0Instr, false, "", true);  // long how-to → stronger model
   }
   try { S0_LIST = await apiFetch({ op: "list_email_stage0" }); } catch(e) { S0_LIST = []; }
 
@@ -1648,6 +1664,17 @@ function s0NativeAvailable() {
 }
 
 // Render one sample cell in the current language.
+// Reference context for translating Stage 0 sample text: the email task/scenario
+// the sample answers. Passing this to the translator resolves references so the
+// sample translates coherently. Not translated itself.
+function s0TranslationContext() {
+  if (!S0_CURRENT) return "";
+  const q = (S0_CURRENT.intro_q || S0_CURRENT.scenario || "").trim();
+  let ctx = "This is part of a model answer for a TOEFL email-writing task.";
+  if (q) ctx += `\nEmail task: ${q}`;
+  return ctx;
+}
+
 function renderS0Sample(el) {
   if (!el) return;
   const en = el.dataset.en || "";
@@ -1659,7 +1686,8 @@ function renderS0Sample(el) {
   } else {
     // asHTML:false → textContent, so the cell's white-space:pre-wrap renders
     // the line breaks. Passing true would add <br> on top and double-space them.
-    translateUI(en, el, false);
+    // Long study material + question context → stronger model, natural phrasing.
+    translateUI(en, el, false, s0TranslationContext(), true);
   }
 }
 
@@ -2171,7 +2199,7 @@ async function startPracticeScreen(stage) {
   if (instrText) {
     const t = INTRO_TEXT[stage] || "";
     instrText.textContent = t;
-    translateUI(t, instrText, false);
+    translateUI(t, instrText, false, "", true);  // long how-to → stronger model
   }
   // Open on first visit, collapsed thereafter — see setIntroCollapsed.
   setIntroCollapsed("prac-instr-body", "prac-instr-chevron", "intro_hidden_s4",
@@ -3966,6 +3994,91 @@ $("eval-answer").oninput = () => {
   $("eval-word-count").textContent = countWords($("eval-answer").value);
 };
 
+// ── Discourse diagnostic (V1/V2 comparison) — EXPERIMENTAL, Paste & Grade only ──
+// Builds a ready-to-paste prompt the student drops into ChatGPT/Claude. It
+// isolates DISCOURSE issues by holding grammar constant: V1 fixes only grammar,
+// V2 also fixes logic/relevance/clarity, and a side-by-side table names the
+// discourse difference line by line. Email-adapted (task + email, not AD).
+function buildDiscourseDiagnosticPrompt(question, answer) {
+  return (
+`I wrote a response to a TOEFL email-writing task. Below is the task and my email. Please do the following:
+
+Give me TWO versions of my email:
+Version 1: Fix only the must-fix grammar mistakes and typos. Keep my wording and content otherwise unchanged.
+Version 2: Fix grammar AND logic and clarity, remove empty or repetitive sentences that don't advance the email's purpose, and make sure each required point (from the task) is addressed clearly and with an appropriate, polite tone for the situation.
+
+Then compare the two versions side by side in a table with three columns:
+- Version 1 (grammar only)
+- Version 2 (logic and clarity improved)
+- Main difference (explain, line by line, what changed in the writing quality / discourse — not just wording)
+
+=== EMAIL TASK ===
+${question}
+
+=== MY EMAIL ===
+${answer}`
+  );
+}
+
+function pasteDiscourseDiagnosticHTML(question, answer) {
+  const id = "ddiag_" + Math.random().toString(36).slice(2, 8);
+  const prompt = buildDiscourseDiagnosticPrompt(question, answer);
+  const b64 = (function () {
+    try { return btoa(unescape(encodeURIComponent(prompt))); }
+    catch (e) { return ""; }
+  })();
+  // English instruction text rendered first, then translated live by
+  // translateDiscourseDiagnostic(). The COPIED PROMPT stays English on purpose —
+  // it's an instruction for ChatGPT.
+  return (
+    '<div style="height:12px;"></div>' +
+    '<div class="ddiag-box" style="border:1px dashed #b2a4d8;border-radius:8px;padding:12px;background:#faf8ff;">' +
+      '<div class="ddiag-tr" style="font-size:12px;color:#8e44ad;font-weight:700;margin-bottom:6px;">' + esc("Not sure why it's not a 5? (experimental)") + '</div>' +
+      '<div style="font-size:12px;color:#555;line-height:1.7;margin-bottom:8px;">' +
+        '<b class="ddiag-tr">' + esc("Copy this prompt") + '</b> ' +
+        '<span class="ddiag-tr">' + esc("and paste it into ChatGPT or Claude.") + '</span><br>' +
+        '<b class="ddiag-tr">' + esc("What you'll get:") + '</b> ' +
+        '<span class="ddiag-tr">' + esc("two rewrites of your email — one with only grammar fixed, one also improved for logic and clarity — plus a table showing, line by line, what changed and why.") + '</span><br>' +
+        '<b class="ddiag-tr">' + esc("What it tells you:") + '</b> ' +
+        '<span class="ddiag-tr">' + esc("if the grammar-only version still isn't a 5, your issue is how clearly your email addresses the task and reads for the reader — not grammar. Use the table to see exactly where and study the difference; don't just submit the rewrite as your own.") + '</span>' +
+      '</div>' +
+      '<button id="' + id + '_btn" data-p="' + b64 + '" ' +
+        'style="font-size:12px;font-weight:700;padding:7px 14px;border-radius:6px;border:1.5px solid #8e44ad;background:#fff;color:#8e44ad;cursor:pointer;" ' +
+        'onclick="copyDiscourseDiagnostic(this)">' +
+        '📋 <span class="ddiag-tr">' + esc("Copy prompt for ChatGPT / Claude") + '</span></button>' +
+      '<span id="' + id + '_msg" style="font-size:12px;color:#00736b;margin-left:10px;"></span>' +
+    '</div>'
+  );
+}
+
+// Translate the diagnostic box's instruction text live (stronger model).
+function translateDiscourseDiagnostic() {
+  const lang = (STATE.analysisLang || "").trim();
+  if (!lang || lang.toLowerCase() === "english") return;
+  document.querySelectorAll(".ddiag-box .ddiag-tr").forEach(el => {
+    const en = (el.textContent || "").trim();
+    if (en) translateUI(en, el, false, "", true);
+  });
+}
+
+// Copies the stashed prompt to the clipboard and confirms.
+function copyDiscourseDiagnostic(btn) {
+  let text = "";
+  try { text = decodeURIComponent(escape(atob(btn.getAttribute("data-p") || ""))); }
+  catch (e) { text = ""; }
+  const msg = btn.parentElement.querySelector("span[id$='_msg']");
+  const done = (ok) => { if (msg) msg.textContent = ok ? trCached("Copied! Now paste it into ChatGPT or Claude.") : trCached("Copy failed — select and copy manually."); };
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text).then(() => done(true)).catch(() => done(false));
+  } else {
+    try {
+      const ta = document.createElement("textarea");
+      ta.value = text; document.body.appendChild(ta); ta.select();
+      document.execCommand("copy"); document.body.removeChild(ta); done(true);
+    } catch (e) { done(false); }
+  }
+}
+
 $("btn-evaluate").onclick = async () => {
   const question = $("eval-question").value.trim();
   const answer   = $("eval-answer").value.trim();
@@ -4041,11 +4154,14 @@ $("btn-evaluate").onclick = async () => {
     }
 
     const writingEl = $("eval-writing-result");
+    const showDiagnostic = bandNum !== null && bandNum < 5;
     writingEl.innerHTML =
       bandNumberHTML(bandNum, reasoning) +
       '<div style="font-size:12px;color:#888;text-align:center;margin-top:-4px;margin-bottom:8px;">' + wordCount + ' ' + esc(trCached("words")) + '</div>' +
-      (gapFb ? formatFeedbackBlock("How to reach Band 5", gapFb, "#8e44ad") : "");
+      (gapFb ? formatFeedbackBlock("How to reach Band 5", gapFb, "#8e44ad") : "") +
+      (showDiagnostic ? pasteDiscourseDiagnosticHTML(question, answer) : "");
     writingEl.style.display = "";
+    if (showDiagnostic) translateDiscourseDiagnostic();
 
     const grammarEl = $("eval-grammar-result");
     grammarEl.innerHTML = grammarSummaryHTML(grammarFb) +

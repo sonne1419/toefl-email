@@ -5,36 +5,53 @@
 
 const https = require("https");
 
-const TRANSLATE_SYSTEM = `You are a translator for a TOEFL writing-practice app's interface text (study tips and how-to instructions).
-Translate the user's text into the requested target language.
+const TRANSLATE_SYSTEM = `You translate text and study material for a TOEFL writing-practice app, for students who will read it in their own language. Write for a native reader of that language.
+
+Translate MEANING, not words. Produce text that reads as if it were originally written by a native speaker of the target language — use that language's own natural word order, grammar, and idiom, NOT the English sentence structure. A literal, word-by-word rendering that mirrors English is wrong even when each word is correct; rephrase so it sounds natural to a native ear. Do NOT add, remove, or reinterpret ideas — keep the same content and the same order of ideas; only the phrasing should become natural.
+
 Rules:
-- Output ONLY the translation. No preamble, no quotes, no explanations, no notes.
+- Output ONLY the translation — no preamble, quotes, explanations, or notes.
 - Preserve line breaks and list structure exactly.
-- Keep it natural and concise, as UI guidance for a student.
+- Natural and clear, in a neutral, instructional register.
+- If REFERENCE CONTEXT is provided, use it only to understand what the text means and what it refers to (so pronouns, connectives, and compressed notes translate coherently). Do NOT translate the context itself and do NOT add any of it to your output — translate ONLY the text given under "Text to translate".
 - Do NOT translate the proper noun "TOEFL".
 - If the text is already in the target language, return it unchanged.`;
 
-const BATCH_SYSTEM = `You translate a TOEFL writing-practice app's interface strings into a target language.
-You are given a numbered list of strings. Translate each one.
+// Default model for short, high-volume UI strings; stronger model for long
+// Stage 0 study material (samples, spines, how-to). Swap here in one place.
+const TRANSLATE_MODEL_DEFAULT = "gpt-4o-mini";
+const TRANSLATE_MODEL_LONG = "gpt-5.6-sol";
+
+const BATCH_SYSTEM = `You translate a TOEFL writing-practice app's strings into a target language, for students who will read them in their own language.
+
+Translate MEANING, not words — each string should read as if originally written by a native speaker of the target language, using that language's natural word order and idiom, not English structure. Do NOT add, remove, or reinterpret ideas.
+
 Rules:
 - Return ONLY a JSON array of strings — no keys, no numbering, no commentary, no code fences.
 - The array MUST have EXACTLY the same number of items as the input, in the SAME order.
 - Within a string, write any line breaks as \\n (a backslash followed by n).
-- Keep each translation natural and concise, as UI guidance for a student.
+- Natural and clear, in a neutral, instructional register.
 - Do NOT translate the proper noun "TOEFL".
 - If an item is already in the target language, return it unchanged.`;
 
-function callOpenAI(apiKey, systemPrompt, userContent, maxTokens) {
+function callOpenAI(apiKey, systemPrompt, userContent, maxTokens, model) {
   return new Promise((resolve, reject) => {
-    const payload = JSON.stringify({
-      model: "gpt-4o-mini",
+    const chosenModel = model || TRANSLATE_MODEL_DEFAULT;
+    // GPT-5.x renamed "max_tokens" -> "max_completion_tokens" and may reject an
+    // explicit temperature. Older 4o models keep the old param names.
+    const isGpt5 = /^gpt-5/.test(chosenModel);
+    const tokenCap = maxTokens || 800;
+    const payloadObj = {
+      model: chosenModel,
       messages: [
         { role: "system", content: systemPrompt },
         { role: "user",   content: userContent  }
-      ],
-      temperature: 0.2,
-      max_tokens: maxTokens || 800
-    });
+      ]
+    };
+    if (!isGpt5) payloadObj.temperature = 0.2;
+    if (isGpt5) payloadObj.max_completion_tokens = tokenCap;
+    else        payloadObj.max_tokens = tokenCap;
+    const payload = JSON.stringify(payloadObj);
 
     const req = https.request(
       {
@@ -82,7 +99,9 @@ exports.handler = async (event) => {
   try { body = JSON.parse(event.body); }
   catch(e) { return { statusCode: 400, body: JSON.stringify({ error: "Invalid request" }) }; }
 
-  const { text, texts, language } = body;
+  const { text, texts, language, context, long } = body;
+  const ctx = (context && String(context).trim()) ? String(context).trim() : "";
+  const model = long ? TRANSLATE_MODEL_LONG : TRANSLATE_MODEL_DEFAULT;
   const isEnglish = !language || language.trim().toLowerCase() === "english";
 
   // ── BATCH MODE: { texts: [...], language } → { translations: [...] } in ONE call ──
@@ -95,9 +114,11 @@ exports.handler = async (event) => {
       return { statusCode: 200, headers: { "Content-Type": "application/json; charset=utf-8" }, body: JSON.stringify({ translations: texts }) };
     }
     const numbered = texts.map((t, i) => `[${i}] ${String(t).replace(/\n/g, "\\n")}`).join("\n");
-    const userContent = `Target language: ${language.trim()}\n\nTranslate each numbered item. Return a JSON array of exactly ${texts.length} strings in the same order.\n\nItems:\n${numbered}`;
+    const userContent =
+      (ctx ? `REFERENCE CONTEXT (do not translate — use only to understand the items):\n${ctx}\n\n` : "") +
+      `Target language: ${language.trim()}\n\nTranslate each numbered item. Return a JSON array of exactly ${texts.length} strings in the same order.\n\nItems:\n${numbered}`;
     try {
-      let raw = await callOpenAI(apiKey, BATCH_SYSTEM, userContent, 4000);
+      let raw = await callOpenAI(apiKey, BATCH_SYSTEM, userContent, 4000, model);
       raw = raw.replace(/^```(?:json)?\s*/i, "").replace(/\s*```$/i, "").trim();
       let arr = null;
       try { arr = JSON.parse(raw); } catch(_) { arr = null; }
@@ -122,10 +143,12 @@ exports.handler = async (event) => {
     return { statusCode: 200, headers: { "Content-Type": "application/json; charset=utf-8" }, body: JSON.stringify({ translation: text }) };
   }
 
-  const userContent = `Target language: ${language.trim()}\n\nText to translate:\n${text}`;
+  const userContent =
+    (ctx ? `REFERENCE CONTEXT (do not translate — use only to understand the text):\n${ctx}\n\n` : "") +
+    `Target language: ${language.trim()}\n\nText to translate:\n${text}`;
 
   try {
-    const translation = await callOpenAI(apiKey, TRANSLATE_SYSTEM, userContent, 800);
+    const translation = await callOpenAI(apiKey, TRANSLATE_SYSTEM, userContent, 800, model);
     return {
       statusCode: 200,
       headers: { "Content-Type": "application/json; charset=utf-8" },
