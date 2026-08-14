@@ -102,7 +102,16 @@ exports.handler = async (event) => {
   const { text, texts, language, context, long } = body;
   const ctx = (context && String(context).trim()) ? String(context).trim() : "";
   const model = long ? TRANSLATE_MODEL_LONG : TRANSLATE_MODEL_DEFAULT;
-  const isEnglish = !language || language.trim().toLowerCase() === "english";
+  // Accept common English variants/misspellings the student may type (free-text
+  // language input): "English (US)", "eng", "en", stray spaces, etc.
+  function _isEnglish(l) {
+    const s = (l || "").trim().toLowerCase();
+    if (!s) return true;
+    const base = s.replace(/\(.*?\)/g, "").replace(/[^a-z]/g, "");
+    return base === "english" || base === "eng" || base === "en" ||
+           base === "englsih" || base === "engish" || base === "inglish";
+  }
+  const isEnglish = _isEnglish(language);
 
   // ── BATCH MODE: { texts: [...], language } → { translations: [...] } in ONE call ──
   if (Array.isArray(texts)) {

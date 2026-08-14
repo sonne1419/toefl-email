@@ -853,10 +853,19 @@ function escWithLabels(str) {
 }
 
 // ── UI localization (ported from AD) ──
+// True if the student's chosen language is English (or effectively none).
+// Language is free text the student types, so accept common variants/spellings.
+function isEnglishLang(lang) {
+  const s = (lang || "").trim().toLowerCase();
+  if (!s) return true;
+  const base = s.replace(/\(.*?\)/g, "").replace(/[^a-z]/g, "");
+  return base === "english" || base === "eng" || base === "en" ||
+         base === "englsih" || base === "engish" || base === "inglish";
+}
 // trCached: synchronous lookup of a cached translation; returns English if not cached.
 function trCached(text) {
   const lang = (STATE.analysisLang || "").trim();
-  if (!lang || lang.toLowerCase() === "english") return text;
+  if (isEnglishLang(lang)) return text;
   try {
     const c = localStorage.getItem("ui_tr2::" + lang.toLowerCase() + "::" + text.trim());
     if (c !== null) return c;
@@ -872,7 +881,7 @@ async function translateUI(text, el, asHTML, context, longText) {
   const render = (t) => { if (!el) return; if (asHTML) el.innerHTML = esc(t).replace(/\n/g,"<br>"); else el.textContent = t; };
   if (!raw) { render(""); return ""; }
   const lang = (STATE.analysisLang || "").trim();
-  if (!lang || lang.toLowerCase() === "english") { render(raw); return raw; }
+  if (isEnglishLang(lang)) { render(raw); return raw; }
   // Cache prefix bumped to "ui_tr2" when the translation prompt was upgraded to
   // meaning-first + context-aware — old "ui_tr" entries are stale. Context and
   // the long-text flag are folded into the key so they don't collide with the
@@ -906,7 +915,7 @@ function _ctxHash(s) {
 // so trCached() returns translations instantly when pages render (ported from AD).
 async function warmUpTranslations() {
   const lang = (STATE.analysisLang || "").trim();
-  if (!lang || lang.toLowerCase() === "english") return;
+  if (isEnglishLang(lang)) return;
 
   const strings = [
     // Redo comparison (first band → rewrite band)
@@ -1660,7 +1669,7 @@ function getManualNotes(prefix, keys) {
 // their own language first, then switches to English to study the sentences.
 function s0NativeAvailable() {
   const lang = (localStorage.getItem("analysis_lang") || "").trim();
-  return !!lang && lang.toLowerCase() !== "english";
+  return !isEnglishLang(lang);
 }
 
 // Render one sample cell in the current language.
@@ -3412,7 +3421,7 @@ function showEndScreen() {
 
   // Back-translate each answer into the student's language (Stage 4 + 5 only; skip English)
   const _lang = (STATE.analysisLang || "").trim();
-  if (_lang && _lang.toLowerCase() !== "english") {
+  if (!isEnglishLang(_lang)) {
     STATE.attempts.forEach((a, i) => {
       if (!a.text || (a.stage !== 4 && a.stage !== 5)) return;
       const wrap  = $(`attempt-tr-wrap-${i}`);
@@ -4054,7 +4063,7 @@ function pasteDiscourseDiagnosticHTML(question, answer) {
 // Translate the diagnostic box's instruction text live (stronger model).
 function translateDiscourseDiagnostic() {
   const lang = (STATE.analysisLang || "").trim();
-  if (!lang || lang.toLowerCase() === "english") return;
+  if (isEnglishLang(lang)) return;
   document.querySelectorAll(".ddiag-box .ddiag-tr").forEach(el => {
     const en = (el.textContent || "").trim();
     if (en) translateUI(en, el, false, "", true);
@@ -4175,7 +4184,7 @@ $("btn-evaluate").onclick = async () => {
     }
 
     // Back-translation of the pasted answer (skip English)
-    if (lang && lang.trim().toLowerCase() !== "english") {
+    if (!isEnglishLang(lang)) {
       const trWrap = $("eval-tr-wrap");
       if (trWrap) {
         trWrap.style.display = "";
