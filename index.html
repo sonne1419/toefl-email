@@ -4016,16 +4016,38 @@ Give me TWO versions of my email:
 Version 1: Fix only the must-fix grammar mistakes and typos. Keep my wording and content otherwise unchanged.
 Version 2: Fix grammar AND logic and clarity, remove empty or repetitive sentences that don't advance the email's purpose, and make sure each required point (from the task) is addressed clearly and with an appropriate, polite tone for the situation.
 
-Then compare the two versions side by side in a table with three columns:
-- Version 1 (grammar only)
-- Version 2 (logic and clarity improved)
-- Main difference (explain, line by line, what changed in the writing quality / discourse — not just wording)
+Then:
+
+1. Compare the two versions side by side in a table with 3 columns, line by line:
+   - Version 1 (grammar only, with full transcript)
+   - Version 2 (logic and clarity improved, with full transcript)
+   - Main difference (explain what changed in the writing quality / discourse — not just wording)
+
+2. Compare these two versions side by side in a table with 3 columns, line by line:
+   - Version 0 (original version, with full transcript)
+   - Version 1 (grammar only, with full transcript)
+   - Describe grammar correction line by line
 
 === EMAIL TASK ===
 ${question}
 
 === MY EMAIL ===
-${answer}`
+${answer}
+
+=== Output Format ===
+Goal: compare how the grade changes between versions and what discourse changes / grammar fixes contribute to them.
+
+Instruction: Paste Version 1 & 2 into the Paste & Grade Analyzer and see how the grade changes.
+Version 1 - fixing only must-fix grammar mistakes and typos
+Version 2 - fixing grammar mistakes and logic flaws
+
+[Points of Improvement - Discourse]
+Instruction: Observe how the score changes because of discourse differences.
+Version 1 | Version 2 | Discourse Difference
+
+[Points of Improvement - Grammar]
+Instruction: Observe how must-fix grammar errors are fixed.
+Version 0 | Version 1 | Grammar Changes`
   );
 }
 
